@@ -1,4 +1,8 @@
 import React, { Component } from "react";
+import { createPost } from '../Model/Post';
+import { createTodo, completeTodo } from '../Model/Todo';
+import { initDb, createLocalDb, updateDb, getNewId } from '../Model/database';
+import { setUserFlag, createUser, updateUser, deleteUser, selectUser, determineUsersTodos } from '../Model/User'
 import { AppProvider } from '../Context/AppContext'
 import UserList from './UserList';
 import SelectedUser from './SelectedUser';
@@ -14,191 +18,32 @@ class App extends Component {
       selectedUser: { userId: undefined },
       userFlag: false
     }
+    // Post Methods
+    this.createPost = createPost.bind(this);
+
+    // Todo Methods
+    this.createTodo = createTodo.bind(this);
+    this.completeTodo = completeTodo.bind(this);
+
+    // User Methods
+    this.createUser = createUser.bind(this);
+    this.updateUser = updateUser.bind(this);
+    this.deleteUser = deleteUser.bind(this);
+    this.selectUser = selectUser.bind(this);
+    this.setUserFlag = setUserFlag.bind(this);
+    this.determineUsersTodos = determineUsersTodos.bind(this);
+
+    // Db Methods
+    this.initDb = initDb.bind(this);
+    this.createLocalDb = createLocalDb.bind(this);
+    this.updateDb = updateDb.bind(this);
+    this.getNewId = getNewId.bind(this);
   }
 
   async componentDidMount() {
     // Create a persistent local storage
     let jsonPlaceholderDB = await this.initDb();
     this.setState({ jsonPlaceholderDB })
-  }
-
-  /** DB Methods  */
-
-  initDb = async () => {
-    let jsonPlaceholderDB = JSON.parse(localStorage.getItem('jsonPlaceholderDB'));
-    // for persistent localStorage value, we initialize jsonPlaceholderDb from network only if it not exists
-    if (!jsonPlaceholderDB) {
-      await this.createLocalDb()
-      jsonPlaceholderDB = JSON.parse(localStorage.getItem('jsonPlaceholderDB'));
-    }
-    let { posts, users, todos } = jsonPlaceholderDB;
-    jsonPlaceholderDB = {
-      posts,
-      users,
-      todos
-    }
-    return jsonPlaceholderDB;
-  }
-  createLocalDb = async () => {
-
-    let jsonPlaceholderDB = localStorage.getItem('jsonPlaceholderDB');
-    if (!jsonPlaceholderDB) {
-      jsonPlaceholderDB = {}
-      try {
-
-        jsonPlaceholderDB.posts = await jsonPlaceholder.get('/posts')
-        jsonPlaceholderDB.users = await jsonPlaceholder.get('/users')
-        jsonPlaceholderDB.todos = await jsonPlaceholder.get('/todos')
-      } catch (err) {
-        console.log(err)
-      }
-      jsonPlaceholderDB.posts = jsonPlaceholderDB.posts.data;
-      jsonPlaceholderDB.users = jsonPlaceholderDB.users.data;
-      jsonPlaceholderDB.todos = jsonPlaceholderDB.todos.data;
-
-      let data = JSON.stringify(jsonPlaceholderDB);
-      localStorage.setItem('jsonPlaceholderDB', data)
-    }
-  }
-
-  updateDb = newDb => {
-    localStorage.setItem('jsonPlaceholderDB', JSON.stringify(newDb));
-    let jsonPlaceholderDB = JSON.parse(localStorage.getItem('jsonPlaceholderDB'))
-    this.setState({ jsonPlaceholderDB })
-  }
-
-
-  /** User Methods */
-
-  setUserFlag = settings => this.setState({ userFlag: settings.isOpen });
-
-
-  updateUser = userDetails => {
-    let { name, email, street, city, zipcode } = userDetails;
-    let address = { street, city, zipcode }
-    let userDetailsFormatted = { name, email, address };
-
-    const { users } = this.state.jsonPlaceholderDB;
-
-    for (let i = 0; i < users.length; i++) {
-      if (users[i].id === userDetails.id) {
-        Object.keys(userDetailsFormatted).forEach(key => {
-          users[i][key] = userDetailsFormatted[key]
-        })
-        break;
-      }
-    }
-    this.updateDb(this.state.jsonPlaceholderDB)
-  }
-
-  deleteUser = settings => {
-    let { users, todos, posts } = this.state.jsonPlaceholderDB;
-    const { userId } = settings;
-
-    let db = {}
-    db.posts = posts.filter(post => post.userId !== userId)
-    db.todos = todos.filter(todo => todo.userId !== userId)
-    db.users = users.filter(user => user.id !== userId)
-
-    if (userId === this.state.selectedUser.userId) {
-      this.setState({ selectedUser: { userId: undefined } })
-    }
-    this.updateDb(db)
-  }
-
-  selectUser = id => {
-    let userExists = this.checkUserExists(id)
-    if (userExists) {
-      this.setState({ selectedUser: { userId: id } })
-    }
-  }
-
-  checkUserExists = userId => {
-    // check if user with the id exists
-    let { users } = this.state.jsonPlaceholderDB;
-    return users.some(user => user.id === userId)
-  }
-
-  createUser = user => {
-    let { users } = this.state.jsonPlaceholderDB;
-    let newUserId = this.getNewId({ contentObj: 'user' });
-    let newUser = {
-      id: newUserId,
-      name: user.name,
-      userName: user.email,
-      email: user.email,
-      address: null
-    }
-    users.push(newUser);
-    this.updateDb(this.state.jsonPlaceholderDB)
-  }
-  /** Todo Methods */
-
-  createTodo = todo => {
-    // create a new todo and add it to the todo list
-    // Todo object should include the following properties:
-    // userId, id, title, completed
-    let { todos } = this.state.jsonPlaceholderDB;
-    let newTodoId = this.getNewId({ contentObj: "todo" });
-    let newTodo = {
-      userId: this.state.selectedUser.userId,
-      title: todo.title,
-      id: newTodoId,
-      completed: false
-    }
-    todos.push(newTodo);
-    this.updateDb(this.state.jsonPlaceholderDB);
-  }
-  completeTodo = id => {
-    let { todos } = this.state.jsonPlaceholderDB;
-    for (let i = 0; i < todos.length; i++) {
-      if (todos[i].id === id) {
-        todos[i].completed = true;
-        break;
-      }
-    }
-    this.updateDb(this.state.jsonPlaceholderDB)
-  }
-
-  /** Generic function to get an id for a new user/todo/post */
-  getNewId = settings => {
-    // the setting object specifies the contentObj name (e.g todo/user/post)
-
-    /**content array's name is the plural of contentObj (e.g. todo=>todos)*/
-    let contentArray = this.state.jsonPlaceholderDB[`${settings.contentObj}s`]
-
-    if (contentArray == undefined) throw ("unknown content array name")
-    let lastIndex = contentArray.length - 1;
-    let newId = contentArray[lastIndex].id + 1;
-    return newId;
-  }
-
-
-
-  createPost = post => {
-    let { posts } = this.state.jsonPlaceholderDB;
-    let newPostId = this.getNewId({ contentObj: 'post' });
-    let newPost = {
-      userId: this.state.selectedUser.userId,
-      title: post.title,
-      body: post.body,
-      id: newPostId
-    }
-    posts.push(newPost);
-    this.updateDb(this.state.jsonPlaceholderDB)
-  }
-  determineUsersTodos = function () {
-    const { users, todos } = this.state.jsonPlaceholderDB
-
-    users.forEach(user => {
-      user.hasTodos = false;
-      for (let i = 0; i < todos.length; i++) {
-        if (todos[i].userId === user.id && todos[i].completed === false) {
-          user.hasTodos = true;
-          break;
-        }
-      }
-    })
   }
 
   renderSelectedUser = () => {
@@ -215,8 +60,6 @@ class App extends Component {
           renderSelectedUser=${this.renderSelectedUser},
           )
       `
-
-
   }
 
   render() {

@@ -1,9 +1,10 @@
+const currentTask = process.env.npm_lifecycle_event
 const HtmlWebPackPlugin = require("html-webpack-plugin");
 const path = require('path');
-module.exports = {
-  output: {
-    publicPath: '/'
-  },
+
+
+let config = {
+  entry: './src/js/index.js',
   module: {
     rules: [
       {
@@ -39,18 +40,42 @@ module.exports = {
     ]
   },
 
-  devServer: {
-    contentBase: path.join(__dirname, 'dist'),
-    compress: true,
-    hot: true,
-    port: 3000,
-    historyApiFallback: true
-  },
-  devtool: 'eval-source-map',
+
   plugins: [
     new HtmlWebPackPlugin({
       template: "./src/index.html",
       filename: "./index.html"
     })
   ]
-};
+
+}
+if (currentTask == 'dev') {
+  config.output = {
+    filename: 'bundled.js',
+    path: path.resolve(__dirname, 'dist'),
+    publicPath: '/',
+  }
+
+  config.devServer = {
+    contentBase: path.join(__dirname, 'dist'),
+    compress: true,
+    hot: true,
+    port: 3000,
+    historyApiFallback: true
+  }
+  config.devtool = 'eval-source-map',
+    config.mode = 'development'
+}
+
+if (currentTask == 'build') {
+  config.output = {
+    filename: 'bundled.js',
+    path: path.resolve(__dirname, 'app'),
+    publicPath: '/',
+  }
+  config.mode = 'production'
+}
+
+
+
+module.exports = config;
