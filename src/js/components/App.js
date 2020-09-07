@@ -20,13 +20,16 @@ class App extends Component {
 
   render() {
     return (
-      pug`
-        h1 Movies & Subscriptions Web Site
-        Switch
-          Route(path="/" exact component=${Login})
-          Route(path="/createAccount" exact component=${CreateAccount})
-          Route(path="/main" exact component=${MainPage})
-      `
+      <div>
+        <h1>Movies & Subscriptions Web Site</h1>
+        <Switch>
+          <Route path="/" exact component={Login} />
+          <Route path="/createAccount" exact component={CreateAccount} />
+          <Route path="/main" component={MainPage} />
+
+        </Switch>
+      </div>
+
     )
   }
 

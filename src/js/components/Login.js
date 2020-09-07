@@ -1,6 +1,7 @@
 import React, { useState } from 'react'
-import { Link } from 'react-router-dom';
+import { Link, useHistory } from 'react-router-dom';
 const Login = props => {
+  const history = useHistory();
   const [username, setUsername] = useState('')
   const [password, setPassword] = useState('')
   return pug`
@@ -8,7 +9,7 @@ const Login = props => {
     h2 Log in Page
     form(onSubmit= e =>{
       e.preventDefault();
-      props.history.push('/main')}
+      history.push('/main')}
     )
       .form__field
         label(for="username") User name:

@@ -2,6 +2,7 @@ const currentTask = process.env.npm_lifecycle_event
 const HtmlWebPackPlugin = require("html-webpack-plugin");
 const path = require('path');
 
+console.log(`currentTask = ${currentTask}`);
 
 let config = {
   entry: './src/js/index.js',
@@ -49,7 +50,7 @@ let config = {
   ]
 
 }
-if (currentTask == 'dev') {
+if (currentTask == 'start') {
   config.output = {
     filename: 'bundled.js',
     path: path.resolve(__dirname, 'dist'),
