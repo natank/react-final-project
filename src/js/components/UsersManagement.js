@@ -3,10 +3,17 @@ import { BrowserRouter as Router, Switch, Route, useRouteMatch } from 'react-rou
 import MainNav from './MainNav';
 import AllUsers from './AllUsers';
 import AddUser from './AddUser'; 
+import UserContext from '../Context/UserContext';
+import EditUser from './EditUser'
+
 
 const UsersManagement = () => {
   const match = useRouteMatch();
   
+  const usersContext = {
+    editUrl: `${match.url}/edit`
+  }
+
   const usersRoutes = [
     {
       title: 'All Users',
@@ -17,23 +24,35 @@ const UsersManagement = () => {
       url: `${match.url}/add`
     }
   ]
+  console.log(match.url)
   return (
     <div>
+      <h1>Users</h1>
       <Router>
-        <Route path={`${match.url}`}>
-          <div>
-            <h1>Users</h1>
-            <MainNav routes={usersRoutes} />
-          </div>
-        </Route>
         <Switch>
-          <Route path={`${match.url}/users`}>
-            <AllUsers />
+          <Route path={`${match.url}/edit`}>
+            <EditUser />
           </Route>
-          <Route path={`${match.url}/add`}>
-            <AddUser />
+          <Route>
+            <Route path={`${match.url}`}>
+                <div>
+                  <MainNav routes={usersRoutes} />
+                </div>
+            </Route>  
+              <Switch>
+                <Route path={`${match.url}/users`}>
+                  <UserContext.Provider value={usersContext}>
+                    <AllUsers />
+                  </UserContext.Provider>
+                </Route>
+                <Route path={`${match.url}/add`}>
+                  <AddUser />
+                </Route>
+            </Switch>
           </Route>
         </Switch>
+        
+
       </Router>
     </div>
   )

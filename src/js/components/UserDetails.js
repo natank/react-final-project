@@ -1,9 +1,12 @@
-import React from 'react';
-import {useRouteMatch} from 'react-router-dom';
+import React, {useContext} from 'react';
+import {useRouteMatch, useHistory} from 'react-router-dom';
+import UserContext from '../Context/UserContext';
 
 const UserDetails = () => {
   const match = useRouteMatch();
-  console.log(`user match.url = ${match.url}`);
+  const context = useContext(UserContext)
+  const history = useHistory();
+  console.log(`user match.url = ${context.editUrl}`);
   return (
     <div>
       <div>
@@ -27,7 +30,7 @@ const UserDetails = () => {
         <span id="username">View Subscriptions, Edit Movies</span>
       </div>
 
-      <input type="button" value="Edit" onClick={()=>{}} />
+      <input type="button" value="Edit" onClick={()=>{history.push(context.editUrl)}} />
       <input type="button" value="Delete" onClick={()=>{}} />
     </div>
   )
