@@ -1,5 +1,5 @@
-import React, {useContext} from 'react';
-import {useRouteMatch, useHistory} from 'react-router-dom';
+import React, { useContext } from 'react';
+import { useRouteMatch, useHistory, Link } from 'react-router-dom';
 import UserContext from '../Context/UserContext';
 
 const UserDetails = () => {
@@ -29,9 +29,11 @@ const UserDetails = () => {
         <label htmlFor="permissions">Permissions:</label>
         <span id="username">View Subscriptions, Edit Movies</span>
       </div>
-
-      <input type="button" value="Edit" onClick={()=>{history.push(context.editUrl)}} />
-      <input type="button" value="Delete" onClick={()=>{}} />
+      <ul>
+        <li><Link to={context.editUrl}>Edit</Link></li>
+      </ul>
+      <input type="button" value="Edit" onClick={() => { history.push(context.editUrl) }} />
+      <input type="button" value="Delete" onClick={() => { }} />
     </div>
   )
 }
