@@ -13,11 +13,14 @@ function App(props) {
         <Route path="/" exact component={Login} />
         <Route path="/createAccount" exact component={CreateAccount} />
         <Route path="/main" component={MainPage} />
-
       </Switch>
     </div>
 
   )
+}
+
+function getUsers() {
+
 }
 
 export default App
