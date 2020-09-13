@@ -1,16 +1,17 @@
-import React from 'react'
+import React, {useState} from 'react'
 import { BrowserRouter as Router, Switch, Route, useRouteMatch } from 'react-router-dom'
 import MainNav from './MainNav';
 import AllUsers from './AllUsers';
 import AddUser from './AddUser';
-import UserContext from '../Context/UserContext';
+
 import EditUser from './EditUser'
+import UsersManagementContext from '../Context/UsersMangagementContext';
 
-
-const UsersManagement = () => {
+var UsersManagement = () => {
   const match = useRouteMatch();
-
-  const usersContext = {
+  var [editedUser, setEditedUser] = useState(0)
+  
+  var usersMAnagementContext = {
     editUrl: `${match.url}/edit`
   }
 
@@ -28,6 +29,7 @@ const UsersManagement = () => {
 
   return (
     <div>
+    <UsersManagementContext.provider value ={usersMAnagementContext}>
       <h1>Users</h1>
       <Router>
         <Switch>
@@ -44,9 +46,9 @@ const UsersManagement = () => {
             </Route>
             <Switch>
               <Route path={`${match.url}/users`}>
-                <UserContext.Provider value={usersContext}>
+
                   <AllUsers />
-                </UserContext.Provider>
+                
               </Route>
               <Route path={`${match.url}/add`}>
                 <AddUser />
@@ -58,7 +60,8 @@ const UsersManagement = () => {
 
 
       </Router>
-    </div>
+      </UsersManagementContext.provider>
+      </div>
   )
 
 }

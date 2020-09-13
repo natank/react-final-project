@@ -1,14 +1,15 @@
 import React, { useContext } from 'react';
 import { useRouteMatch, useHistory, Link } from 'react-router-dom';
+import UsersManagementContext from '../Context/UsersMangagementContext';
 import UserContext from '../Context/UserContext';
 
 const UserDetails = () => {
   const match = useRouteMatch();
-  const context = useContext(UserContext)
+  const context = useContext(UsersManagementContext)
   const history = useHistory();
-  console.log(`user match.url = ${context.editUrl}`);
+
   return (
-    <div>
+    <UserContext.Provider>
       <div>
         <label htmlFor="name">Name:</label>
         <span id="name">Avi Cohen</span>
@@ -34,7 +35,7 @@ const UserDetails = () => {
       </ul>
       <input type="button" value="Edit" onClick={() => { history.push(context.editUrl) }} />
       <input type="button" value="Delete" onClick={() => { }} />
-    </div>
+    </UserContext.Provider>
   )
 }
 

@@ -5,6 +5,7 @@ import Subscriptions from './Subscriptions';
 import UsersManagement from './UsersManagement';
 import MainNav from './MainNav';
 import Login from './Login';
+import UsersManagementContext from '../Context/UsersMangagementContext';
 const MainPage = () => {
   const match = useRouteMatch();
   const mainRoutes = [
@@ -26,6 +27,10 @@ const MainPage = () => {
     }
   ]
 
+  var usersMAnagementContext = {
+    editUrl: `${match.url}/edit`
+  }
+
   return (
     <div>
       <Router>
@@ -44,7 +49,9 @@ const MainPage = () => {
             <Subscriptions />
           </Route>
           <Route path={`${match.url}/usersManagement`}>
+          <UsersManagementContext.Provider value ={usersMAnagementContext}>
             <UsersManagement />
+          </UsersManagementContext.Provider>
           </Route>
           <Route path={`/`} exact>
             <Login />
