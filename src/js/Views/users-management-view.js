@@ -1,6 +1,6 @@
 import React, { useState } from 'react'
 import { BrowserRouter as Router, Switch, Route, useRouteMatch } from 'react-router-dom'
-import { UsersManagementContextProvider } from '../Context/users-mangagement-context';
+import { UsersManagementContext, UsersManagementContextProvider } from '../Context/users-mangagement-context';
 
 import MainNav from '../components/MainNav';
 import AllUsers from '../components/AllUsers';
@@ -8,6 +8,7 @@ import AddUser from '../components/AddUser';
 import EditUser from '../components/EditUser'
 
 export default function UsersManagement() {
+  console.log(UsersManagementContext)
   const match = useRouteMatch();
 
   const usersRoutes = [
