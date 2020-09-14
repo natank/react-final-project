@@ -1,9 +1,9 @@
 import React, { Component } from "react";
 import { Link, Route, Switch } from 'react-router-dom';
 
-import Login from './Login'
-import CreateAccount from './CreateAccount'
-import MainPage from './MainPage'
+import Login from './components/Login'
+import CreateAccount from './components/CreateAccount'
+import Main from './Views/main-view'
 
 function App(props) {
   return (
@@ -12,15 +12,12 @@ function App(props) {
       <Switch>
         <Route path="/" exact component={Login} />
         <Route path="/createAccount" exact component={CreateAccount} />
-        <Route path="/main" component={MainPage} />
+        <Route path="/main" component={Main} />
       </Switch>
     </div>
 
   )
 }
 
-function getUsers() {
-
-}
 
 export default App

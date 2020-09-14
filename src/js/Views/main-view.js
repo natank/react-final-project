@@ -1,12 +1,12 @@
 import React from 'react'
 import { BrowserRouter as Router, Switch, Route, useRouteMatch } from 'react-router-dom';
-import Movies from './Movies';
-import Subscriptions from './Subscriptions';
-import UsersManagement from './UsersManagement';
-import MainNav from './MainNav';
-import Login from './Login';
-import UsersManagementContext from '../Context/UsersMangagementContext';
-const MainPage = () => {
+import Movies from '../components/Movies';
+import Subscriptions from '../components/Subscriptions';
+import UsersManagement from './users-management-view'
+import MainNav from '../components/MainNav';
+import Login from '../components/Login';
+import { MainContextProvider } from '../Context/main-context';
+export default function Main() {
   const match = useRouteMatch();
   const mainRoutes = [
     {
@@ -27,12 +27,8 @@ const MainPage = () => {
     }
   ]
 
-  var usersMAnagementContext = {
-    editUrl: `${match.url}/edit`
-  }
-
   return (
-    <div>
+    <MainContextProvider>
       <Router>
         <Route path={`${match.url}`}>
           <div>
@@ -49,18 +45,14 @@ const MainPage = () => {
             <Subscriptions />
           </Route>
           <Route path={`${match.url}/usersManagement`}>
-          <UsersManagementContext.Provider value ={usersMAnagementContext}>
             <UsersManagement />
-          </UsersManagementContext.Provider>
           </Route>
           <Route path={`/`} exact>
             <Login />
           </Route>
         </Switch>
       </Router>
-    </div >
+    </MainContextProvider>
   )
 
 }
-
-export default MainPage

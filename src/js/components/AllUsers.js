@@ -1,20 +1,16 @@
-import React from 'react'
+import React, { useContext } from 'react'
 import UserDetails from './UserDetails'
-import AllUsersContext from '../Context/AllUsersContext';
-import { useRouteMatch } from 'react-router-dom'
 
+import { UMC } from '../Context/users-mangagement-context'
+import { ccc } from '../Context/users-mangagement-context'
 
 const AllUsers = () => {
-  var match = useRouteMatch();
+  console.log(ccc)
+  var [state, dispatch] = useContext(UMC);
+  console.log(state)
 
-  var allUsersContext = {
-    editUrl: `${match.url}/edit`
-  }
-  console.log(`allUsersContext=${allUsersContext}`)
   return (
-    <AllUsersContext.Provider value={allUsersContext}>
-      <UserDetails />
-      </AllUsersContext.Provider>
+    <UserDetails />
   )
 }
 
