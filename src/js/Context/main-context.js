@@ -9,38 +9,18 @@ var initialState = {
       firstName: "Avi",
       lastName: "Cohen",
       userName: "avi@gmail.com",
-      sessionTimeOut: 60,
+      sessionTimeOut: 20,
       createdDate: "11/12/1998",
-      permissions: {
-        viewSubscriptions: true,
-        createSubscriptions: false,
-        deleteSubscriptions: false,
-        updateSubscriptions: false,
-        viewMovies: true,
-        createMovies: true,
-        deleteMovies: false,
-        updateMovies: false,
-
-      }
+      permissions: ["View Subscriptions", "Create Subscriptions"]
     },
     {
-      id: 2,
+      id: 3,
       firstName: "Meir",
       lastName: "Gotlib",
       userName: "gotlib@gmail.com",
       sessionTimeOut: 60,
       createdDate: "11/12/1998",
-      permissions: {
-        viewSubscriptions: true,
-        createSubscriptions: false,
-        deleteSubscriptions: false,
-        updateSubscriptions: false,
-        viewMovies: true,
-        createMovies: true,
-        deleteMovies: false,
-        updateMovies: false,
-
-      }
+      permissions: ["View Subscriptions", "Create Subscriptions"]
     }
 
   ]

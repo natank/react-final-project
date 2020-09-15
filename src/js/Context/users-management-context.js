@@ -23,19 +23,20 @@ var reducer = (state, action) => {
   }
 }
 
-export const ccc = 4;
-export const UMC = createContext();
+
+export var UsersManagementContext = createContext([{}, function(){}]);
+
 export var UsersManagementContextProvider = function (props) {
   var [state, dispatch] = useReducer(reducer, initialState);
   var match = useRouteMatch();
   var editUserUrl = `${match.url}/edit`;
   return (
-    <UMC.Provider value={{
+    <UsersManagementContext.Provider value={{
       state: [state, dispatch],
       editUserUrl
     }}>
       {props.children}
-    </UMC.Provider>
+    </UsersManagementContext.Provider>
   )
 }
 

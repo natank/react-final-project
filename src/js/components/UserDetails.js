@@ -1,9 +1,9 @@
 import React, { useContext } from 'react';
 import { useRouteMatch, useHistory, Link } from 'react-router-dom';
-import { UsersManagementContext } from '../Context/users-mangagement-context';
+import { UsersManagementContext } from '../Context/users-management-context';
 
 
-const UserDetails = () => {
+const UserDetails = ({user}) => {
 
   const context = useContext(UsersManagementContext)
   const history = useHistory();
@@ -12,15 +12,15 @@ const UserDetails = () => {
     <div>
       <div>
         <label htmlFor="name">Name:</label>
-        <span id="name">Avi Cohen</span>
+        <span id="name">{`${user.firstName} ${user.lastName}`}</span>
       </div>
       <div>
         <label htmlFor="username">User Name:</label>
-        <span id="username">avi@gmail.com</span>
+        <span id="username">{`${user.userName}`}</span>
       </div>
       <div>
         <label htmlFor="timeout">Session time out (Minutes):</label>
-        <span id="username">44</span>
+        <span id="username">{`${user.sessionTimeOut}`}</span>
       </div>
       <div>
         <label htmlFor="created">Created Date:</label>

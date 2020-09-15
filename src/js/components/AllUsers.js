@@ -1,16 +1,24 @@
 import React, { useContext } from 'react'
 import UserDetails from './UserDetails'
 
-import { UMC } from '../Context/users-mangagement-context'
-import { ccc } from '../Context/users-mangagement-context'
+import {MainContext} from '../Context/main-context'
 
 const AllUsers = () => {
-  console.log(ccc)
-  var [state, dispatch] = useContext(UMC);
-  console.log(state)
+  
+  var [state] = useContext(MainContext)
+
+  var users = state.users;
+
+  console.log(users)
 
   return (
-    <UserDetails />
+    <ul>
+      {users.map(function renderUser(user){
+        return <UserDetails user={user}/>
+
+      })}
+
+    </ul>
   )
 }
 
