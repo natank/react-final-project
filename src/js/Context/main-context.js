@@ -51,10 +51,10 @@ var reducer = (state, action) => {
 }
 
 export var MainContextProvider = props => {
-  const [state, dispatch] = useReducer(reducer, initialState);
+  const state = useReducer(reducer, initialState);
 
   return (
-    <MainContext.Provider value={[state, dispatch]}>
+    <MainContext.Provider value={state}>
       {props.children}
     </MainContext.Provider>
   )

@@ -1,5 +1,7 @@
-import React from 'react'
+import React, {useContext} from 'react'
 import { Link, useHistory } from 'react-router-dom'
+import { UsersManagementContext } from '../Context/users-management-context';
+
 const defaultRoutes = [
   {
     title: 'Movies',
@@ -20,7 +22,22 @@ const defaultRoutes = [
 ]
 
 
+
+function setEditingUser(isEditing){
+  var payload = isEditing
+  usersManagementDispatch({
+    type: "SET_EDITING_USER",
+    payload
+  })  
+}
+
 const MainNav = ({ routes = defaultRoutes }) => {
+  var usersManagementContext = useContext(UsersManagementContext);
+  console.log(usersManagementContext);
+  var [usersManagementState,usersManagementDispatch] = usersManagementContext;
+  console.log(UsersManagementContext);
+  console.log(usersManagementState);
+
   const getRoute = (route, key) => {
     return (
 
@@ -33,6 +50,11 @@ const MainNav = ({ routes = defaultRoutes }) => {
     <nav>
       <ul>
         {routes.map((elem, index) => getRoute(elem, index))}
+        <li>
+          <Link>
+            <input type="button" value="Edit" onClick={() => { setEditingUser(false) }} />
+          </Link>
+        </li>
       </ul>
     </nav >
   )

@@ -1,13 +1,26 @@
 import React, { useContext } from 'react';
 import { useRouteMatch, useHistory, Link } from 'react-router-dom';
 import { UsersManagementContext } from '../Context/users-management-context';
-
+import { MainContext } from '../Context/main-context';
 
 const UserDetails = ({user}) => {
 
-  const context = useContext(UsersManagementContext)
+  var usersManagementContext = useContext(UsersManagementContext);
+
+  var [usersManagementState,usersManagementDispatch] = usersManagementContext.state;
+  
+  var {editUserUrl} = usersManagementContext;
+
   const history = useHistory();
 
+  function setEditingUser(isEditing){
+      var payload = isEditing
+      usersManagementDispatch({
+        type: "SET_EDITING_USER",
+        payload
+      })  
+  }
+  
   return (
     <div>
       <div>
@@ -31,7 +44,10 @@ const UserDetails = ({user}) => {
         <span id="username">View Subscriptions, Edit Movies</span>
       </div>
       <ul>
-        <li><Link to={context.editUrl}>Edit</Link></li>
+        <li><Link to={editUserUrl}>
+          <input type="button" value="Edit" onClick={() => { setEditingUser(true) }} />
+        </Link>
+        </li>
       </ul>
       <input type="button" value="Edit" onClick={() => { history.push(context.editUrl) }} />
       <input type="button" value="Delete" onClick={() => { }} />

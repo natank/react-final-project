@@ -5,7 +5,7 @@ import { useRouteMatch } from 'react-router-dom'
 
 const initialState = {
   editedUserId: -1,
-  componentMode: "list"
+  editingUser: false
 }
 
 var reducer = (state, action) => {
@@ -14,9 +14,9 @@ var reducer = (state, action) => {
       return {
         editedUserId: action.payload
       }
-    case "SET_COMPONENT_MODE":
+    case "SET_EDITING_USER":
       return {
-        componentMode: action.payload
+        editingUser: action.payload
       }
     default:
       throw new Error("UsersManagement: Unknown action type")

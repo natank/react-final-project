@@ -14,7 +14,7 @@ const AllUsers = () => {
   return (
     <ul>
       {users.map(function renderUser(user){
-        return <UserDetails user={user}/>
+        return <UserDetails key={user.id} user={user}/>
 
       })}
 
