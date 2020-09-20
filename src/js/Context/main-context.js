@@ -1,4 +1,4 @@
-import React, { useReducer, createContext } from 'react';
+import React, { useState, useReducer, createContext } from 'react';
 
 export var MainContext = createContext();
 
@@ -23,8 +23,26 @@ var initialState = {
       permissions: ["View Subscriptions", "Create Subscriptions"]
     }
 
+  ],
+  movies: [
+    {
+      id: 3,
+      Name: "Under the dome",
+      Generes: ["Genere1", "Genere2"],
+      Image: "https://via.placeholder.com/600/771796",
+      Premiered: new Date(Date.UTC(72, 4, 5))
+    },
+    {
+      id: 4,
+      Name: "Under the dome",
+      Generes: ["Genere1", "Genere2"],
+      Image: "https://via.placeholder.com/600/771796",
+      Premiered: new Date(Date.UTC(72, 4, 5))
+    }
   ]
 }
+
+
 
 var reducer = (state, action) => {
   switch (action.type) {
@@ -51,10 +69,16 @@ var reducer = (state, action) => {
 }
 
 export var MainContextProvider = props => {
-  const state = useReducer(reducer, initialState);
+  var [isEditingUser, setIsEditingUser] = useState(false);
+
+  const MainReducer = useReducer(reducer, initialState);
+
+  function resetMainView() {
+    setIsEditingUser(false);
+  }
 
   return (
-    <MainContext.Provider value={state}>
+    <MainContext.Provider value={{ isEditingUser, setIsEditingUser, MainReducer, resetMainView }}>
       {props.children}
     </MainContext.Provider>
   )

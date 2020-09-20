@@ -1,8 +1,8 @@
 import React from 'react'
 import { BrowserRouter as Router, Switch, Route, useRouteMatch } from 'react-router-dom';
-import Movies from '../components/Movies';
 import Subscriptions from '../components/Subscriptions';
-import UsersManagement from './users-management-view'
+import UsersManagementView from './users-management-view'
+import MoviesManagementView from './movies-management-view'
 import MainNav from '../components/MainNav';
 import Login from '../components/Login';
 import { MainContextProvider } from '../Context/main-context';
@@ -38,18 +38,10 @@ export default function Main() {
         </Route>
 
         <Switch>
-          <Route path={`${match.url}/movies`}>
-            <Movies />
-          </Route>
-          <Route path={`${match.url}/subscriptions`}>
-            <Subscriptions />
-          </Route>
-          <Route path={`${match.url}/usersManagement`}>
-            <UsersManagement />
-          </Route>
-          <Route path={`/`} exact>
-            <Login />
-          </Route>
+          <Route path={`${match.url}/movies`} component={MoviesManagementView} />
+          <Route path={`${match.url}/subscriptions`} component={Subscriptions} />
+          <Route path={`${match.url}/usersManagement`} component={UsersManagementView} />
+          <Route path={`/`} exact component={Login} />
         </Switch>
       </Router>
     </MainContextProvider>

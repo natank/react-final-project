@@ -1,26 +1,46 @@
-import React, { useState } from 'react'
+import React, { useState, useContext } from 'react'
+import { Link } from 'react-router-dom'
+import { MainContext } from '../../Context/main-context';
+import { UsersManagementContext } from '../../Context/users-management-context'
+import UserForm from './UserForm';
+function EditUser() {
+    var { MainReducer } = useContext(MainContext);
+    var { usersManagementUrl } = useContext(UsersManagementContext)
 
-
-function EditUser(props = { userDetails }) {
     var data = getFieldsData(userDetails);
     return (
         <div>
             <h2>Edit User: {`${userDetails.firstName} ${userDetails.lastName}`}</h2>
-            <form>
+            <UserForm userDetails={userDetails} actionText="Update" onSubmit={onUpdateUser} />
+
+            {/*<form onSubmit={onSubmitEdit}>
                 {renderFields(data.slice(0, 4))}
                 <label>Permissions</label>
                 {renderFields(data.slice(4))}
-            </form>
+                <button type="submit">Update</button>
+                <Link to={`${usersManagementUrl}`}>
+                    <button type="button">Cancel</button>
+                </Link>
+    </form>*/}
         </div>
     )
+
+    function onUpdateUser(event) {
+        event.preventDefault();
+        return 0;
+    }
+
+
+
 }
 
 function getFieldsData({ firstName, lastName, userName, sessionTimeOut, createdDate, permissions }) {
     return [
-        { type: "text", onChange: (() => null), label: "First Name:", name: "firstName", value: userDetails.firstName },
-        { type: "text", onChange: (() => null), label: "Last Name:", name: "lastName", value: userDetails.lastName },
-        { type: "text", onChange: (() => null), label: "User Name:", name: "userName", value: userDetails.userName },
-        { type: "text", onChange: (() => null), label: "Session Name:", name: "sessionName", value: userDetails.sessionName },
+        { type: "text", onChange: (() => null), label: "First Name:", name: "firstName", value: firstName },
+        { type: "text", onChange: (() => null), label: "Last Name:", name: "lastName", value: lastName },
+        { type: "text", onChange: (() => null), label: "User Name:", name: "userName", value: userName },
+        { type: "text", onChange: (() => null), label: "Session Timeout:", name: "sessionTimeout", value: sessionTimeOut },
+        { type: "fixed", onChange: (() => null), label: "Created date:", name: "Created", value: createdDate },
 
         { type: "checkbox", onChange: (() => null), label: "View Subscriptions:", checked: permissions.viewSubscriptions, name: "viewSubscriptions" },
         { type: "checkbox", onChange: (() => null), label: "Create Subscriptions:", checked: permissions.changeSubscriptions, name: "createSubscriptions" },

@@ -1,11 +1,7 @@
 import React, { useReducer, createContext } from 'react'
-import { useRouteMatch } from 'react-router-dom'
-
-
 
 const initialState = {
   editedUserId: -1,
-  editingUser: false
 }
 
 var reducer = (state, action) => {
@@ -24,16 +20,17 @@ var reducer = (state, action) => {
 }
 
 
-export var UsersManagementContext = createContext([{}, function(){}]);
+export var UsersManagementContext = createContext([{}, function () { }]);
 
 export var UsersManagementContextProvider = function (props) {
   var [state, dispatch] = useReducer(reducer, initialState);
-  var match = useRouteMatch();
-  var editUserUrl = `${match.url}/edit`;
+
+  var { match } = props;
+  var usersManagementUrl = match.url;
   return (
     <UsersManagementContext.Provider value={{
       state: [state, dispatch],
-      editUserUrl
+      usersManagementUrl
     }}>
       {props.children}
     </UsersManagementContext.Provider>

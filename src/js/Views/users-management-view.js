@@ -1,53 +1,23 @@
-import React, { useState } from 'react'
-import { BrowserRouter as Router, Switch, Route, useRouteMatch } from 'react-router-dom'
+import React from 'react'
+import { Route } from 'react-router-dom'
 import { UsersManagementContextProvider } from '../Context/users-management-context';
 
-import MainNav from '../components/MainNav';
-import AllUsers from '../components/AllUsers';
-import AddUser from '../components/AddUser';
-import EditUser from '../components/EditUser'
+import AllUsers from '../components/Users/AllUsers';
+import AddUser from '../components/Users/AddUser';
+import EditUser from '../components/Users/EditUser'
 
-export default function UsersManagement() {
-  
-  const match = useRouteMatch();
 
-  const usersRoutes = [
-    {
-      title: 'All Users',
-      url: `${match.url}/users`
-    },
-    {
-      title: 'Add User',
-      url: `${match.url}/add`
-    }
-  ]
-
+export default function UsersManagement({ match }) {
 
   return (
-    <UsersManagementContextProvider>
+    <UsersManagementContextProvider match={match}>
+
       <h1>Users</h1>
-      <Router>
-        <Switch>
-          <Route path={`${match.url}/edit`}>
-            <EditUser />
-          </Route>
-          <Route>
-            <Route path={`${match.url}`}>
-              <div>
-                <MainNav routes={usersRoutes} />
-              </div>
-            </Route>
-            <Switch>
-              <Route path={`${match.url}/users`}>
-                <AllUsers />
-              </Route>
-              <Route path={`${match.url}/add`}>
-                <AddUser />
-              </Route>
-            </Switch>
-          </Route>
-        </Switch>
-      </Router>
+
+      <Route path={`${match.url}/add`} component={AddUser} />
+      <Route exact path={`${match.url}`} component={AllUsers} />
+      <Route path={`${match.url}/edit/:id`} component={EditUser} />
+
 
     </UsersManagementContextProvider>
   )
