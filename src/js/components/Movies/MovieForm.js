@@ -11,7 +11,7 @@ export default function MovieForm({ movieDetails, actionText, onSubmit }) {
   return (
     <form onSubmit={onSubmit}>
       <label>Name:<input type="text" value={movieDetails.Name ? movieDetails.Name : ""} onChange={() => { }} /></label><br />
-      <label>Generes:<input type="text" value={movieDetails.Generes ? MovieDetails.Generes.toString() : ""} onChange={() => { }} /></label><br />
+      <label>Generes:<input type="text" value={movieDetails.Generes ? movieDetails.Generes.toString() : ""} onChange={() => { }} /></label><br />
       <label>Image URL:<input type="text" value={movieDetails.Image ? movieDetails.Image : ""} onChange={() => { }} /></label><br />
       <label>Premiered:<input type="text" value={
         movieDetails.Premiered ?

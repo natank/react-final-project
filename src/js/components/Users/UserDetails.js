@@ -1,9 +1,6 @@
-import React, { useContext } from 'react';
+import React from 'react';
 import { Link } from 'react-router-dom';
-import { UsersManagementContext } from '../../Context/users-management-context';
-import { MainContext } from '../../Context/main-context';
-
-function UserDetails({ user, match }) {
+function UserDetails({ user, permissions, match }) {
   return (
     <div>
       <div>
@@ -23,8 +20,8 @@ function UserDetails({ user, match }) {
         <span id="username">11/12/1998</span>
       </div>
       <div>
-        <label htmlFor="permissions">Permissions:</label>
-        <span id="username">View Subscriptions, Edit Movies</span>
+        <label htmlFor="permissions">Permissions: {permissions.toString()}</label>
+        <span id="username"></span>
       </div>
       <ul>
         <li>
@@ -33,7 +30,6 @@ function UserDetails({ user, match }) {
           </Link>
         </li>
       </ul>
-      <input type="button" value="Edit" onClick={() => { }} />
       <input type="button" value="Delete" onClick={() => { }} />
     </div>
   )

@@ -1,6 +1,6 @@
 import React from 'react'
 import { BrowserRouter as Router, Switch, Route, useRouteMatch } from 'react-router-dom';
-import Subscriptions from '../components/Subscriptions';
+import SubscriptionsManagementView from './subscriptions-management-view';
 import UsersManagementView from './users-management-view'
 import MoviesManagementView from './movies-management-view'
 import MainNav from '../components/MainNav';
@@ -39,7 +39,7 @@ export default function Main() {
 
         <Switch>
           <Route path={`${match.url}/movies`} component={MoviesManagementView} />
-          <Route path={`${match.url}/subscriptions`} component={Subscriptions} />
+          <Route path={`${match.url}/subscriptions`} component={SubscriptionsManagementView} />
           <Route path={`${match.url}/usersManagement`} component={UsersManagementView} />
           <Route path={`/`} exact component={Login} />
         </Switch>

@@ -5,11 +5,11 @@ import UsersNav from './UsersNav';
 
 function AllUsers({ match }) {
 
-  var { MainReducer } = useContext(MainContext)
+  var context = useContext(MainContext)
+  var { usersReducer, permissionsReducer } = context;
 
-  var [mainState, mainDispatch] = MainReducer;
-
-  var users = mainState.users;
+  var [users, usersDispatch] = usersReducer;
+  var [permissions, permissionsDispatch] = permissionsReducer;
 
   return (
     <div>
@@ -17,7 +17,9 @@ function AllUsers({ match }) {
       <ul>
         {
           users.map(function renderUser(user) {
-            return <UserDetails key={user.id} user={user} match={match} />
+            let userPermissions = permissions.find(permission => permission.userId == user.id)
+            if (!userPermissions) throw (new Error("User permissions not found"))
+            return <UserDetails key={user.id} permissions={userPermissions.permissions} user={user} match={match} />
           })
         }
       </ul>
