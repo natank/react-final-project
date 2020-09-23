@@ -2,25 +2,28 @@ import React, { useState, useContext } from 'react'
 import { Link } from 'react-router-dom'
 import { UsersManagementContext } from '../../Context/users-management-context'
 export default function UserForm({ userDetails, permissionsDetails, actionText, onSubmit }) {
-  var { firstName, lastName, userName, sessionTimeOut, createdDate } = userDetails;
-  var [firstName, setFirstName] = useState(firstName)
-  var [lastName, setLastName] = useState(lastName)
-  var [userName, setUserName] = useState(userName)
-  var [sessionTimeOut, setSessionTimeOut] = useState(sessionTimeOut)
-  var editedUserId = userDetails.id
+  if (actionText == "Update") {
+    var { firstName, lastName, userName, sessionTimeOut, createdDate } = userDetails;
+  }
+  var [firstName, setFirstName] = useState(firstName || "")
+  var [lastName, setLastName] = useState(lastName || "")
+  var [userName, setUserName] = useState(userName || "")
+  var [sessionTimeOut, setSessionTimeOut] = useState(sessionTimeOut || "")
+  var editedUserId = userDetails ? userDetails.id : "";
+
+  var { permissions } = permissionsDetails || {}
+  var { subscriptions, movies } = permissions || {};
 
 
-  var { permissions } = permissionsDetails
-  var { subscriptions, movies } = permissions;
-  var [viewSubscriptions, setViewSubscriptions] = useState(subscriptions.view);
-  var [createSubscriptions, setCreateSubscriptions] = useState(subscriptions.create);
-  var [deleteSubscriptions, setDeleteSubscriptions] = useState(subscriptions.delete);
-  var [updateSubscriptions, setUpdateSubscriptions] = useState(subscriptions.edit);
-  var [viewMovies, setViewMovies] = useState(movies.view);
-  var [createMovies, setCreateMovies] = useState(movies.create);
-  var [deleteMovies, setDeleteMovies] = useState(movies.delete);
-  var [updateMovies, setUpdateMovies] = useState(movies.edit);
-  var editedPermissionsId = permissionsDetails.id;
+  var [viewSubscriptions, setViewSubscriptions] = subscriptions ? useState(subscriptions.view) : useState("");
+  var [createSubscriptions, setCreateSubscriptions] = subscriptions ? useState(subscriptions.create) : useState("");
+  var [deleteSubscriptions, setDeleteSubscriptions] = subscriptions ? useState(subscriptions.delete) : useState("");
+  var [updateSubscriptions, setUpdateSubscriptions] = subscriptions ? useState(subscriptions.edit) : useState("");
+  var [viewMovies, setViewMovies] = movies ? useState(movies.view) : useState("");
+  var [createMovies, setCreateMovies] = movies ? useState(movies.create) : useState("");
+  var [deleteMovies, setDeleteMovies] = movies ? useState(movies.delete) : useState("");
+  var [updateMovies, setUpdateMovies] = movies ? useState(movies.edit) : useState("");
+  var editedPermissionsId = permissionsDetails ? permissionsDetails.id : "";
 
   function onPermissionChange(e, collection, action) {
     if (e.target.checked == true) collection == "subscriptions" ? setViewSubscriptions(true) : setViewMovies(true);
@@ -81,9 +84,6 @@ export default function UserForm({ userDetails, permissionsDetails, actionText, 
 
 
 
-  if (!(userDetails instanceof Object)) {
-    throw Error("UserForm must get userDetails prop which is an object instance")
-  }
   var { usersManagementUrl } = useContext(UsersManagementContext)
   var data = getFieldsData(userDetails);
 

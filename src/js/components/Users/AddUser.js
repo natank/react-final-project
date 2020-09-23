@@ -1,16 +1,28 @@
-import React from 'react';
-import UsersNav from './UsersNav';
+import React, { useContext } from 'react';
+import { MainContext } from '../../Context/main-context'
+import { usersReducer } from '../../Reducers/reducers';
+
 import UserForm from './UserForm'
-export default function AddUser() {
+export default function AddUser(userDetails, permissionsDetails) {
+  var { usersReducer, permissionsReducer } = useContext(MainContext);
+  var [users, usersDispatch] = usersReducer;
+  var [permissions, permissionsDispatch] = permissionsReducer;
   function onCreateUser(event) {
-    return null
+    usersDispatch({
+      type: "ADD",
+      payload: { userDetails }
+    })
+    permissionsDispatch({
+      type: "ADD",
+      payload: { permissionsDetails }
+    })
+
+
   }
   return (
     <div>
-      <UsersNav />
       <h2>Add New User</h2>
-      <UserForm userDetails={{ key: null }} actionText="Create" onSubmit={onCreateUser} />
-
+      <UserForm actionText="Create" onSubmit={onCreateUser} />
     </div>
   )
 }

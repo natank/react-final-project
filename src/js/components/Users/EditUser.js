@@ -27,11 +27,11 @@ export default function EditUser({ match }) {
     )
     function onUpdateUser(userDetails, permissionsDetails) {
         usersDispatch({
-            type: "UPDATE_USER",
+            type: "UPDATE",
             payload: userDetails
         })
         permissionsDispatch({
-            type: "UPDATE_PERMISSIONS",
+            type: "UPDATE",
             payload: permissionsDetails
         })
     }
