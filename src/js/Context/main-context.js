@@ -1,11 +1,14 @@
-import React, { useReducer, createContext } from 'react';
-import { permissionsToString } from '../Utils/utils'
+import React, { useReducer, createContext, useEffect, useState } from 'react';
+import {getPermissions} from '../Model/permissions-model'
+import {getUsers} from '../Model/user-model'
+
 import {
-  usersReducer as _usersReducer,
+  usersReducer,
   permissionsReducer as _permissionsReducer
 }
   from '../Reducers/reducers'
 export var MainContext = createContext();
+
 
 
 var users = [
@@ -95,14 +98,31 @@ var subscriptions = [{
 }]
 
 
-
-
 export function MainContextProvider(props) {
-  var usersReducer = useReducer(_usersReducer, users);
+    
   var permissionsReducer = useReducer(_permissionsReducer, permissions)
+
+  useEffect(()=>{
+    loadData();
+  }, [users])
+
+
   return (
     <MainContext.Provider value={{ usersReducer, permissionsReducer }}>
       {props.children}
     </MainContext.Provider>
   )
+
+  async function loadData(){
+    
+      users = await getUsers();
+
+      let dispatch = usersReducer[1];
+      dispatch({
+        type: "CREATE",
+        payload: users
+      })
+
+    return;
+  }
 }

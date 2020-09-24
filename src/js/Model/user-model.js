@@ -3,7 +3,7 @@ import { reject } from "lodash";
 var users = [
   {
     id: 1,
-    firstName: "Avi",
+    firstName: "Abraham",
     lastName: "Cohen",
     userName: "avi@gmail.com",
     sessionTimeOut: 20,
@@ -44,5 +44,10 @@ export async function deleteUser(id) {
 
 
 export async function getUsers() {
-
+  return new Promise((resolve, reject)=>{
+    setTimeout(function resolveWithUsers(){
+      resolve([...users])
+    }, 0)
+  })
 }
+
