@@ -1,9 +1,5 @@
 import { useReducer } from "react";
-
-var users = [];
-
-
-function usersReducerFn(users, action) {
+export function usersReducer(users, action) {
   switch (action.type) {
     case "CREATE":
       return [...users]
@@ -25,14 +21,14 @@ function usersReducerFn(users, action) {
   }
 }
 
-export var usersReducer = useReducer(usersReducerFn, users)
+
 
 
 export function permissionsReducer(permissions, action) {
   switch (action.type) {
     case "ADD":
       let newPermissions = action.payload;
-      
+
       return [newPermissions, action.payload]
 
     case "DELETE":
