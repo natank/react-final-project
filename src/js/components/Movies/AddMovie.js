@@ -1,16 +1,30 @@
-import React from 'react';
+import React, { useContext } from 'react';
 import MoviesNav from './MoviesNav';
 import MovieForm from './MovieForm'
-export default function AddMovie() {
-  function onCreateMovie(event) {
-    return null
-  }
+import { MainContext } from '../../Context/main-context'
+import { MoviesManagementContext } from '../../Context/movies-management-context'
+import { addMovie } from '../../Model/movie-model'
+
+export default function AddMovie(props) {
+  var { moviesStore } = useContext(MainContext);
+  var [moviesState, moviesDispatch] = moviesStore;
+
+
   return (
     <div>
       <MoviesNav />
       <h2>Add New Movie</h2>
-      <MovieForm movieDetails={{ key: null }} actionText="Create" onSubmit={onCreateMovie} />
-
+      <MovieForm actionText="Create" onSubmitCb={onCreateMovie} />
     </div>
   )
+
+  async function onCreateMovie(movieDetails) {
+    var details = { ...movieDetails }
+    details.generes = details.generes.split(',')
+    var movies = await addMovie(details);
+    moviesDispatch({
+      type: "LOAD",
+      payload: { movies }
+    })
+  }
 }

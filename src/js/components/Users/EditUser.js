@@ -1,38 +1,54 @@
-import React, { useState, useContext } from 'react'
+import React, { useContext } from 'react'
+import { useHistory } from 'react-router-dom'
 import { MainContext } from '../../Context/main-context';
 import UserForm from './UserForm';
+import { updateUser } from '../../Model/user-model'
+import { updateUserPermissions } from '../../Model/user-permissions-model'
+import { UsersManagementContext } from '../../Context/users-management-context'
+import { compareItemId } from '../../Utils/utils'
 export default function EditUser({ match }) {
-    var { usersReducer, permissionsReducer } = useContext(MainContext);
+    var { usersStore, usersPermissionsStore } = useContext(MainContext);
 
-    var [users, usersDispatch] = usersReducer;
+    var [usersState, usersDispatch] = usersStore;
 
-
-    var [permissions, permissionsDispatch] = permissionsReducer;
+    var [usersPermissionsState, usersPermissionsDispatch] = usersPermissionsStore;
 
     var userId = match.params.id;
 
-    var editedUser = users.find(function compareId(user) {
-        var result = user.id == userId;
-        return result;
-    })
-    var editedPermissions = permissions.find(function comperPermissionsId(permission) {
-        var result = permission.userId == userId
+    var { users } = usersState
+    var { usersPermissions } = usersPermissionsState
+
+    var editedUser = users.find(compareItemId(userId))
+    var editedUserPermissions = usersPermissions.find(function compareUserPermissionsId(userPermissions) {
+        var result = userPermissions.userId == userId
         return result
     })
+    var { usersManagementUrl } = useContext(UsersManagementContext)
+    var history = useHistory()
+
     return (
         <div>
-            <h2>Edit User: {`${editedUser.firstName} ${editedUser.lastName}`}</h2>
-            <UserForm userDetails={editedUser} permissionsDetails={editedPermissions} actionText="Update" onSubmit={onUpdateUser} />
+            {editedUser && editedUserPermissions ?
+                <div>
+                    <h2>Edit User: {`${editedUser.firstName} ${editedUser.lastName}`}</h2>
+                    <UserForm userDetails={editedUser} editedUserPermissions={editedUserPermissions} actionText="Update" onSubmit={onUpdateUser} />
+                </div> : <div>{null}</div>
+            }
+
         </div>
     )
-    function onUpdateUser(userDetails, permissionsDetails) {
+
+    async function onUpdateUser(userDetails, userPermissions) {
+        users = await updateUser(userDetails)
+        usersPermissions = await updateUserPermissions(userPermissions)
         usersDispatch({
-            type: "UPDATE",
-            payload: userDetails
+            type: "LOAD",
+            payload: { users }
         })
-        permissionsDispatch({
-            type: "UPDATE",
-            payload: permissionsDetails
+        usersPermissionsDispatch({
+            type: "LOAD",
+            payload: { usersPermissions }
         })
+        history.push(usersManagementUrl)
     }
 }

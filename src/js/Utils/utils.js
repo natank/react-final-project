@@ -20,3 +20,10 @@ export function permissionsToString(permissions) {
   return permissionsArr.toString()
 
 }
+
+export function compareItemId(id) {
+  return function compareId(item) {
+    return item.id == id
+  }
+}
+

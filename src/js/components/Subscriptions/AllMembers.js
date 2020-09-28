@@ -1,23 +1,24 @@
 import React, { useContext } from 'react'
 import MemberDetails from './MemberDetails'
 import { MainContext } from '../../Context/main-context'
-import SubscriptionsNav from './MembersNav';
+import MembersNav from './MembersNav';
 
 export default function AllMembers({ match }) {
 
-  var { MainReducer } = useContext(MainContext)
+  var { membersStore } = useContext(MainContext)
 
-  var [mainState, mainDispatch] = MainReducer;
+  var [membersState, membersDispatch] = membersStore;
 
-  var members = mainState.members;
+  var members = membersState.members;
 
   return (
     <div>
-      <SubscriptionsNav match={match} />
+      <MembersNav match={match} />
       <ul>
         {
           members.map(function renderMember(member) {
-            return <MemberDetails key={member.id} member={member} match={match} />
+            var props = { member, match }
+            return <MemberDetails key={member.id} {...props} />
           })
         }
       </ul>

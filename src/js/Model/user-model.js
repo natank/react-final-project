@@ -24,28 +24,39 @@ var users = [
 
 export async function updateUser(userDetails) {
   if (!userDetails.id) throw (new Error("Update user failed: missing id"))
+
   let user = users.find(user => user.id == userDetails.id);
   if (!user) throw (new ReferenceError("Update user failed: user not found"))
   for (var key in userDetails) {
     user[key] = userDetails[key]
   }
   return new Promise(function getUpdatedUser(resolve, reject) {
-    setTimeout(function resolveUpdatedUser() { resolve({ ...user }) }, 0)
+    setTimeout(function resolveUpdatedUser() { resolve(users) }, 0)
   })
 }
 
 export async function createUser(user) {
-
+  var id = users.length == 0 ? 1 : users[users.length - 1].id + 1;
+  user.id = id
+  users = [...users, user]
+  return new Promise(function getUpdatedUsers(resolve, reject) {
+    setTimeout(function resolveUpdatedUsersList() {
+      resolve({ users, id })
+    })
+  })
 }
 
 export async function deleteUser(id) {
-
+  users = users.filter(user => user.id !== id)
+  return new Promise(function getListAfterDeleting(resolve, reject) {
+    setTimeout(function resolveUsers() { resolve(users) }, 0)
+  })
 }
 
 
 export async function getUsers() {
-  return new Promise((resolve, reject)=>{
-    setTimeout(function resolveWithUsers(){
+  return new Promise((resolve, reject) => {
+    setTimeout(function resolveWithUsers() {
       resolve([...users])
     }, 0)
   })

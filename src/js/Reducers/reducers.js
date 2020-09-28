@@ -1,47 +1,33 @@
-import { useReducer } from "react";
-export function usersReducer(users, action) {
-  switch (action.type) {
-    case "CREATE":
-      return [...users]
-    case "ADD":
-      return [...users, action.payload]
-
-    case "DELETE":
-      return users.filter(
-        user => user.id !== action.payload
-      )
-
-    case "UPDATE":
-      var users = users.filter(
-        user => user.id !== action.payload.id
-      )
-      return [...users, action.payload]
-    default:
-      throw new Error("MainContext: Unknown action type")
-  }
-}
 
 
+export var usersReducer = (function usersRducer() {
+  return reducer("users")
+})()
+
+export var usersPermissionsReducer = (function usersPermissionsReducer() {
+  return reducer("usersPermissions")
+})()
 
 
-export function permissionsReducer(permissions, action) {
-  switch (action.type) {
-    case "ADD":
-      let newPermissions = action.payload;
+export var moviesReducer = (function moviesReducer() {
+  return reducer("movies")
+})()
 
-      return [newPermissions, action.payload]
+export var subscriptionsReducer = (function subscriptionsReducer() {
+  return reducer("subscriptions")
+})()
 
-    case "DELETE":
-      return permissions.filter(
-        permission => permission.id !== action.payload
-      )
+export var membersReducer = (function membersReducer() {
+  return reducer("members")
+})()
 
-    case "UPDATE":
-      var permissions = permissions.filter(
-        permission => permission.id !== action.payload.id
-      )
-      return [...permissions, action.payload]
-    default:
-      throw new Error("MainContext: Unknown action type")
+function reducer(collectionName) {
+  return function collectionReducer(state, action) {
+    switch (action.type) {
+      case "LOAD":
+        var items = {}
+        items[collectionName] = [...action.payload[collectionName]]
+        return items;
+    }
   }
 }

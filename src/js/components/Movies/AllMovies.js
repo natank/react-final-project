@@ -5,11 +5,11 @@ import MoviesNav from './MoviesNav';
 
 export default function AllMovies({ match }) {
 
-  var { MainReducer } = useContext(MainContext)
+  var { moviesStore } = useContext(MainContext);
 
-  var [mainState, mainDispatch] = MainReducer;
+  var [moviesState, moviesDispatch] = moviesStore
 
-  var movies = mainState.movies;
+  var movies = moviesState.movies;
 
   return (
     <div>

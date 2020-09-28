@@ -6,21 +6,22 @@ import UsersNav from './UsersNav';
 function AllUsers({ match }) {
 
   var context = useContext(MainContext)
-  var { usersReducer, permissionsReducer } = context;
+  var { usersStore, usersPermissionsStore } = context;
 
-  var [users, usersDispatch] = usersReducer;
-  var [permissions, permissionsDispatch] = permissionsReducer;
-
+  var [usersState, usersDispatch] = usersStore;
+  var { users } = usersState
+  var [usersPermissionsState, usersPermissionsDispatch] = usersPermissionsStore;
+  var { usersPermissions } = usersPermissionsState
   return (
     <div>
       <UsersNav match={match} />
       <ul>
         {
-          users.map(function renderUser(user) {
-            let userPermissions = permissions.find(permission => permission.userId == user.id)
-            if (!userPermissions) throw (new Error("User permissions not found"))
-            return <UserDetails key={user.id} permissions={userPermissions.permissions} user={user} match={match} />
-          })
+          users ? users.map(function renderUser(user) {
+            let userPermissions = usersPermissions.find(permissions => permissions.userId == user.id)
+            if (!userPermissions) return null
+            return <UserDetails key={user.id} userPermissions={userPermissions.userPermissions} user={user} match={match} />
+          }) : null
         }
       </ul>
     </div>

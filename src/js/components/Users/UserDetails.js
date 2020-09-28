@@ -1,6 +1,18 @@
-import React from 'react';
-import { Link } from 'react-router-dom';
-function UserDetails({ user, permissions, match }) {
+import React, { useContext } from 'react';
+import { Link, useHistory } from 'react-router-dom';
+import { permissionsToString } from '../../Utils/utils'
+import { MainContext } from '../../Context/main-context'
+import { deleteUser } from '../../Model/user-model'
+import { deleteUserPermissions } from '../../Model/user-permissions-model'
+import { UsersManagementContext } from '../../Context/users-management-context'
+
+function UserDetails({ user, userPermissions, match }) {
+  var history = useHistory()
+  var { usersManagementUrl } = useContext(UsersManagementContext)
+  var { usersStore, usersPermissionsStore } = useContext(MainContext)
+  var [usersState, usersDispatch] = usersStore;
+  var [usersPermissionsState, usersPermissionsDispatch] = usersPermissionsStore;
+
   return (
     <div>
       <div>
@@ -20,7 +32,7 @@ function UserDetails({ user, permissions, match }) {
         <span id="username">11/12/1998</span>
       </div>
       <div>
-        <label htmlFor="permissions">Permissions: {permissions.toString()}</label>
+        <label htmlFor="permissions">Permissions: {permissionsToString(userPermissions)}</label>
         <span id="username"></span>
       </div>
       <ul>
@@ -30,9 +42,30 @@ function UserDetails({ user, permissions, match }) {
           </Link>
         </li>
       </ul>
-      <input type="button" value="Delete" onClick={() => { }} />
+      <input type="button" value="Delete" onClick={onDeleteUser} />
     </div>
   )
+
+
+
+  async function onDeleteUser(event) {
+    event.preventDefault();
+    var userPermissions = usersPermissionsState.usersPermissions.find(userPermissions => userPermissions.userId == user.id)
+    if (!userPermissions) throw Error("Can't delete user, user permissions not found")
+    var userPermissionsId = userPermissions.id;
+    var users = await deleteUser(user.id);
+    var usersPermissions = await deleteUserPermissions(userPermissionsId)
+
+    usersDispatch({
+      type: "LOAD",
+      payload: { users }
+    })
+    usersPermissionsDispatch({
+      type: "LOAD",
+      payload: { usersPermissions }
+    })
+    history.push(usersManagementUrl)
+  }
 }
 
 export default UserDetails
