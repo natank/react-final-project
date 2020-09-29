@@ -9,7 +9,7 @@ export default function AddMember() {
     <div>
       <MembersNav />
       <h2>Add New Member</h2>
-      <MemberForm memberDetails={{ key: null }} actionText="Create" onSubmit={onCreateMember} />
+      <MemberForm memberDetails={{ key: null }} actionText="Create" onSubmitCb={onCreateMember} />
 
     </div>
   )

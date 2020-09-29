@@ -1,28 +1,35 @@
-import React from 'react'
-
-
+import React, { useContext } from 'react'
+import { useRouteMatch, useHistory } from 'react-router-dom'
 import MemberForm from './MemberForm';
-
-var memberDetails = {
-    id: 4,
-    Name: "Under the dome",
-    Generes: ["Genere1", "Genere2"],
-    Image: "https://via.placeholder.com/600/771796",
-    Premiered: new Date(Date.UTC(72, 4, 5))
-}
-
+import { MainContext } from '../../Context/main-context'
+import { updateMember } from '../../Model/member-model'
+import { compareItemId } from '../../Utils/utils'
+import { MembersManagementContext } from '../../Context/members-management-context'
 export default function EditMember() {
+    var { membersManagementUrl } = useContext(MembersManagementContext)
+    let match = useRouteMatch();
+    var { membersStore } = useContext(MainContext)
+    var [membersState, membersDispatch] = membersStore;
+    var { members } = membersState
+    var memberId = match.params.id;
+    let memberDetails = members.find(compareItemId(memberId))
+    var history = useHistory();
+
     return (
         <div>
-            <h2>Edit Member: {`${memberDetails.firstName} ${memberDetails.lastName}`}</h2>
-            <MemberForm memberDetails={memberDetails} actionText="Update" onSubmit={onUpdateMember} />
-
+            <h2>Edit Member: {`${memberDetails ? memberDetails.name : ""}`}</h2>
+            {memberDetails ? <MemberForm memberDetails={memberDetails} actionText="Update" onSubmitCb={onUpdateMember} /> : null}
         </div>
     )
 
-    function onUpdateMember(event) {
-        event.preventDefault();
-        return 0;
+    async function onUpdateMember(memberDetails) {
+        var details = { ...memberDetails }
+        var members = await updateMember(details);
+        membersDispatch({
+            type: "LOAD",
+            payload: { members }
+        })
+        history.push(membersManagementUrl)
     }
 }
 

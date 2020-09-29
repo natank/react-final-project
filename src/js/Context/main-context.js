@@ -2,7 +2,7 @@ import React, { useReducer, createContext, useEffect, useState } from 'react';
 import { getUsersPermissions } from '../Model/user-permissions-model'
 import { getUsers } from '../Model/user-model'
 import { getMovies } from '../Model/movie-model'
-import { getMembers } from '../Model/members-model';
+import { getMembers } from '../Model/member-model';
 import { getSubscriptions } from '../Model/subscriptions-model';
 import * as reducers from '../Reducers/reducers'
 

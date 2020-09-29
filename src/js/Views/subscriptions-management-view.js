@@ -1,16 +1,32 @@
 import React from 'react'
+import { Route, Switch } from 'react-router-dom'
 import { MembersManagementContextProvider } from '../Context/members-management-context';
-import Subscriptions from '../components/Subscriptions/Subscriptions'
-
-
-
-import MemberDetails from '../components/Subscriptions/MemberDetails'
+import EditMember from '../components/Subscriptions/EditMember'
+import MembersNav from '../components/Subscriptions/MembersNav'
+import AllMembers from '../components/Subscriptions/AllMembers'
+import AddMember from '../components/Subscriptions/AddMember'
+import MemberSubscriptions from '../components/Subscriptions/MemberSubscriptions'
 
 export default function MembersManagement({ match }) {
 
   return (
     <MembersManagementContextProvider match={match}>
-      <Subscriptions />
+      <Switch>
+        <Route exact path={`${match.url}/edit/:id`}>
+
+          <h1>Members</h1>
+          <EditMember />
+
+        </Route>
+        <Route path={match.url} component={MembersNav}>
+          <h1>Subscriptions</h1>
+          <Route exact path={`${match.url}`} component={AllMembers} />
+          <Switch>
+            <Route exact path={`${match.url}/add`} component={AddMember} />
+            <Route path={`${match.url}/:id`} component={MemberSubscriptions} />
+          </Switch>
+        </Route>
+      </Switch>
     </MembersManagementContextProvider>
   )
 }
