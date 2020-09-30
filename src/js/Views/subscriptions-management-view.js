@@ -5,7 +5,7 @@ import EditMember from '../components/Subscriptions/EditMember'
 import MembersNav from '../components/Subscriptions/MembersNav'
 import AllMembers from '../components/Subscriptions/AllMembers'
 import AddMember from '../components/Subscriptions/AddMember'
-import MemberSubscriptions from '../components/Subscriptions/MemberSubscriptions'
+import MemberUrlWrapper from '../components/Subscriptions/MemberUrlWrapper'
 
 export default function MembersManagement({ match }) {
 
@@ -23,7 +23,7 @@ export default function MembersManagement({ match }) {
           <Route exact path={`${match.url}`} component={AllMembers} />
           <Switch>
             <Route exact path={`${match.url}/add`} component={AddMember} />
-            <Route path={`${match.url}/:id`} component={MemberSubscriptions} />
+            <Route path={`${match.url}/:id`} component={MemberUrlWrapper} />
           </Switch>
         </Route>
       </Switch>

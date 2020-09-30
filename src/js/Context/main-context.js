@@ -1,4 +1,5 @@
-import React, { useReducer, createContext, useEffect, useState } from 'react';
+import React, { useReducer, createContext, useEffect } from 'react';
+import {useRouteMatch} from 'react-router-dom';
 import { getUsersPermissions } from '../Model/user-permissions-model'
 import { getUsers } from '../Model/user-model'
 import { getMovies } from '../Model/movie-model'
@@ -18,15 +19,16 @@ export function MainContextProvider(props) {
   var moviesStore = useReducer(moviesReducer, { movies: [] })
   var subscriptionsStore = useReducer(subscriptionsReducer, { subscriptions: [] })
   var membersStore = useReducer(membersReducer, { members: [] })
+  var match = useRouteMatch();
 
-
+  var membersManagementUrl = `${match.url}/subscriptions`
   useEffect(() => {
     loadData();
   }, [])
 
 
   return (
-    <MainContext.Provider value={{ usersStore, usersPermissionsStore, moviesStore, subscriptionsStore, membersStore }}>
+    <MainContext.Provider value={{ usersStore, usersPermissionsStore, moviesStore, subscriptionsStore, membersStore, membersManagementUrl }}>
       {props.children}
     </MainContext.Provider>
   )

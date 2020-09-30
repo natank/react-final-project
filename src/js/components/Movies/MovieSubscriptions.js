@@ -1,14 +1,13 @@
 import React, { useContext } from 'react';
 import { MainContext } from '../../Context/main-context';
-
-
+import {MembersManagementContext} from '../../Context/members-management-context'
+import {Link} from 'react-router-dom';
 export default function MovieSubscriptions({ movie }) {
-  var { subscriptionsStore, membersStore } = useContext(MainContext);
-
+  var { subscriptionsStore, membersStore, membersManagementUrl } = useContext(MainContext);
   var [membersState, membersDispatch] = membersStore;
   var [subscriptionsState, subscriptionsDispatch] = subscriptionsStore
 
-  var { members } = membersState;
+    var { members } = membersState;
   var { subscriptions } = subscriptionsState;
 
   var subscriptionsWatched = getMovieSubscriptions(subscriptions);
@@ -24,7 +23,7 @@ export default function MovieSubscriptions({ movie }) {
   function renderMemberEntry(memberEntry, index) {
     return (
       <li key={index}>
-        <a href='#'>{`${memberEntry.member.name},`}</a>
+        <Link to={`${membersManagementUrl}/:${memberEntry.member.id}`}>{memberEntry.member.name}</Link>
         <span>{memberEntry.date}</span>
       </li>
     )

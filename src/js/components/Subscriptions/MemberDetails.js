@@ -5,7 +5,9 @@ import { MainContext } from '../../Context/main-context';
 import MemberSubscriptions from './MemberSubscriptions'
 export default function MemberDetails({ member, match }) {
   const { membersManagementUrl } = useContext(MembersManagementContext)
-  return (
+  
+
+  if(member) return (
     <div>
       <h3>{member.name}</h3>
       <p>{`Email: ${member.email}`}</p>
@@ -16,4 +18,5 @@ export default function MemberDetails({ member, match }) {
       <MemberSubscriptions />
     </div>
   )
+  return null
 }
