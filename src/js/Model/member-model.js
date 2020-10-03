@@ -9,8 +9,8 @@ var members = [
     email: "gc1@gmail.com",
     city: "Los Angeles",
     movies: [
-      { movieId: 1, date: "2015-12-01" },
-      { movieId: 2, date: "2018-11-2 1" },
+      { movieId: 3, date: "2015-12-01" },
+      { movieId: 4, date: "2018-11-21" },
     ]
   }
 ]
@@ -28,4 +28,15 @@ export async function updateMember(memberDetails) {
 
 export async function deleteMember(memberId) {
   return deleteItem(members, memberId)
+}
+
+export async function addMemberSubscription(subscriptionDetails) {
+  var { memberId, movieId, date } = subscriptionDetails;
+  var member = members.find(currMember => currMember.id == memberId);
+  member.movies = [...member.movies, { movieId, date }]
+  return new Promise((resolve, reject) => {
+    setTimeout(() => {
+      resolve([...members])
+    }, 0)
+  })
 }

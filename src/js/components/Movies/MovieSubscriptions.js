@@ -1,30 +1,28 @@
 import React, { useContext } from 'react';
 import { MainContext } from '../../Context/main-context';
-import {MembersManagementContext} from '../../Context/members-management-context'
-import {Link} from 'react-router-dom';
+import { MembersManagementContext } from '../../Context/members-management-context'
+import { Link } from 'react-router-dom';
 export default function MovieSubscriptions({ movie }) {
-  var { subscriptionsStore, membersStore, membersManagementUrl } = useContext(MainContext);
+  var { membersStore, membersManagementUrl } = useContext(MainContext);
   var [membersState, membersDispatch] = membersStore;
-  var [subscriptionsState, subscriptionsDispatch] = subscriptionsStore
 
-    var { members } = membersState;
-  var { subscriptions } = subscriptionsState;
+  var { members } = membersState;
 
-  var subscriptionsWatched = getMovieSubscriptions(subscriptions);
-  var membersWatched = extractMembersEntriesFromMovieSubscriptions(subscriptionsWatched, movie.id)
+  var movieSubscriptions = getMovieSubscriptions();
+
 
   return (
     <ul>
-      {membersWatched ? membersWatched.map(renderMemberEntry) : null}
+      {movieSubscriptions ? movieSubscriptions.map(renderSubscription) : null}
     </ul>
   )
 
 
-  function renderMemberEntry(memberEntry, index) {
+  function renderSubscription(subscription, index) {
     return (
       <li key={index}>
-        <Link to={`${membersManagementUrl}/:${memberEntry.member.id}`}>{memberEntry.member.name}</Link>
-        <span>{memberEntry.date}</span>
+        <Link to={`${membersManagementUrl}/${subscription.member.id}`}>{subscription.member.name}</Link>
+        <span>{subscription.date}</span>
       </li>
     )
   }
@@ -46,16 +44,6 @@ export default function MovieSubscriptions({ movie }) {
     return movieDate;
   }
 
-
-  function isSubscribedToMovie(subscription) {
-    var isSubscribed = subscription.movies.some(isTheMovie)
-    return isSubscribed;
-  }
-
-  function isTheMovie(currMovie) {
-    return (movie.id == currMovie.id)
-  }
-
   function extractMemberFromSubscription(subscription) {
     return members.find(function (member) {
       return member.id == subscription.memberId
@@ -63,8 +51,21 @@ export default function MovieSubscriptions({ movie }) {
   }
 
 
-  function getMovieSubscriptions(subscriptions) {
-    var movieSubscriptions = subscriptions.filter(isSubscribedToMovie)
-    return movieSubscriptions
+  function getMovieSubscriptions() {
+    // loop through all the members. Filter in members who are subscribed to movie
+    return members.reduce(function createSubscription(acc, member) {
+      var subscription = member.movies.find(currMovie => currMovie.movieId == movie.id)
+      if (subscription) {
+        subscription = {
+          member: {
+            id: member.id,
+            name: member.name
+          },
+          date: subscription.date
+        }
+        return [...acc, subscription]
+      }
+      return acc
+    }, [])
   }
 }

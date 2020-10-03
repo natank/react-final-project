@@ -18,7 +18,8 @@ export default function MembersManagement({ match }) {
           <EditMember />
 
         </Route>
-        <Route path={match.url} component={MembersNav}>
+        <Route path={match.url}>
+
           <h1>Subscriptions</h1>
           <Route exact path={`${match.url}`} component={AllMembers} />
           <Switch>

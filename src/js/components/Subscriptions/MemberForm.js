@@ -1,17 +1,16 @@
 import React, { useContext } from 'react'
 import { Link } from 'react-router-dom'
+
 import { MembersManagementContext } from '../../Context/members-management-context'
 import { useFormInput } from '../../Utils/customHooks'
 export default function MemberForm({ memberDetails, actionText, onSubmitCb }) {
 
-  if (!(memberDetails instanceof Object)) {
-    throw Error("MemberForm must get memberDetails prop which is an object instance")
-  }
-
   var { membersManagementUrl } = useContext(MembersManagementContext)
-  var name = useFormInput(memberDetails.name);
-  var email = useFormInput(memberDetails.email)
-  var city = useFormInput(memberDetails.city)
+  var { name, email, city } = memberDetails || {};
+
+  var name = useFormInput(name || "");
+  var email = useFormInput(email || "")
+  var city = useFormInput(city || "")
 
   return (
     <form onSubmit={onSubmit}>

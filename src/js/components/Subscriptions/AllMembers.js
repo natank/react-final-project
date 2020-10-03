@@ -5,7 +5,8 @@ import MembersNav from './MembersNav';
 
 export default function AllMembers({ match }) {
 
-  var { membersStore } = useContext(MainContext)
+  var context = useContext(MainContext)
+  var { membersStore } = context
 
   var [membersState, membersDispatch] = membersStore;
 

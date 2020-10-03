@@ -2,10 +2,10 @@ import { fromPairs } from 'lodash';
 import React, { useContext } from 'react'
 import { Link } from 'react-router-dom';
 
-import { MembersManagementContext } from '../../Context/members-management-context'
+import { MainContext } from '../../Context/main-context'
 
 export default function MembersNav(props) {
-  var { membersManagementUrl } = useContext(MembersManagementContext)
+  var { membersManagementUrl } = useContext(MainContext)
   return (
     <div>
       <Link to={`${membersManagementUrl}`}>

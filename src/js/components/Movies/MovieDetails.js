@@ -9,6 +9,7 @@ export default function MovieDetails({ movie, match }) {
   var history = useHistory();
   var { moviesStore } = useContext(MainContext);
   var [moviesState, moviesDispatch] = moviesStore;
+  if (!movie) return null;
   return (
     <div>
       <h3>{`${movie.name}, ${(new Date(movie.premiered)).getFullYear()} `}</h3>

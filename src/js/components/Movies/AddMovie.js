@@ -2,7 +2,6 @@ import React, { useContext } from 'react';
 import MoviesNav from './MoviesNav';
 import MovieForm from './MovieForm'
 import { MainContext } from '../../Context/main-context'
-import { MoviesManagementContext } from '../../Context/movies-management-context'
 import { addMovie } from '../../Model/movie-model'
 
 export default function AddMovie(props) {

@@ -1,4 +1,4 @@
-import React, { useReducer, createContext } from 'react'
+import React, { createContext } from 'react'
 
 export var MoviesManagementContext = createContext([{}, function () { }]);
 

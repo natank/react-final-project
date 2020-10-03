@@ -13,6 +13,13 @@ var movies = [
     generes: ["Genere1", "Genere2"],
     image: "https://via.placeholder.com/600/771796",
     premiered: "2019-10-09"
+  },
+  {
+    id: 5,
+    name: "Piano",
+    generes: ["Genere1", "Genere2"],
+    image: "https://via.placeholder.com/600/771796",
+    premiered: "2019-10-09"
   }
 ]
 

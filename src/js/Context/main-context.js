@@ -1,36 +1,53 @@
-import React, { useReducer, createContext, useEffect } from 'react';
-import {useRouteMatch} from 'react-router-dom';
+import React, { useReducer, createContext, useEffect, useMemo } from 'react';
+import { useRouteMatch } from 'react-router-dom';
 import { getUsersPermissions } from '../Model/user-permissions-model'
 import { getUsers } from '../Model/user-model'
 import { getMovies } from '../Model/movie-model'
 import { getMembers } from '../Model/member-model';
-import { getSubscriptions } from '../Model/subscriptions-model';
-import * as reducers from '../Reducers/reducers'
 
-var { usersReducer, usersPermissionsReducer, moviesReducer, membersReducer, subscriptionsReducer } = reducers;
+import * as reducers from '../Reducers/reducers'
 
 export var MainContext = createContext();
 
 
+
 export function MainContextProvider(props) {
+  const initialState = { users: [], usersPermissions: [], movies: [], members: [] }
+  const rootReducer = combineReducers(reducers)
 
-  var usersPermissionsStore = useReducer(usersPermissionsReducer, { usersPermissions: [] })
-  var usersStore = useReducer(usersReducer, { users: [] })
-  var moviesStore = useReducer(moviesReducer, { movies: [] })
-  var subscriptionsStore = useReducer(subscriptionsReducer, { subscriptions: [] })
-  var membersStore = useReducer(membersReducer, { members: [] })
-  var match = useRouteMatch();
 
-  var membersManagementUrl = `${match.url}/subscriptions`
+  // var usersPermissionsStore = useReducer(usersPermissionsReducer, { usersPermissions: [] });
+  // var usersStore = useReducer(usersReducer, { users: [] });
+  // var moviesStore = useReducer(moviesReducer, { movies: [] });
+  // var membersStore = useReducer(membersReducer, { members: [] });
+
+
+  // var stores = {
+  //   usersPermissionsStore,
+  //   usersStore,
+  //   moviesStore,
+  //   membersStore,
+  // }
+
+  const result = useReducer(rootReducer, initialState)
+  const [state, dispatch] = result;
+  const store = useMemo(() => [state, dispatch], [state])
+  var match = useRouteMatch()
+
+  var urls = {
+    membersManagementUrl: `${match.url}/subscriptions`,
+    moviesManagementUrl: `${match.url}/movies`
+  }
+
   useEffect(() => {
     loadData();
   }, [])
 
 
   return (
-    <MainContext.Provider value={{ usersStore, usersPermissionsStore, moviesStore, subscriptionsStore, membersStore, membersManagementUrl }}>
-      {props.children}
-    </MainContext.Provider>
+    <MainContext.Provider value={{ ...store, ...urls }}>
+      { props.children}
+    </MainContext.Provider >
   )
 
 
@@ -41,38 +58,24 @@ export function MainContextProvider(props) {
     var usersPermissions = await getUsersPermissions();
     var movies = await getMovies();
     var members = await getMembers();
-    var subscriptions = await getSubscriptions()
 
-    var usersDispatch = usersStore[1];
-    var usersPermissionsDispatch = usersPermissionsStore[1];
-    var moviesDispatch = moviesStore[1];
-    var membersDispatch = membersStore[1];
-    var subscriptionsDispatch = subscriptionsStore[1];
-
-    usersDispatch({
+    dispatch({
       type: "LOAD",
-      payload: { users }
-    })
-
-    usersPermissionsDispatch({
-      type: "LOAD",
-      payload: { usersPermissions }
-    })
-
-    moviesDispatch({
-      type: "LOAD",
-      payload: { movies }
-    })
-    membersDispatch({
-      type: "LOAD",
-      payload: { members }
-    })
-
-    subscriptionsDispatch({
-      type: "LOAD",
-      payload: { subscriptions }
+      payload: { users, usersPermissions, movies, members }
     })
 
     return;
   }
 }
+
+function combineReducers(slices) {
+  return function (state, action) {
+    Object.keys(slices).reduce(
+      (acc, prop) => ({
+        ...acc,
+        [prop]: slices[prop](acc[prop], action),
+      }),
+      state
+    )
+  }
+};
