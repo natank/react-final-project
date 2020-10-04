@@ -6,12 +6,12 @@ import UsersNav from './UsersNav';
 function AllUsers({ match }) {
 
   var { store } = useContext(MainContext)
+
   debugger
   var [state, dispatch] = store;
   debugger
-  var { users } = usersState
-  var [usersPermissionsState, usersPermissionsDispatch] = usersPermissionsStore;
-  var { usersPermissions } = usersPermissionsState
+  var { users, usersPermissions } = state
+
   return (
     <div>
       <UsersNav match={match} />

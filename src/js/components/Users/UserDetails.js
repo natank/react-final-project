@@ -9,9 +9,8 @@ import { UsersManagementContext } from '../../Context/users-management-context'
 function UserDetails({ user, userPermissions, match }) {
   var history = useHistory()
   var { usersManagementUrl } = useContext(UsersManagementContext)
-  var { usersStore, usersPermissionsStore } = useContext(MainContext)
-  var [usersState, usersDispatch] = usersStore;
-  var [usersPermissionsState, usersPermissionsDispatch] = usersPermissionsStore;
+  var { store } = useContext(MainContext)
+  var [state, dispatch] = store;
 
   return (
     <div>
@@ -46,26 +45,28 @@ function UserDetails({ user, userPermissions, match }) {
     </div>
   )
 
-
-
   async function onDeleteUser(event) {
     event.preventDefault();
-    var userPermissions = usersPermissionsState.usersPermissions.find(userPermissions => userPermissions.userId == user.id)
+    var userPermissions = state.usersPermissions.find(userPermissions => userPermissions.userId == user.id)
     if (!userPermissions) throw Error("Can't delete user, user permissions not found")
     var userPermissionsId = userPermissions.id;
     var users = await deleteUser(user.id);
     var usersPermissions = await deleteUserPermissions(userPermissionsId)
 
-    usersDispatch({
+    dispatch(loadUsers(users, usersPermissions))
+
+  }
+
+  function loadUsers(users, usersPermissions) {
+    return {
       type: "LOAD",
-      payload: { users }
-    })
-    usersPermissionsDispatch({
-      type: "LOAD",
-      payload: { usersPermissions }
-    })
-    history.push(usersManagementUrl)
+      payload: { ...state, users: [...users], usersPermissions: [...usersPermissions] }
+    }
   }
 }
 
+
+
+
 export default UserDetails
+

@@ -21,9 +21,7 @@ function reducer(collectionName) {
   return function collectionReducer(state, action) {
     switch (action.type) {
       case "LOAD":
-        var items = {}
-        items[collectionName] = [...action.payload[collectionName]]
-        return items;
+        return [...action.payload[collectionName]]
     }
   }
 }

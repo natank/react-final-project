@@ -5,7 +5,7 @@ import { getUsers } from '../Model/user-model'
 import { getMovies } from '../Model/movie-model'
 import { getMembers } from '../Model/member-model';
 
-import * as reducers from '../Reducers/reducers'
+import { usersReducer, usersPermissionsReducer, moviesReducer, membersReducer } from '../Reducers/reducers'
 
 export var MainContext = createContext();
 
@@ -13,21 +13,7 @@ export var MainContext = createContext();
 
 export function MainContextProvider(props) {
   const initialState = { users: [], usersPermissions: [], movies: [], members: [] }
-  const rootReducer = combineReducers(reducers)
-
-
-  // var usersPermissionsStore = useReducer(usersPermissionsReducer, { usersPermissions: [] });
-  // var usersStore = useReducer(usersReducer, { users: [] });
-  // var moviesStore = useReducer(moviesReducer, { movies: [] });
-  // var membersStore = useReducer(membersReducer, { members: [] });
-
-
-  // var stores = {
-  //   usersPermissionsStore,
-  //   usersStore,
-  //   moviesStore,
-  //   membersStore,
-  // }
+  const rootReducer = combineReducers({ users: usersReducer, usersPermissions: usersPermissionsReducer, movies: moviesReducer, members: membersReducer })
 
   const result = useReducer(rootReducer, initialState)
   const [state, dispatch] = result;
@@ -45,7 +31,7 @@ export function MainContextProvider(props) {
 
 
   return (
-    <MainContext.Provider value={{ ...store, ...urls }}>
+    <MainContext.Provider value={{ store, ...urls }}>
       { props.children}
     </MainContext.Provider >
   )
@@ -68,14 +54,11 @@ export function MainContextProvider(props) {
   }
 }
 
-function combineReducers(slices) {
-  return function (state, action) {
-    Object.keys(slices).reduce(
-      (acc, prop) => ({
-        ...acc,
-        [prop]: slices[prop](acc[prop], action),
-      }),
-      state
-    )
-  }
-};
+const combineReducers = (slices) => (state, action) =>
+  Object.keys(slices).reduce( // use for..in loop, if you prefer it
+    (acc, prop) => ({
+      ...acc,
+      [prop]: slices[prop](acc[prop], action),
+    }),
+    state
+  );
