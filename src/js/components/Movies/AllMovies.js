@@ -5,13 +5,13 @@ import MoviesNav from './MoviesNav';
 import FindMovie from './FindMovie'
 export default function AllMovies({ match }) {
 
-  var { moviesStore } = useContext(MainContext);
+  var { store } = useContext(MainContext);
 
-  var [moviesState, moviesDispatch] = moviesStore
+  var [state, dispatch] = store
 
   var [filterString, setFilterString] = useState('');
 
-  var movies = [...moviesState.movies];
+  var movies = [...state.movies];
   if (filterString.length > 2) {
     movies = movies.filter(function (movie) {
       return movie.name.toLowerCase().includes(filterString)

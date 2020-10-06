@@ -3,10 +3,10 @@ import { MainContext } from '../../Context/main-context';
 import { MembersManagementContext } from '../../Context/members-management-context'
 import { Link } from 'react-router-dom';
 export default function MovieSubscriptions({ movie }) {
-  var { membersStore, membersManagementUrl } = useContext(MainContext);
-  var [membersState, membersDispatch] = membersStore;
+  var { store, membersManagementUrl } = useContext(MainContext);
+  var [state, dispatch] = store;
 
-  var { members } = membersState;
+  var { members } = state;
 
   var movieSubscriptions = getMovieSubscriptions();
 

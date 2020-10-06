@@ -1,11 +1,11 @@
 import React, { useContext } from 'react'
 import { Link } from 'react-router-dom'
 
-import { MembersManagementContext } from '../../Context/members-management-context'
+import { MainContext } from '../../Context/main-context'
 import { useFormInput } from '../../Utils/customHooks'
 export default function MemberForm({ memberDetails, actionText, onSubmitCb }) {
 
-  var { membersManagementUrl } = useContext(MembersManagementContext)
+  var { membersManagementUrl } = useContext(MainContext)
   var { name, email, city } = memberDetails || {};
 
   var name = useFormInput(name || "");

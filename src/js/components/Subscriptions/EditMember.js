@@ -6,11 +6,10 @@ import { updateMember } from '../../Model/member-model'
 import { compareItemId } from '../../Utils/utils'
 import { MembersManagementContext } from '../../Context/members-management-context'
 export default function EditMember() {
-    var { membersManagementUrl } = useContext(MembersManagementContext)
     let match = useRouteMatch();
-    var { membersStore } = useContext(MainContext)
-    var [membersState, membersDispatch] = membersStore;
-    var { members } = membersState
+    var { store, membersManagementUrl } = useContext(MainContext)
+    var [state, dispatch] = store;
+    var { members } = state
     var memberId = match.params.id;
     let memberDetails = members.find(compareItemId(memberId))
     var history = useHistory();
@@ -25,9 +24,9 @@ export default function EditMember() {
     async function onUpdateMember(memberDetails) {
         var details = { ...memberDetails }
         var members = await updateMember(details);
-        membersDispatch({
+        dispatch({
             type: "LOAD",
-            payload: { members }
+            payload: { ...state, members: [...members] }
         })
         history.push(membersManagementUrl)
     }

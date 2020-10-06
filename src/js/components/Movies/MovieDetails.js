@@ -7,8 +7,8 @@ import MovieSubscriptions from './MovieSubscriptions'
 export default function MovieDetails({ movie, match }) {
   const { moviesManagementUrl } = useContext(MoviesManagementContext)
   var history = useHistory();
-  var { moviesStore } = useContext(MainContext);
-  var [moviesState, moviesDispatch] = moviesStore;
+  var { store } = useContext(MainContext);
+  var [state, dispatch] = store;
   if (!movie) return null;
   return (
     <div>
@@ -32,9 +32,9 @@ export default function MovieDetails({ movie, match }) {
   async function onDeleteMovie(event) {
     event.preventDefault();
     var movies = await deleteMovie(movie.id)
-    moviesDispatch({
+    dispatch({
       type: "LOAD",
-      payload: { movies }
+      payload: { ...state, movies: [...movies] }
     })
     history.push(moviesManagementUrl)
 

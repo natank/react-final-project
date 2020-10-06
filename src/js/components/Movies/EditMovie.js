@@ -6,10 +6,10 @@ import { updateMovie } from '../../Model/movie-model'
 import { compareItemId } from '../../Utils/utils'
 
 export default function EditMovie({ match }) {
-    var { moviesStore } = useContext(MainContext);
-    var [moviesState, moviesDispatch] = moviesStore;
+    var { store } = useContext(MainContext);
+    var [state, dispatch] = store;
     var movieId = match.params.id;
-    var { movies } = moviesState;
+    var { movies } = state;
 
     var editedMovie = movies.find(compareItemId(movieId))
 
@@ -28,9 +28,9 @@ export default function EditMovie({ match }) {
         var details = { ...movieDetails }
         details.generes = details.generes.split(',')
         var movies = await updateMovie(details);
-        moviesDispatch({
+        dispatch({
             type: "LOAD",
-            payload: { movies }
+            payload: { ...state, movies: [...movies] }
         })
     }
 }

@@ -1,16 +1,16 @@
 import React, { useState, useContext } from 'react';
-import { Link } from 'react-router-dom';
+import { Link, useHistory } from 'react-router-dom';
 
 import MemberSubscriptions from './MemberSubscriptions'
 import SubscriptionForm from './SubscriptionForm'
 import { MainContext } from '../../Context/main-context'
 
-import { addMemberSubscription } from '../../Model/member-model'
+import { addMemberSubscription, deleteMember } from '../../Model/member-model'
 
 export default function MemberDetails({ member, match }) {
-  var { membersStore } = useContext(MainContext)
-  var [membersState, membersDispatch] = membersStore;
-
+  var history = useHistory();
+  var { store, membersManagementUrl } = useContext(MainContext)
+  var [state, dispatch] = store;
   var [subscriptionFormActive, setSubscriptionsFormActive] = useState(false)
   if (member) {
     var memberId = member.id;
@@ -19,9 +19,9 @@ export default function MemberDetails({ member, match }) {
         <h3>{member.name}</h3>
         <p>{`Email: ${member.email}`}</p>
         <Link to={`${match.url}/edit/${member.id}`}>
-          <input type="button" value="Edit" onClick={() => { }} />
+          <input type="button" value="Edit" />
         </Link>
-        <input type="button" value="Delete" onClick={() => { }} />
+        <input type="button" value="Delete" onClick={onDeleteMember} />
 
         <h4>Movies Watched</h4>
         <input type="button" value="Subscribe to new movie" onClick={onSubscribeClick} />
@@ -44,9 +44,19 @@ export default function MemberDetails({ member, match }) {
 
   async function onSubscription(subscriptionDetails) {
     var members = await addMemberSubscription(subscriptionDetails)
-    membersDispatch({
+    dispatch({
       type: "LOAD",
-      payload: { members }
+      payload: { ...state, members: [...members] }
     })
+  }
+
+  async function onDeleteMember(e) {
+    e.preventDefault();
+    var members = await deleteMember(member.id);
+    dispatch({
+      type: "LOAD",
+      payload: { ...state, members: [...members] }
+    })
+
   }
 }

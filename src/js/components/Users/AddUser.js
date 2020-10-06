@@ -7,11 +7,13 @@ import { createUserPermissions } from '../../Model/user-permissions-model'
 
 import UserForm from './UserForm'
 export default function AddUser(userDetails, userPermissions) {
-  var { usersStore, usersPermissionsStore } = useContext(MainContext);
+  var { store } = useContext(MainContext);
+  var [state, dispatch] = store;
+  var { users, usersPermissions } = state;
+
   var { usersManagementUrl } = useContext(UsersManagementContext)
 
-  var [usersState, usersDispatch] = usersStore;
-  var [usersPermissionsState, usersPermissionsDispatch] = usersPermissionsStore;
+
   var history = useHistory()
   return (
     <div>
@@ -23,15 +25,11 @@ export default function AddUser(userDetails, userPermissions) {
   async function onCreateUser(userDetails, userPermissions) {
     var { users, id } = await createUser(userDetails)
     var usersPermissions = await createUserPermissions(userPermissions, id)
-    usersDispatch({
+    dispatch({
       type: "LOAD",
-      payload: { users }
+      payload: { ...state, users: [...users], usersPermissions: [...usersPermissions] }
     })
-    usersPermissionsDispatch({
-      type: "LOAD",
-      payload: { usersPermissions }
 
-    })
     history.push(usersManagementUrl)
   }
 }

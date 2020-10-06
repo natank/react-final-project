@@ -5,8 +5,8 @@ import { MainContext } from '../../Context/main-context'
 import { addMovie } from '../../Model/movie-model'
 
 export default function AddMovie(props) {
-  var { moviesStore } = useContext(MainContext);
-  var [moviesState, moviesDispatch] = moviesStore;
+  var { store } = useContext(MainContext);
+  var [state, dispatch] = store;
 
 
   return (
@@ -21,9 +21,9 @@ export default function AddMovie(props) {
     var details = { ...movieDetails }
     details.generes = details.generes.split(',')
     var movies = await addMovie(details);
-    moviesDispatch({
+    dispatch({
       type: "LOAD",
-      payload: { movies }
+      payload: { ...state, movies: [...movies] }
     })
   }
 }

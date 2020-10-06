@@ -7,16 +7,13 @@ import { updateUserPermissions } from '../../Model/user-permissions-model'
 import { UsersManagementContext } from '../../Context/users-management-context'
 import { compareItemId } from '../../Utils/utils'
 export default function EditUser({ match }) {
-    var { usersStore, usersPermissionsStore } = useContext(MainContext);
+    var { store } = useContext(MainContext);
 
-    var [usersState, usersDispatch] = usersStore;
-
-    var [usersPermissionsState, usersPermissionsDispatch] = usersPermissionsStore;
+    var [state, dispatch] = store;
 
     var userId = match.params.id;
 
-    var { users } = usersState
-    var { usersPermissions } = usersPermissionsState
+    var { users, usersPermissions } = state
 
     var editedUser = users.find(compareItemId(userId))
     var editedUserPermissions = usersPermissions.find(function compareUserPermissionsId(userPermissions) {
@@ -41,13 +38,9 @@ export default function EditUser({ match }) {
     async function onUpdateUser(userDetails, userPermissions) {
         users = await updateUser(userDetails)
         usersPermissions = await updateUserPermissions(userPermissions)
-        usersDispatch({
+        dispatch({
             type: "LOAD",
-            payload: { users }
-        })
-        usersPermissionsDispatch({
-            type: "LOAD",
-            payload: { usersPermissions }
+            payload: { ...state, users: [...users], usersPermissions: [...usersPermissions] }
         })
         history.push(usersManagementUrl)
     }

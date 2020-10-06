@@ -7,9 +7,9 @@ import { MainContext } from '../../Context/main-context';
 export default function MemberSubscriptions({ member }) {
 
   var [subscriptionFormActive, setSubscriptionsFormActive] = useState(false)
-  const { moviesStore, moviesManagementUrl } = useContext(MainContext)
-  var [moviesState, moviesDispatch] = moviesStore;
-  var allMovies = [...moviesState.movies]
+  const { store, moviesManagementUrl } = useContext(MainContext)
+  var [state, dispatch] = store;
+  var allMovies = [...state.movies]
   var subscribedMovies = member.movies
   const memberId = member.id;
   if (subscribedMovies)

@@ -7,9 +7,8 @@ function AllUsers({ match }) {
 
   var { store } = useContext(MainContext)
 
-  debugger
   var [state, dispatch] = store;
-  debugger
+
   var { users, usersPermissions } = state
 
   return (

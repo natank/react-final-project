@@ -5,8 +5,8 @@ import { MainContext } from '../../Context/main-context';
 import { addMember } from '../../Model/member-model'
 
 export default function AddMember(props) {
-  var { membersStore } = useContext(MainContext);
-  var [membersState, membersDispatch] = membersStore;
+  var { store } = useContext(MainContext);
+  var [state, dispatch] = store;
 
   return (
     <div>
@@ -22,9 +22,9 @@ export default function AddMember(props) {
   async function onCreateMember(memberDetails) {
     var details = { ...memberDetails }
     var members = await addMember(details);
-    membersDispatch({
+    dispatch({
       type: "LOAD",
-      payload: { members }
+      payload: { ...state, members: [...members] }
     })
   }
 }

@@ -5,12 +5,11 @@ import MembersNav from './MembersNav';
 
 export default function AllMembers({ match }) {
 
-  var context = useContext(MainContext)
-  var { membersStore } = context
+  var { store } = useContext(MainContext)
 
-  var [membersState, membersDispatch] = membersStore;
+  var [state, dispatch] = store;
 
-  var members = membersState.members;
+  var { members } = state;
 
   return (
     <div>
