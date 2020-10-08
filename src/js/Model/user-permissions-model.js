@@ -1,3 +1,6 @@
+import { firestore } from '../API/firebase'
+import { collectIdsAndDocs } from '../Utils/utils'
+
 var usersPermissions = [
   {
     id: 1,
@@ -35,6 +38,11 @@ var usersPermissions = [
   }]
 
 export async function getUsersPermissions() {
+  const snapshot = await firestore.collection('usersPermissions').get();
+  var items = snapshot.docs.map(collectIdsAndDocs)
+
+  return items;
+
   return new Promise((resolve, reject) => {
     setTimeout(function resolveWithPermissions() {
       resolve(usersPermissions)

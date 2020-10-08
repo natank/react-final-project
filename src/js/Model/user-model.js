@@ -1,4 +1,5 @@
-import { reject } from "lodash";
+import { firestore } from '../API/firebase'
+import { collectIdsAndDocs } from '../Utils/utils'
 
 var users = [
   {
@@ -36,6 +37,13 @@ export async function updateUser(userDetails) {
 }
 
 export async function createUser(user) {
+  const docRef = await firestore.collection('users').add(user)
+  const doc = await docRef.get()
+
+  const newUser = collectIdsAndDocs(doc);
+
+  return newUser
+
   var id = users.length == 0 ? 1 : users[users.length - 1].id + 1;
   user.id = id
   users = [...users, user]
@@ -55,10 +63,9 @@ export async function deleteUser(id) {
 
 
 export async function getUsers() {
-  return new Promise((resolve, reject) => {
-    setTimeout(function resolveWithUsers() {
-      resolve([...users])
-    }, 0)
-  })
+  const snapshot = await firestore.collection('users').get();
+  var users = snapshot.docs.map(collectIdsAndDocs)
+
+  return users;
 }
 
