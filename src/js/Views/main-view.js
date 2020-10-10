@@ -1,12 +1,13 @@
-import React from 'react'
+import React, { useContext } from 'react'
 import { BrowserRouter as Router, Switch, Route, useRouteMatch } from 'react-router-dom';
 import SubscriptionsManagementView from './subscriptions-management-view';
 import UsersManagementView from './users-management-view'
 import MoviesManagementView from './movies-management-view'
 import MainNav from '../components/MainNav';
 import Login from '../components/Login';
-import { MainContextProvider } from '../Context/main-context';
-export default function Main() {
+import { MainContext, MainContextProvider } from '../Context/main-context';
+
+function MainView() {
   const match = useRouteMatch();
   const mainRoutes = [
     {
@@ -27,24 +28,34 @@ export default function Main() {
     }
   ]
 
-  return (
-    <MainContextProvider>
-      <Router>
-        <Route path={`${match.url}`}>
-          <div>
-            <h1>Main Page</h1>
-            <MainNav routes={mainRoutes} />
-          </div>
-        </Route>
+  var { store } = useContext(MainContext);
+  var [state, dispatch] = store;
+  var { currUser } = state;
 
-        <Switch>
-          <Route path={`${match.url}/movies`} component={MoviesManagementView} />
-          <Route path={`${match.url}/subscriptions`} component={SubscriptionsManagementView} />
-          <Route path={`${match.url}/usersManagement`} component={UsersManagementView} />
-          <Route path={`/`} exact component={Login} />
-        </Switch>
-      </Router>
-    </MainContextProvider>
+  return (
+    <Router>
+      <Route path={`${match.url}`}>
+        <div>
+          <h1>Main Page</h1>
+          <MainNav routes={mainRoutes} />
+        </div>
+      </Route>
+
+      <Switch>
+        <Route path={`${match.url}/movies`} component={MoviesManagementView} />
+        <Route path={`${match.url}/subscriptions`} component={SubscriptionsManagementView} />
+        <Route path={`${match.url}/usersManagement`} component={UsersManagementView} />
+        <Route path={`/`} exact component={Login} />
+      </Switch>
+    </Router>
   )
 
+}
+
+export default function Main(props) {
+  return (
+    <MainContextProvider>
+      <MainView />
+    </MainContextProvider>
+  )
 }

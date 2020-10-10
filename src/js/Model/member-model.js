@@ -3,42 +3,25 @@ import { collectIdsAndDocs } from './utils'
 
 import { getItems, addItem, updateItem, deleteItem } from './utils'
 
+import Model from './Model'
+
+var memberModel = new Model({ collectionName: "members", docName: "member" })
 
 
-var members = [
-  {
-    id: 1,
-    name: "George Clouny",
-    email: "gc1@gmail.com",
-    city: "Los Angeles",
-    movies: [
-      { movieId: 3, date: "2015-12-01" },
-      { movieId: 4, date: "2018-11-21" },
-    ]
-  }
-]
 export async function getMembers() {
-  const snapshot = await firestore.collection('members').get();
-  var items = snapshot.docs.map(collectIdsAndDocs)
-
-  return items;
+  return memberModel.getCollectionDocs()
 }
 
 export async function createMember(newMember) {
-  const docRef = await firestore.collection('members').add(newMember)
-  const doc = await docRef.get()
-
-  const newItem = collectIdsAndDocs(doc);
-
-  return newItem
+  return memberModel.createDoc(newMember)
 }
 
-export async function updateMember(memberDetails) {
-  return updateItem(members, memberDetails)
+export async function updateMember(memberId, memberDetails) {
+  return memberModel.updateDoc(memberId, memberDetails)
 }
 
 export async function deleteMember(memberId) {
-  return deleteItem(members, memberId)
+  memberModel.deleteDoc(memberId)
 }
 
 export async function addMemberSubscription(subscriptionDetails) {

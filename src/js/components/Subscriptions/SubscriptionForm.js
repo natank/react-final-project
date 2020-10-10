@@ -4,11 +4,9 @@ import { MainContext } from '../../Context/main-context'
 
 export default function SubscriptionForm({ onFormCancel, onSubscription, memberId }) {
 
-  var { moviesStore, membersStore } = useContext(MainContext);
-  var [moviesState, moviesDispatch] = moviesStore;
-  var [membersState, membersDispatch] = membersStore;
-  var { members } = membersState;
-  var { movies } = moviesState;
+  var { store } = useContext(MainContext);
+  var [state, dispatch] = store;
+  var { members, movies } = state;
 
   var memberDetails = members.find(member => member.id == memberId)
   var moviesNotWatched = movies.filter(currMovie => {

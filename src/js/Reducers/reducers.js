@@ -55,7 +55,10 @@ export function membersReducer(previousState, action) {
   switch (action.type) {
     case "ADD_MEMBER":
       return collection.addItem(action.payload.member)
-
+    case "REMOVE_MEMBER":
+      return collection.removeItem(action.payload.memberId)
+    case "UPDATE_MEMBER":
+      return collection.updateItem(action.payload.member)
     case "LOAD":
       return collection.loadItems(action.payload.members)
     default:
@@ -63,3 +66,6 @@ export function membersReducer(previousState, action) {
   }
 }
 
+export function currUserReducer(previousState, action) {
+
+}

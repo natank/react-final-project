@@ -5,7 +5,7 @@ import MemberSubscriptions from './MemberSubscriptions'
 import SubscriptionForm from './SubscriptionForm'
 import { MainContext } from '../../Context/main-context'
 
-import { addMemberSubscription, deleteMember } from '../../Model/member-model'
+import { addMemberSubscription, deleteMember, updateMember } from '../../Model/member-model'
 
 export default function MemberDetails({ member, match }) {
   var history = useHistory();
@@ -43,19 +43,28 @@ export default function MemberDetails({ member, match }) {
   }
 
   async function onSubscription(subscriptionDetails) {
-    var members = await addMemberSubscription(subscriptionDetails)
+    var { movieId, date } = subscriptionDetails
+    var movies = [...member.movies, { movieId, date }];
+    var updatedDetails = { ...member, movies }
+    var updatedMemberDetails = await updateMember(memberId, updatedDetails)
+
     dispatch({
-      type: "LOAD",
-      payload: { ...state, members: [...members] }
+      type: "UPDATE_MEMBER",
+      payload: { member: updatedMemberDetails }
     })
   }
 
-  async function onDeleteMember(e) {
-    e.preventDefault();
-    var members = await deleteMember(member.id);
+  async function onDeleteMember(event) {
+    event.preventDefault();
+    var memberId = member.id;
+    try {
+      await deleteMember(member.id)
+    } catch (err) {
+      console.log(err)
+    }
     dispatch({
-      type: "LOAD",
-      payload: { ...state, members: [...members] }
+      type: "REMOVE_MEMBER",
+      payload: { memberId }
     })
 
   }

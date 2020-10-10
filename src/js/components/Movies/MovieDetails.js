@@ -1,11 +1,9 @@
 import React, { useContext } from 'react';
 import { Link, useHistory } from 'react-router-dom';
 import { MainContext } from '../../Context/main-context';
-import { MoviesManagementContext } from '../../Context/movies-management-context';
 import { deleteMovie } from '../../Model/movie-model'
 import MovieSubscriptions from './MovieSubscriptions'
 export default function MovieDetails({ movie, match }) {
-  const { moviesManagementUrl } = useContext(MoviesManagementContext)
   var history = useHistory();
   var { store } = useContext(MainContext);
   var [state, dispatch] = store;

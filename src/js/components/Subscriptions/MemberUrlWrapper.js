@@ -1,19 +1,19 @@
-import React, {useContext} from 'react'
-import {MainContext} from "../../Context/main-context"
+import React, { useContext } from 'react'
+import { MainContext } from "../../Context/main-context"
 import MemberDetails from './MemberDetails'
 
-export default function MemberUrlWrapper({match}){
-    var {membersStore} = useContext(MainContext);
+export default function MemberUrlWrapper({ match }) {
+    var { store } = useContext(MainContext);
 
-    var [membersState, membersDispatch] = membersStore;
-    var {members}= membersState;
+    var [state, dispatch] = store;
+    var { members } = state;
 
-    var member = members.find(member=> member.id = match.params.id)
-    
-    
+    var member = members.find(member => member.id = match.params.id)
 
 
-    return(
-        <MemberDetails {...{member, match}}/>
+
+
+    return (
+        <MemberDetails {...{ member, match }} />
     )
 }
