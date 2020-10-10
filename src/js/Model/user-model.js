@@ -1,71 +1,39 @@
 import { firestore } from '../API/firebase'
-import { collectIdsAndDocs } from '../Utils/utils'
-
-var users = [
-  {
-    id: 1,
-    firstName: "Abraham",
-    lastName: "Cohen",
-    userName: "avi@gmail.com",
-    sessionTimeOut: 20,
-    createdDate: "11/12/1998"
-  },
-  {
-    id: 3,
-    firstName: "Meir",
-    lastName: "Gotlib",
-    userName: "gotlib@gmail.com",
-    sessionTimeOut: 60,
-    createdDate: "11/12/1998"
-  }
-
-]
+import { collectIdsAndDocs } from './utils'
 
 
-
-export async function updateUser(userDetails) {
-  if (!userDetails.id) throw (new Error("Update user failed: missing id"))
-
-  let user = users.find(user => user.id == userDetails.id);
-  if (!user) throw (new ReferenceError("Update user failed: user not found"))
-  for (var key in userDetails) {
-    user[key] = userDetails[key]
-  }
-  return new Promise(function getUpdatedUser(resolve, reject) {
-    setTimeout(function resolveUpdatedUser() { resolve(users) }, 0)
+export async function updateUser(id, userDetails) {
+  if (!id) throw (new Error("Update user failed: missing id"))
+  await firestore.collection('users').doc(id).update({
+    ...userDetails
   })
+
+  var doc = await firestore.collection("users").doc(id).get();
+  var user = collectIdsAndDocs(doc)
+
+  return user
+
 }
 
 export async function createUser(user) {
   const docRef = await firestore.collection('users').add(user)
   const doc = await docRef.get()
 
-  const newUser = collectIdsAndDocs(doc);
+  const newItem = collectIdsAndDocs(doc);
 
-  return newUser
+  return newItem
 
-  var id = users.length == 0 ? 1 : users[users.length - 1].id + 1;
-  user.id = id
-  users = [...users, user]
-  return new Promise(function getUpdatedUsers(resolve, reject) {
-    setTimeout(function resolveUpdatedUsersList() {
-      resolve({ users, id })
-    })
-  })
 }
 
 export async function deleteUser(id) {
-  users = users.filter(user => user.id !== id)
-  return new Promise(function getListAfterDeleting(resolve, reject) {
-    setTimeout(function resolveUsers() { resolve(users) }, 0)
-  })
+  await firestore.collection('users').doc(id).delete()
 }
 
 
 export async function getUsers() {
   const snapshot = await firestore.collection('users').get();
-  var users = snapshot.docs.map(collectIdsAndDocs)
+  var items = snapshot.docs.map(collectIdsAndDocs)
 
-  return users;
+  return items;
 }
 

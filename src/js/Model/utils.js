@@ -30,3 +30,9 @@ function getDelayedResponseArr(arr, timeout) {
     }, timeout)
   })
 }
+
+export function collectIdsAndDocs(doc) {
+  const id = doc.id;
+  const data = doc.data();
+  return { ...data, id }
+}

@@ -20,6 +20,7 @@ export function MainContextProvider(props) {
   const store = useMemo(() => [state, dispatch], [state])
   var match = useRouteMatch()
 
+
   var urls = {
     membersManagementUrl: `${match.url}/subscriptions`,
     moviesManagementUrl: `${match.url}/movies`
@@ -32,7 +33,7 @@ export function MainContextProvider(props) {
 
   return (
     <MainContext.Provider value={{ store, ...urls }}>
-      { props.children}
+      {props.children}
     </MainContext.Provider >
   )
 
@@ -55,7 +56,7 @@ export function MainContextProvider(props) {
 }
 
 const combineReducers = (slices) => (state, action) =>
-  Object.keys(slices).reduce( // use for..in loop, if you prefer it
+  Object.keys(slices).reduce(
     (acc, prop) => ({
       ...acc,
       [prop]: slices[prop](acc[prop], action),

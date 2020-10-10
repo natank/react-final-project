@@ -25,9 +25,9 @@ export default function AllMovies({ match }) {
 
       <ul>
         {
-          movies.map(function renderMovie(movie) {
+          movies ? movies.map(function renderMovie(movie) {
             return <MovieDetails key={movie.id} {...{ movie, match }} />
-          })
+          }) : null
         }
       </ul>
     </div>

@@ -16,10 +16,10 @@ export default function AllMembers({ match }) {
       <MembersNav match={match} />
       <ul>
         {
-          members.map(function renderMember(member) {
+          members ? members.map(function renderMember(member) {
             var props = { member, match }
             return <MemberDetails key={member.id} {...props} />
-          })
+          }) : null
         }
       </ul>
     </div>

@@ -1,28 +1,65 @@
+import ItemsCollection from './ItemsCollection'
 
 
-export var usersReducer = (function usersRducer() {
-  return reducer("users")
-})()
+export function usersReducer(previousState, action) {
+  var collection = new ItemsCollection(previousState)
+  switch (action.type) {
+    case "ADD_USER":
+      return collection.addItem(action.payload.user)
+    case "UPDATE_USER":
+      return collection.updateItem(action.payload.user)
+    case "LOAD":
+      return collection.loadItems(action.payload.users)
+    case "REMOVE_USER":
+      return collection.removeItem(action.payload.userId)
+    default:
+      return previousState
+  }
+}
 
-export var usersPermissionsReducer = (function usersPermissionsReducer() {
-  return reducer("usersPermissions")
-})()
+export function usersPermissionsReducer(previousState, action) {
+  var collection = new ItemsCollection(previousState)
+  switch (action.type) {
+    case "ADD_USER":
+      return collection.addItem(action.payload.userPermissions)
+    case "UPDATE_USER":
+      return collection.updateItem(action.payload.userPermissions)
+    case "REMOVE_USER":
+      return collection.removeItem(action.payload.userPermissionId)
+    case "LOAD":
+      return collection.loadItems(action.payload.usersPermissions)
+    default:
+      return previousState
+  }
+}
 
 
-export var moviesReducer = (function moviesReducer() {
-  return reducer("movies")
-})()
+export function moviesReducer(previousState, action) {
+  var collection = new ItemsCollection(previousState)
+  switch (action.type) {
+    case "ADD_MOVIE":
+      return collection.addItem(action.payload.movie)
+    case "REMOVE_MOVIE":
+      return collection.removeItem(action.payload.movieId)
+    case "UPDATE_MOVIE":
+      return collection.updateItem(action.payload.movie)
+    case "LOAD":
+      return collection.loadItems(action.payload.movies)
+    default:
+      return previousState
+  }
+}
 
-export var membersReducer = (function membersReducer() {
-  return reducer("members")
-})()
+export function membersReducer(previousState, action) {
+  var collection = new ItemsCollection(previousState)
+  switch (action.type) {
+    case "ADD_MEMBER":
+      return collection.addItem(action.payload.member)
 
-function reducer(collectionName) {
-  return function collectionReducer(state, action) {
-    switch (action.type) {
-      case "LOAD":
-        return [...action.payload[collectionName]]
-    }
+    case "LOAD":
+      return collection.loadItems(action.payload.members)
+    default:
+      return previousState
   }
 }
 

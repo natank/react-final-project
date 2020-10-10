@@ -90,10 +90,9 @@ export default function UserForm({ userDetails, editedUserPermissions, actionTex
 
   async function onFormSubmit(event) {
     event.preventDefault();
-    var userDetails = { id: editedUserId, firstName, lastName, userName, sessionTimeOut }
+    var userDetails = { firstName, lastName, userName, sessionTimeOut }
 
     var userPermissions = {
-      id: editedUserPermissionsId,
       userId: editedUserId,
       userPermissions: {
         subscriptions: {

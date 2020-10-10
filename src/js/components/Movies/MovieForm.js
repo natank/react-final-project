@@ -34,7 +34,7 @@ export default function MovieForm({ movieDetails, actionText, onSubmitCb }) {
     event.preventDefault();
     var inputs = { name, generes, image, premiered }
 
-    var updatedDetails = { id: id }
+    var updatedDetails = id ? { id: id } : {}
     for (const [key, input] of Object.entries(inputs)) {
       updatedDetails[key] = input.value
       input.onReset()

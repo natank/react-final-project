@@ -1,40 +1,26 @@
-import { getItems, addItem, deleteItem, updateItem } from './utils'
-var movies = [
-  {
-    id: 3,
-    name: "Under the dome",
-    generes: ["Genere1", "Genere2"],
-    image: "https://via.placeholder.com/600/771796",
-    premiered: "2014-12-03"
-  },
-  {
-    id: 4,
-    name: "Under the dome 2",
-    generes: ["Genere1", "Genere2"],
-    image: "https://via.placeholder.com/600/771796",
-    premiered: "2019-10-09"
-  },
-  {
-    id: 5,
-    name: "Piano",
-    generes: ["Genere1", "Genere2"],
-    image: "https://via.placeholder.com/600/771796",
-    premiered: "2019-10-09"
-  }
-]
+import { firestore } from '../API/firebase';
+import { collectIdsAndDocs } from './utils'
 
-export function getMovies() {
-  return getItems(movies)
+export async function getMovies() {
+  var snapshot = await firestore.collection('movies').get();
+  var items = snapshot.docs.map(collectIdsAndDocs)
+  return items
 }
 
-export function addMovie(newMovie) {
-  return addItem(movies, newMovie)
+export async function createMovie(movie) {
+  const docRef = await firestore.collection('movies').add(movie)
+  const doc = await docRef.get()
+  return collectIdsAndDocs(doc)
 }
 
-export function deleteMovie(movieId) {
-  return deleteItem(movies, movieId)
+export async function deleteMovie(id) {
+  await firestore.collection('movies').doc(id).delete()
 }
 
-export function updateMovie(newMovie) {
-  return updateItem(movies, newMovie)
+export async function updateMovie(id, newMovie) {
+  if (!id) throw (new Error("Update movie failed: missing id"))
+  await firestore.collection('movies').doc(id).update({ ...newMovie })
+  var doc = await firestore.collection("movies").doc(id).get()
+  var movie = collectIdsAndDocs(doc);
+  return movie
 }

@@ -2,7 +2,7 @@ import React, { useContext } from 'react';
 import MembersNav from './MembersNav';
 import MemberForm from './MemberForm';
 import { MainContext } from '../../Context/main-context';
-import { addMember } from '../../Model/member-model'
+import { createMember } from '../../Model/member-model'
 
 export default function AddMember(props) {
   var { store } = useContext(MainContext);
@@ -20,11 +20,11 @@ export default function AddMember(props) {
 
 
   async function onCreateMember(memberDetails) {
-    var details = { ...memberDetails }
-    var members = await addMember(details);
+    var details = { ...memberDetails, movies: [] }
+    var member = await createMember(details);
     dispatch({
-      type: "LOAD",
-      payload: { ...state, members: [...members] }
+      type: "ADD_MEMBER",
+      payload: { member: { ...member } }
     })
   }
 }

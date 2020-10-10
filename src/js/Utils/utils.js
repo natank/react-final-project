@@ -35,8 +35,3 @@ export function today() {
   return currYear + "-" + ((currMonth < 10) ? '0' + currMonth : currMonth) + "-" + ((currDate < 10) ? '0' + currDate : currDate);
 }
 
-export function collectIdsAndDocs(doc) {
-  const id = doc.id;
-  const data = doc.data();
-  return { ...data, id }
-}

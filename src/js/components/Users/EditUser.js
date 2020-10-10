@@ -1,4 +1,4 @@
-import React, { useContext } from 'react'
+import React, { useContext, useState, useEffect } from 'react'
 import { useHistory } from 'react-router-dom'
 import { MainContext } from '../../Context/main-context';
 import UserForm from './UserForm';
@@ -14,14 +14,31 @@ export default function EditUser({ match }) {
     var userId = match.params.id;
 
     var { users, usersPermissions } = state
+    var [componentState, setComponentState] = useState({
+        redirect: false,
+        updatedUserDetails: {},
+        updatedUserPermissions: {}
+    }
+    );
 
     var editedUser = users.find(compareItemId(userId))
     var editedUserPermissions = usersPermissions.find(function compareUserPermissionsId(userPermissions) {
         var result = userPermissions.userId == userId
         return result
     })
+
     var { usersManagementUrl } = useContext(UsersManagementContext)
     var history = useHistory()
+    useEffect(() => {
+        if (componentState.redirect) dispatch({
+            type: "UPDATE_USER",
+            payload: { user: { ...componentState.updatedUserDetails }, userPermissions: { ...componentState.updatedUserPermissions } }
+        })
+    }, [componentState])
+
+    useEffect(() => {
+        componentState.redirect && history.push(usersManagementUrl)
+    })
 
     return (
         <div>
@@ -36,12 +53,14 @@ export default function EditUser({ match }) {
     )
 
     async function onUpdateUser(userDetails, userPermissions) {
-        users = await updateUser(userDetails)
-        usersPermissions = await updateUserPermissions(userPermissions)
-        dispatch({
-            type: "LOAD",
-            payload: { ...state, users: [...users], usersPermissions: [...usersPermissions] }
+        var updatedUserDetails = await updateUser(userId, userDetails)
+        var updatedUserPermissions = await updateUserPermissions(editedUserPermissions.id, userPermissions)
+
+        setComponentState({
+            redirect: true,
+            updatedUserDetails,
+            updatedUserPermissions
         })
-        history.push(usersManagementUrl)
+
     }
 }

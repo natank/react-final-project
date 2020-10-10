@@ -45,15 +45,15 @@ export default function MovieSubscriptions({ movie }) {
   }
 
   function extractMemberFromSubscription(subscription) {
-    return members.find(function (member) {
+    return members ? members.find(function (member) {
       return member.id == subscription.memberId
-    })
+    }) : null
   }
 
 
   function getMovieSubscriptions() {
     // loop through all the members. Filter in members who are subscribed to movie
-    return members.reduce(function createSubscription(acc, member) {
+    return members ? members.reduce(function createSubscription(acc, member) {
       var subscription = member.movies.find(currMovie => currMovie.movieId == movie.id)
       if (subscription) {
         subscription = {
@@ -66,6 +66,6 @@ export default function MovieSubscriptions({ movie }) {
         return [...acc, subscription]
       }
       return acc
-    }, [])
+    }, []) : null
   }
 }

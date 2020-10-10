@@ -31,13 +31,16 @@ export default function MovieDetails({ movie, match }) {
 
   async function onDeleteMovie(event) {
     event.preventDefault();
-    var movies = await deleteMovie(movie.id)
+    var movieId = movie.id;
+    try {
+      await deleteMovie(movie.id)
+    } catch (err) {
+      console.log(err)
+    }
     dispatch({
-      type: "LOAD",
-      payload: { ...state, movies: [...movies] }
+      type: "REMOVE_MOVIE",
+      payload: { movieId }
     })
-    history.push(moviesManagementUrl)
-
   }
 
 }

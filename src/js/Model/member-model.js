@@ -1,3 +1,6 @@
+import { firestore } from '../API/firebase'
+import { collectIdsAndDocs } from './utils'
+
 import { getItems, addItem, updateItem, deleteItem } from './utils'
 
 
@@ -15,11 +18,19 @@ var members = [
   }
 ]
 export async function getMembers() {
-  return getItems(members, 0)
+  const snapshot = await firestore.collection('members').get();
+  var items = snapshot.docs.map(collectIdsAndDocs)
+
+  return items;
 }
 
-export async function addMember(newMember) {
-  return addItem(members, newMember)
+export async function createMember(newMember) {
+  const docRef = await firestore.collection('members').add(newMember)
+  const doc = await docRef.get()
+
+  const newItem = collectIdsAndDocs(doc);
+
+  return newItem
 }
 
 export async function updateMember(memberDetails) {

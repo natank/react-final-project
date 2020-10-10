@@ -2,7 +2,7 @@ import React, { useContext } from 'react';
 import MoviesNav from './MoviesNav';
 import MovieForm from './MovieForm'
 import { MainContext } from '../../Context/main-context'
-import { addMovie } from '../../Model/movie-model'
+import { createMovie } from '../../Model/movie-model'
 
 export default function AddMovie(props) {
   var { store } = useContext(MainContext);
@@ -20,10 +20,10 @@ export default function AddMovie(props) {
   async function onCreateMovie(movieDetails) {
     var details = { ...movieDetails }
     details.generes = details.generes.split(',')
-    var movies = await addMovie(details);
+    var movie = await createMovie(details);
     dispatch({
-      type: "LOAD",
-      payload: { ...state, movies: [...movies] }
+      type: "ADD_MOVIE",
+      payload: { movie: { ...movie } }
     })
   }
 }

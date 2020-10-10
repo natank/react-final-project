@@ -23,11 +23,11 @@ export default function AddUser(userDetails, userPermissions) {
   )
 
   async function onCreateUser(userDetails, userPermissions) {
-    var { users, id } = await createUser(userDetails)
-    var usersPermissions = await createUserPermissions(userPermissions, id)
+    var user = await createUser(userDetails)
+    var userPermissions = await createUserPermissions(userPermissions, user.id)
     dispatch({
-      type: "LOAD",
-      payload: { ...state, users: [...users], usersPermissions: [...usersPermissions] }
+      type: "ADD_USER",
+      payload: { user: { ...user }, userPermissions: { ...userPermissions } }
     })
 
     history.push(usersManagementUrl)

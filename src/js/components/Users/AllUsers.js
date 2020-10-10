@@ -17,6 +17,7 @@ function AllUsers({ match }) {
       <ul>
         {
           users ? users.map(function renderUser(user) {
+            if (!user.id) return null
             let userPermissions = usersPermissions.find(permissions => permissions.userId == user.id)
             if (!userPermissions) return null
             return <UserDetails key={user.id} userPermissions={userPermissions.userPermissions} user={user} match={match} />
