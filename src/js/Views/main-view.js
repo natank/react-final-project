@@ -4,7 +4,7 @@ import SubscriptionsManagementView from './subscriptions-management-view';
 import UsersManagementView from './users-management-view'
 import MoviesManagementView from './movies-management-view'
 import MainNav from '../components/MainNav';
-import Login from '../components/Login';
+import Login from '../components/Auth/Login';
 import { MainContext, MainContextProvider } from '../Context/main-context';
 
 function MainView() {
@@ -30,7 +30,6 @@ function MainView() {
 
   var { store } = useContext(MainContext);
   var [state, dispatch] = store;
-  var { currUser } = state;
 
   return (
     <Router>

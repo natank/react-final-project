@@ -5,6 +5,7 @@ import { MainContext } from '../../Context/main-context'
 import { deleteUser } from '../../Model/user-model'
 import { deleteUserPermissions } from '../../Model/user-permissions-model'
 import { UsersManagementContext } from '../../Context/users-management-context'
+import { deleteUserLogin } from '../../Model/user-login-model';
 
 function UserDetails({ user, userPermissions, match }) {
 
@@ -54,6 +55,7 @@ function UserDetails({ user, userPermissions, match }) {
     var userPermissionsId = userPermissions.id;
     try {
       await deleteUser(userId);
+
       await deleteUserPermissions(userPermissionsId);
     } catch (err) {
       console.log(err)

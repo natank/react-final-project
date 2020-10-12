@@ -2,6 +2,7 @@ import React, { useContext } from 'react';
 import { useHistory } from 'react-router-dom'
 import { MainContext } from '../../Context/main-context'
 import { UsersManagementContext } from '../../Context/users-management-context'
+import { createUserLogin } from '../../Model/user-login-model';
 import { createUser } from '../../Model/user-model'
 import { createUserPermissions } from '../../Model/user-permissions-model'
 
@@ -23,7 +24,8 @@ export default function AddUser(userDetails, userPermissions) {
   )
 
   async function onCreateUser(userDetails, userPermissions) {
-    var user = await createUser(userDetails)
+    var user = await createUser({ ...userDetails })
+
     var userPermissions = await createUserPermissions(userPermissions, user.id)
     dispatch({
       type: "ADD_USER",
