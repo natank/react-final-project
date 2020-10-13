@@ -1,8 +1,3 @@
-import { firestore } from '../API/firebase'
-import { collectIdsAndDocs } from './utils'
-
-import { getItems, addItem, updateItem, deleteItem } from './utils'
-
 import Model from './Model'
 
 var memberModel = new Model({ collectionName: "members", docName: "member" })

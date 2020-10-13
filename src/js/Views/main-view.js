@@ -5,7 +5,6 @@ import UsersManagementView from './users-management-view'
 import MoviesManagementView from './movies-management-view'
 import MainNav from '../components/MainNav';
 import Login from '../components/Auth/Login';
-import { MainContext, MainContextProvider } from '../Context/main-context';
 
 function MainView() {
   const match = useRouteMatch();
@@ -27,9 +26,6 @@ function MainView() {
       url: '/'
     }
   ]
-
-  var { store } = useContext(MainContext);
-  var [state, dispatch] = store;
 
   return (
     <Router>
@@ -53,8 +49,6 @@ function MainView() {
 
 export default function Main(props) {
   return (
-    <MainContextProvider>
-      <MainView />
-    </MainContextProvider>
+    <MainView />
   )
 }

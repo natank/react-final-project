@@ -5,15 +5,15 @@ import { getUsers } from '../Model/user-model'
 import { getMovies } from '../Model/movie-model'
 import { getMembers } from '../Model/member-model';
 
-import { usersReducer, usersPermissionsReducer, moviesReducer, membersReducer, currUserReducer } from '../Reducers/reducers'
+import { usersReducer, usersPermissionsReducer, moviesReducer, membersReducer, authUserReducer } from '../Reducers/reducers'
 
 export var MainContext = createContext();
 
 
 
 export function MainContextProvider(props) {
-  const initialState = { users: [], usersPermissions: [], movies: [], members: [], currUser: null }
-  const rootReducer = combineReducers({ users: usersReducer, usersPermissions: usersPermissionsReducer, movies: moviesReducer, members: membersReducer, currUser: currUserReducer })
+  const initialState = { users: [], usersPermissions: [], movies: [], members: [], authUser: null }
+  const rootReducer = combineReducers({ users: usersReducer, usersPermissions: usersPermissionsReducer, movies: moviesReducer, members: membersReducer, authUser: authUserReducer })
 
   const result = useReducer(rootReducer, initialState)
   const [state, dispatch] = result;

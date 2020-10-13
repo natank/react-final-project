@@ -8,7 +8,7 @@ export async function updateUser(id, userDetails) {
 }
 
 export async function createUser(newUser) {
-  await createUserLogin({ username: newUser.userName })
+  await createUserLogin({ userName: newUser.userName })
   return userModel.createDoc(newUser)
 }
 

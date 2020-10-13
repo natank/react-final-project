@@ -66,6 +66,10 @@ export function membersReducer(previousState, action) {
   }
 }
 
-export function currUserReducer(previousState, action) {
+export function authUserReducer(previousState, action) {
+  switch (action.type) {
+    case "LOGIN_USER":
+      return action.payload
+  }
 
 }

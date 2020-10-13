@@ -23,7 +23,7 @@ export async function deleteUserLogin(userId) {
 }
 
 export async function getUserLoginByUsername(username) {
-  var docref = await firestore.collection("usersLogin").where("username", "==", username)
+  var docref = await firestore.collection("usersLogin").where("userName", "==", username)
   var snapshot = await docref.get();
   if (!snapshot.empty) {
     var userLogin = collectIdsAndDocs(snapshot.docs[0])
