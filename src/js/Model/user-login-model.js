@@ -13,19 +13,20 @@ export async function createUserLogin(newUser) {
 }
 
 export async function deleteUserLogin(userId) {
-  var user = await firestore.collection("users").doc(userId)
-  var userName = user.userName;
-  debugger
-  await deleteUserLoginByUsername(userName)
+  var userDoc = await firestore.collection("users").doc(userId).get()
+  var user = userDoc.data()
 
-  userLoginModel.deleteDoc(userId)
+  var userName = user.userName;
+  var userLoginId = await getUserLoginByUsername(userName)
+
+  userLoginModel.deleteDoc(userLoginId)
 }
 
-export async function deleteUserLoginByUsername(username) {
+export async function getUserLoginByUsername(username) {
   var docref = await firestore.collection("usersLogin").where("username", "==", username)
   var snapshot = await docref.get();
   if (!snapshot.empty) {
     var userLogin = collectIdsAndDocs(snapshot.docs[0])
-    deleteUserLogin(userLogin.id)
+    return userLogin.id
   }
 }

@@ -13,7 +13,7 @@ export async function createUser(newUser) {
 }
 
 export async function deleteUser(userId) {
-  deleteUserLogin(userId)
+  await deleteUserLogin(userId)
   userModel.deleteDoc(userId)
 }
 

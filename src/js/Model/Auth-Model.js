@@ -3,17 +3,24 @@ import CreateAccount from "../components/Auth/CreateAccount";
 import { collectIdsAndDocs } from "./utils";
 
 export async function createAccount({ username, password }) {
-  // check if username exist and free
-  var docRef = await firestore.collection("users").where("userName", "==", username)
+
+
+  var docRef = await firestore.collection("usersLogin").where("username", "==", username)
   var snapshot = await docRef.get()
-  if (!snapshot.empty) {
 
-    var user = collectIdsAndDocs(snapshot.docs[0])
-    console.log(user)
+  if (snapshot.empty) {
+    throw ("user not found")
   } else {
-    console.log("snapshot is empty")
+    var userDoc = snapshot.docs[0]
+    var data = userDoc.data()
+    if (data.password) {
+      throw ("user already taken")
+    }
+    else {
+      await firestore.collection("usersLogin")
+        .doc(userDoc.id)
+        .update({ ...userDoc.data, password })
+    }
   }
-
-
-
+  return
 }

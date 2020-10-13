@@ -29,10 +29,10 @@ const CreateAccount = props => {
   async function handleSubmit(e) {
     e.preventDefault();
     try {
-      createAccount({ username, password })
+      await createAccount({ username, password })
       history.push('/')
     } catch (err) {
-      setErrorMessage(err.message)
+      setErrorMessage(err)
     }
   }
 }
