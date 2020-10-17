@@ -40,7 +40,7 @@ export async function loginUser({ username, password }) {
   var permissionsSnapshot = await permissionsRef.get()
   var [permissionsData] = permissionsSnapshot.docs
   var permissions = permissionsData.data().userPermissions
-  debugger
+
   return { ...user, permissions }
 
 }

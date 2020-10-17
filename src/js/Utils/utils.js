@@ -1,3 +1,5 @@
+import { Route } from "react-router-dom";
+
 export function permissionsToString(permissions) {
   let permissionsText = {
     view: "View",
@@ -35,3 +37,56 @@ export function today() {
   return currYear + "-" + ((currMonth < 10) ? '0' + currMonth : currMonth) + "-" + ((currDate < 10) ? '0' + currDate : currDate);
 }
 
+
+
+
+export function checkAccsessToRoute(route, user) {
+  console.log("check access to route")
+  if (!user) return false;
+  var routePermissions = getRoutePermissions(route);
+  if (!routePermissions) return true;
+  var userPermissions = user.permissions;
+  for (var collection in routePermissions) {
+    for (var action in routePermissions[collection]) {
+      var userPermission = userPermissions[collection][action]
+      var routePermission = routePermissions[collection][action]
+      if (userPermission == false && routePermission == true)
+        return false
+    }
+  }
+  return true;
+
+}
+
+function getRoutePermissions(route) {
+  var requiredPermissions = [{
+    route: `/main/movies`,
+    permissions: {
+      movies: {
+        view: true
+      }
+    }
+  },
+  {
+    route: `/main/subscriptions`,
+    permissions: {
+      subscriptions: {
+        view: true
+      }
+    }
+  },
+  {
+    route: `/main/usersManagement`,
+    permissions: {
+      users: {
+        view: true
+      }
+    }
+  }]
+
+  var routePermissions = requiredPermissions.find(function compareRoutes(permission) {
+    return permission.route == route
+  })
+  if (!routePermissions) return null
+  return routePermissions.permissions
+}

@@ -4,7 +4,7 @@ import { Route, Switch } from 'react-router-dom';
 import Login from './components/Auth/Login'
 import CreateAccount from './components/Auth/CreateAccount'
 import Main from './Views/main-view'
-
+import PrivateRoute from './components/Auth/PrivateRoute'
 function App(props) {
   return (
     <div>
@@ -13,7 +13,10 @@ function App(props) {
       <Switch>
         <Route path="/" exact><Login /></Route>
         <Route path="/createAccount" exact><CreateAccount /></Route>
-        <Route path="/main"><Main /></Route>
+        <Route path="/main">
+          <PrivateRoute {...{ component: Main }}></PrivateRoute>
+
+        </Route>
       </Switch>
     </div>
 
