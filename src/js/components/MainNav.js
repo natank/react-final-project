@@ -1,11 +1,11 @@
 import React, { useContext } from 'react'
 import { Link } from 'react-router-dom'
 import { MainContext } from '../Context/main-context'
-
+import { checkAccessToRoute } from '../Utils/utils'
 function MainNav({ routes }) {
   var { store } = useContext(MainContext)
   var [state, dispatch] = store;
-
+  var { authUser } = state
   return (
     <nav>
       <ul>
@@ -23,18 +23,21 @@ function MainNav({ routes }) {
     })
   }
 
+
+
+  function getRoute(route, key) {
+    var isAuthorized = checkAccessToRoute(route.url, authUser)
+    return (
+
+      isAuthorized ?
+        <li key={key}>
+          < Link to={route.url} >
+            <button type="button" >{route.title}</button>
+          </Link >
+        </li > : null
+
+    )
+  }
 }
-
-function getRoute(route, key) {
-  return (
-
-    <li key={key}>
-      <Link to={route.url}>
-        <button type="button" >{route.title}</button>
-      </Link>
-    </li>
-  )
-}
-
 
 export default MainNav;

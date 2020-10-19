@@ -22,8 +22,8 @@ export function MainContextProvider(props) {
 
 
   var urls = {
-    membersManagementUrl: `${match.url}/subscriptions`,
-    moviesManagementUrl: `${match.url}/movies`
+    membersManagementUrl: `${match.url}main/subscriptions`,
+    moviesManagementUrl: `${match.url}main/movies`
   }
 
   useEffect(() => {

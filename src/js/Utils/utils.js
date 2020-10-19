@@ -40,8 +40,8 @@ export function today() {
 
 
 
-export function checkAccsessToRoute(route, user) {
-  console.log("check access to route")
+export function checkAccessToRoute(route, user) {
+  debugger
   if (!user) return false;
   var routePermissions = getRoutePermissions(route);
   if (!routePermissions) return true;
@@ -60,7 +60,7 @@ export function checkAccsessToRoute(route, user) {
 
 function getRoutePermissions(route) {
   var requiredPermissions = [{
-    route: `/main/movies`,
+    route: new RegExp(`^(/main/movies)$`),
     permissions: {
       movies: {
         view: true
@@ -68,7 +68,7 @@ function getRoutePermissions(route) {
     }
   },
   {
-    route: `/main/subscriptions`,
+    route: new RegExp(`^(/main/subscriptions)$`),
     permissions: {
       subscriptions: {
         view: true
@@ -76,17 +76,96 @@ function getRoutePermissions(route) {
     }
   },
   {
-    route: `/main/usersManagement`,
+    route: new RegExp(`^(/main/usersManagement)$`),
     permissions: {
       users: {
         view: true
       }
     }
-  }]
+  },
+  {
+    route: new RegExp(`^(/main/movies/add)$`),
+    permissions: {
+      movies: {
+        create: true
+      }
+    }
+  },
+  {
+    route: new RegExp(`^/main/movies/edit/\w*`),
+    permissions: {
+      movies: {
+        edit: true
+      }
+    }
+  },
+  {
+    route: new RegExp(`^/main/movies/delete/\w*`),
+    permissions: {
+      movies: {
+        delete: true
+      }
+    }
+  },
+  {
+    route: new RegExp(`^(/main/subscriptions/add)$`),
+    permissions: {
+      subscriptions: {
+        create: true
+      }
+    }
+  },
+  {
+    route: new RegExp(`^/main/subscriptions/edit/\w*`),
+    permissions: {
+      subscriptions: {
+        edit: true
+      }
+    }
+  },
+  {
+    route: new RegExp(`^/main/subscriptions/delete/\w*`),
+    permissions: {
+      subscriptions: {
+        delete: true
+      }
+    }
+  },
+  {
+    route: new RegExp(`^(/main/usersManagement/add)$`),
+    permissions: {
+      users: {
+        create: true
+      }
+    }
+  },
+  {
+    route: new RegExp(`^/main/usersManagement/edit/\w*`),
+    permissions: {
+      users: {
+        edit: true
+      }
+    }
+  },
+  {
+    route: new RegExp(`^/main/usersManagement/delete/\w*`),
+    permissions: {
+      users: {
+        delete: true
+      }
+    }
+  }
+  ]
 
   var routePermissions = requiredPermissions.find(function compareRoutes(permission) {
-    return permission.route == route
+    // return permission.route == route
+    // var re = new RegExp(permission.route)
+    var result = permission.route.test(route)
+
+    return result
   })
+
   if (!routePermissions) return null
+
   return routePermissions.permissions
 }

@@ -6,13 +6,19 @@ import { deleteUser } from '../../Model/user-model'
 import { deleteUserPermissions } from '../../Model/user-permissions-model'
 import { UsersManagementContext } from '../../Context/users-management-context'
 import { deleteUserLogin } from '../../Model/user-login-model';
+import { checkAccessToRoute } from '../../Utils/utils'
 
 function UserDetails({ user, userPermissions, match }) {
 
 
   var { store } = useContext(MainContext)
   var [state, dispatch] = store;
-  if (user && userPermissions)
+  var { authUser } = state
+  if (user && userPermissions) {
+    var editUserRoute = `${match.url}/edit/${user.id}`
+    var deleteUserRoute = `${match.url}/delete/${user.id}`
+    var isUserAllowedToDelete = checkAccessToRoute(deleteUserRoute, authUser)
+    var isUserAllowedToEdit = checkAccessToRoute(editUserRoute, authUser)
     return (
       <div>
         <div>
@@ -36,14 +42,21 @@ function UserDetails({ user, userPermissions, match }) {
           <span id="username"></span>
         </div>
         <ul>
-          <li>
-            <Link to={`${match.url}/edit/${user.id}`}>
-              <input type="button" value="Edit" />
-            </Link>
-          </li>
+          {isUserAllowedToEdit
+            ? <li>
+              <Link to={editUserRoute}>
+                <input type="button" value="Edit" />
+              </Link>
+            </li>
+            : null
+          }
         </ul>
-        <input type="button" value="Delete" onClick={onDeleteUser} />
+        {isUserAllowedToDelete
+          ? <input type="button" value="Delete" onClick={onDeleteUser} />
+          : null
+        }
       </div>)
+  }
   else return null
 
 

@@ -6,7 +6,7 @@ import AllMovies from '../components/Movies/AllMovies';
 import AddMovie from '../components/Movies/AddMovie';
 import EditMovie from '../components/Movies/EditMovie'
 import MovieUrlWrapper from '../components/Movies/MovieUrlWrapper'
-
+import PrivateRoute from '../components/Auth/PrivateRoute'
 
 export default function MoviesManagement({ match }) {
 
@@ -14,9 +14,16 @@ export default function MoviesManagement({ match }) {
     <MoviesManagementContextProvider match={match}>
       <h1>Movies</h1>
       <Switch>
-        <Route path={`${match.url}/add`} component={AddMovie} />
-        <Route exact path={`${match.url}`} component={AllMovies} />
-        <Route path={`${match.url}/edit/:id`} component={EditMovie} />
+        <Route path={`${match.url}/add`}>
+          <PrivateRoute {...{ component: AddMovie }} />
+        </Route>
+
+        <Route exact path={`${match.url}`}>
+          <PrivateRoute {...{ component: AllMovies }} />
+        </Route>
+        <Route path={`${match.url}/edit/:id`}>
+          <PrivateRoute {...{ component: EditMovie }} />
+        </Route>
         <Route path={`${match.url}/:id`} component={MovieUrlWrapper} />
       </Switch>
     </MoviesManagementContextProvider>
