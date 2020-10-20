@@ -5,7 +5,7 @@ import { checkAccessToRoute } from '../Utils/utils'
 function MainNav({ routes }) {
   var { store } = useContext(MainContext)
   var [state, dispatch] = store;
-  var { authUser } = state
+  var { authUser } = state 
   return (
     <nav>
       <ul>
