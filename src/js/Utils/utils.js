@@ -41,7 +41,6 @@ export function today() {
 
 
 export function checkAccessToRoute(route, user) {
-  debugger
   if (!user) return false;
   var routePermissions = getRoutePermissions(route);
   if (!routePermissions) return true;

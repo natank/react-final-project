@@ -41,7 +41,7 @@ const Login = props => {
         <div className="form__field">
           <label htmlFor="password">password:</label>
           <input id="password" type="password" value={password}
-            onChange={e => setPassword(e.target.value)} />
+            onChange={e => setPassword(e.target.value)} autoComplete="on" />
           <p>{errorMessage}</p>
         </div>
         <input type="submit" value="Login" />

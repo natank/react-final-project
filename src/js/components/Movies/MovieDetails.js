@@ -4,13 +4,16 @@ import { MainContext } from '../../Context/main-context';
 import { deleteMovie } from '../../Model/movie-model'
 import MovieSubscriptions from './MovieSubscriptions'
 import { checkAccessToRoute } from '../../Utils/utils'
+
+
 export default function MovieDetails({ movie, match }) {
-  var history = useHistory();
+  
+  if (!movie) return null;
+  
   var { store } = useContext(MainContext);
   var [state, dispatch] = store;
   var { authUser } = state
 
-  if (!movie) return null;
 
   var editMovieRoute = `${match.url}/edit/${movie.id}`
   var deleteMovieRoute = `${match.url}/delete/${movie.id}`
