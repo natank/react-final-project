@@ -19,7 +19,7 @@ function MainNav({ routes }) {
   function onLogout(event) {
     event.preventDefault()
     dispatch({
-      action: { TYPE: "LOGOUT_USER" }
+        type: "LOGOUT_USER" 
     })
   }
 

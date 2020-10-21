@@ -72,6 +72,8 @@ export function authUserReducer(previousState, action) {
       return action.payload
     case "LOGOUT_USER":
       return null
+    default:
+      return previousState;
   }
 
 }

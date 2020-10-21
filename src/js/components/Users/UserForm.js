@@ -1,9 +1,12 @@
 import React, { useState, useContext } from 'react'
 import { Link } from 'react-router-dom'
 import { UsersManagementContext } from '../../Context/users-management-context'
+
 export default function UserForm({ userDetails, editedUserPermissions, actionText, onSubmit }) {
   if (actionText == "Update") {
     var { firstName, lastName, userName, sessionTimeOut, createdDate } = userDetails;
+    createdDate = new Date(parseInt(createdDate))
+    createdDate = createdDate.toLocaleString().split(',')[0].replaceAll('.', '/')
   }
   var [firstName, setFirstName] = useState(firstName || "")
   var [lastName, setLastName] = useState(lastName || "")
@@ -23,7 +26,7 @@ export default function UserForm({ userDetails, editedUserPermissions, actionTex
   var [createMovies, setCreateMovies] = movies ? useState(movies.create) : useState(false)
   var [deleteMovies, setDeleteMovies] = movies ? useState(movies.delete) : useState(false)
   var [updateMovies, setUpdateMovies] = movies ? useState(movies.edit) : useState(false)
-  var editedUserPermissionsId = editedUserPermissions ? editedUserPermissions.id : "";
+  
 
   function onPermissionChange(e, collection, action) {
     if (e.target.checked == true) collection == "subscriptions" ? setViewSubscriptions(true) : setViewMovies(true);
@@ -59,11 +62,12 @@ export default function UserForm({ userDetails, editedUserPermissions, actionTex
 
       { type: "text", onChange: e => setLastName(e.target.value), label: "Last Name:", name: "lastName", value: lastName || "" },
 
+      { type: "fixed", label: "Created date:", name: "Created", value: createdDate || "" },
+
       { type: "text", onChange: e => setUserName(e.target.value), label: "User Name:", name: "userName", value: userName || "" },
 
       { type: "text", onChange: e => setSessionTimeOut(e.target.value), label: "Session Timeout:", name: "sessionTimeout", value: sessionTimeOut || "" },
 
-      { type: "fixed", label: "Created date:", name: "Created", value: createdDate || "" },
 
       { type: "checkbox", onChange: (e => onPermissionChange(e, "subscriptions", "view")), label: "View Subscriptions:", checked: viewSubscriptions, name: "viewSubscriptions" },
 
@@ -117,9 +121,9 @@ export default function UserForm({ userDetails, editedUserPermissions, actionTex
   }
   return (
     <form onSubmit={onFormSubmit}>
-      {renderFields(data.slice(0, 4))}
+      {renderFields(data.slice(0, 5))}
       <label>Permissions</label>
-      {renderFields(data.slice(4))}
+      {renderFields(data.slice(5))}
       <button type="submit">{actionText}</button>
       <Link to={`${usersManagementUrl}`}>
         <button type="button">Cancel</button>
@@ -151,6 +155,13 @@ function renderFields(fields) {
               onChange={onChange} />
           </label>
         )
+      case "fixed":
+        return(
+          <label style={{display: "block"}} key={name}>
+            {`${label} ${value}`}
+          </label>
+        )
+
       default:
         return null;
     }

@@ -4,7 +4,8 @@ import { createUserLogin, deleteUserLogin } from './user-login-model'
 var userModel = new Model({ collectionName: "users", docName: "user" })
 
 export async function updateUser(id, userDetails) {
-  var now = Date.now();
+  var createdDate = Date.now();
+  var user = {...userDetails, createdDate}
   return userModel.updateDoc(id, userDetails);
 }
 

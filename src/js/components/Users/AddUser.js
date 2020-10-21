@@ -24,7 +24,8 @@ export default function AddUser(userDetails, userPermissions) {
   )
 
   async function onCreateUser(userDetails, userPermissions) {
-    var user = await createUser({ ...userDetails })
+    var createdDate = Date.now();
+    var user = await createUser({ ...userDetails, createdDate })
 
     var userPermissions = await createUserPermissions(userPermissions, user.id)
     dispatch({

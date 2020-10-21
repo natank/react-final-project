@@ -35,7 +35,7 @@ function UserDetails({ user, userPermissions, match }) {
         </div>
         <div>
           <label htmlFor="created">Created Date:</label>
-          <span id="username">11/12/1998</span>
+          <span id="username">{`${formatDate(user.createdDate)}`}</span>
         </div>
         <div>
           <label htmlFor="permissions">Permissions: {permissionsToString(userPermissions)}</label>
@@ -59,6 +59,14 @@ function UserDetails({ user, userPermissions, match }) {
   }
   else return null
 
+
+  function formatDate(timestampArg){
+    var timestamp = timestampArg || Date.now();
+    var dateObj = new Date(timestamp);
+    var date = dateObj.toLocaleDateString().split(',')[0].replaceAll('.','/')
+    
+    return date
+  }
 
   async function onDeleteUser(event) {
     var userId = user.id
