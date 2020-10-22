@@ -42,8 +42,9 @@ export async function loginUser({ username, password }) {
 
   var [permissionsData] = permissionsSnapshot.docs
   var permissions = permissionsData.data().userPermissions
+  var admin = permissionsData.data().admin;
 
-  return { ...user, permissions }
+  return { ...user, permissions, admin }
 
 }
 

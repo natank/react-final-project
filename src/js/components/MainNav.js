@@ -2,6 +2,8 @@ import React, { useContext } from 'react'
 import { Link } from 'react-router-dom'
 import { MainContext } from '../Context/main-context'
 import { checkAccessToRoute } from '../Utils/utils'
+
+
 function MainNav({ routes }) {
   var { store } = useContext(MainContext)
   var [state, dispatch] = store;

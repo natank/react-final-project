@@ -42,6 +42,7 @@ export function today() {
 
 export function checkAccessToRoute(route, user) {
   if (!user) return false;
+  if(/^\/main\/usersManagement/.test(route)) return user.admin 
   var routePermissions = getRoutePermissions(route);
   if (!routePermissions) return true;
   var userPermissions = user.permissions;
@@ -129,38 +130,11 @@ function getRoutePermissions(route) {
         delete: true
       }
     }
-  },
-  {
-    route: new RegExp(`^(/main/usersManagement/add)$`),
-    permissions: {
-      users: {
-        create: true
-      }
-    }
-  },
-  {
-    route: new RegExp(`^/main/usersManagement/edit/\w*`),
-    permissions: {
-      users: {
-        edit: true
-      }
-    }
-  },
-  {
-    route: new RegExp(`^/main/usersManagement/delete/\w*`),
-    permissions: {
-      users: {
-        delete: true
-      }
-    }
   }
   ]
 
   var routePermissions = requiredPermissions.find(function compareRoutes(permission) {
-    // return permission.route == route
-    // var re = new RegExp(permission.route)
     var result = permission.route.test(route)
-
     return result
   })
 

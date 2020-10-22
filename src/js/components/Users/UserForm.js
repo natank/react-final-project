@@ -62,12 +62,11 @@ export default function UserForm({ userDetails, editedUserPermissions, actionTex
 
       { type: "text", onChange: e => setLastName(e.target.value), label: "Last Name:", name: "lastName", value: lastName || "" },
 
-      { type: "fixed", label: "Created date:", name: "Created", value: createdDate || "" },
-
       { type: "text", onChange: e => setUserName(e.target.value), label: "User Name:", name: "userName", value: userName || "" },
 
       { type: "text", onChange: e => setSessionTimeOut(e.target.value), label: "Session Timeout:", name: "sessionTimeout", value: sessionTimeOut || "" },
-
+      
+      { type: "fixed", label: "Created date:", name: "Created", value: createdDate || "" },
 
       { type: "checkbox", onChange: (e => onPermissionChange(e, "subscriptions", "view")), label: "View Subscriptions:", checked: viewSubscriptions, name: "viewSubscriptions" },
 

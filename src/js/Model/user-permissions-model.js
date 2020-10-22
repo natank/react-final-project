@@ -18,11 +18,10 @@ export async function deleteUserPermissions(id) {
 }
 
 export async function createUserPermissions(userPermissions, userId) {
-  debugger
-  var users = { view: false, create: false, edit: false, delete: false }
-  userPermissions.userPermissions = { ...userPermissions.userPermissions, users }
+  
+  userPermissions.userPermissions = { ...userPermissions.userPermissions}
   var data = { ...userPermissions };
   data.userId = userId;
-  debugger
+  
   return userPermissionsModel.createDoc(data)
 }
