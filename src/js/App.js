@@ -11,9 +11,9 @@ function App(props) {
       <h1>Movies & Subscriptions Web Site</h1>
 
       <Switch>
-        <Route path="/" exact><Login /></Route>
+        <Route path="/login" exact><Login /></Route>
         <Route path="/createAccount" exact><CreateAccount /></Route>
-        <Route path="/main">
+        <Route path="/">
           <PrivateRoute {...{ component: Main }}></PrivateRoute>
 
         </Route>

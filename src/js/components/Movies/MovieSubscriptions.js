@@ -54,7 +54,7 @@ export default function MovieSubscriptions({ movie }) {
   function getMovieSubscriptions() {
     // loop through all the members. Filter in members who are subscribed to movie
     return members ? members.reduce(function createSubscription(acc, member) {
-      var subscription = member.movies.find(currMovie => currMovie.movieId == movie.id)
+      var subscription = member.movies && member.movies.find(currMovie => currMovie.movieId == movie.id)
       if (subscription) {
         subscription = {
           member: {

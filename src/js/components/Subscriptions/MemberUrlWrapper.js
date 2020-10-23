@@ -8,7 +8,7 @@ export default function MemberUrlWrapper({ match }) {
     var [state, dispatch] = store;
     var { members } = state;
 
-    var member = members.find(member => member.id = match.params.id)
+    var member = members.find(member => member.id == match.params.id)
 
 
 

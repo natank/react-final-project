@@ -21,7 +21,7 @@ const Login = props => {
   )
 
   useEffect(() => {
-    user.redirect && history.push('/main')
+    user.redirect && history.push('/')
   })
 
 

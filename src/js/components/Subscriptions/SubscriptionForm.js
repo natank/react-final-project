@@ -8,27 +8,27 @@ export default function SubscriptionForm({ onFormCancel, onSubscription, memberI
   var [state, dispatch] = store;
   var { members, movies } = state;
 
-  var memberDetails = members.find(function compareMemberIds(member) {return member.id == memberId})
+  var memberDetails = members.find(function compareMemberIds(member) { return member.id == memberId })
   memberDetails.movies = memberDetails.movies || []
-  
+
   var moviesNotWatched = movies.filter(isMovieNotWatched)
 
   function isMovieNotWatched(currMovie) {
     return !memberDetails.movies.some(
-      function compareMovieIds(currMemberMovie)  {
-      var result = currMovie.id == currMemberMovie.movieId
-      return result;
-    }
+      function compareMovieIds(currMemberMovie) {
+        var result = currMovie.id == currMemberMovie.movieId
+        return result;
+      }
     )
   }
 
   var [selectedMovieId, setSelectedMovieId] = useState(moviesNotWatched[0] ? moviesNotWatched[0].id : "")
   var [selectedMovieDate, setSelectedMovieDate] = useState(today())
 
-  useEffect(()=>{
+  useEffect(() => {
     // check that selected movie id is in movies not watched
-    var isSelectedMovieWatched = !isMovieNotWatched({id:selectedMovieId})
-    if(isSelectedMovieWatched) {
+    var isSelectedMovieWatched = !isMovieNotWatched({ id: selectedMovieId })
+    if (isSelectedMovieWatched) {
       setSelectedMovieId(moviesNotWatched[0] ? moviesNotWatched[0].id : undefined)
     }
   })
@@ -46,7 +46,7 @@ export default function SubscriptionForm({ onFormCancel, onSubscription, memberI
       <input type="date" name="watch" value={selectedMovieDate} onChange={function (event) {
         setSelectedMovieDate(event.target.value)
       }} /><br />
-      <input type="submit" value="Subscribe" />
+      <input type="submit" value="Subscribe" disabled={moviesNotWatched.length == 0} />
       <input type="button" value="cancel" onClick={onFormCancel} />
 
     </form>
@@ -63,7 +63,7 @@ export default function SubscriptionForm({ onFormCancel, onSubscription, memberI
 
   function onSubmit(event) {
     event.preventDefault();
-    if(selectedMovieId == undefined) return
+    if (selectedMovieId == undefined) return
 
     var subscriptionDetails = {
       memberId,

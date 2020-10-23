@@ -17,12 +17,15 @@ export default function MemberSubscriptions({ member }) {
       <SubscribedMovies />
     )
   else return <div>No subscriptions yet</div>
+
   function SubscribedMovies(props) {
     return subscribedMovies.map(subscribedMovie => {
+      var movie = getMovieById(subscribedMovie.movieId);
+      if (!movie) return null;
       return (
-        <ul key={subscribedMovie.movieId}>
+        <ul key={movie.id}>
           <li>
-            <Link to={`${moviesManagementUrl}/${subscribedMovie.movieId}`}>{`${getMovieById(subscribedMovie.movieId).name} , `}</Link>
+            <Link to={`${moviesManagementUrl}/${movie.id}`}>{`${movie.name} , `}</Link>
             <span>{subscribedMovie.date}</span>
           </li>
         </ul>
@@ -30,7 +33,11 @@ export default function MemberSubscriptions({ member }) {
     })
   }
   function getMovieById(paramId) {
-    return allMovies.find(movie => movie.id == paramId)
+    var movie = allMovies.find(function compareId(movie) {
+      var result = movie.id == paramId
+      return result
+    })
+    return movie;
   }
 }
 

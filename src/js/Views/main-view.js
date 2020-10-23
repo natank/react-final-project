@@ -1,5 +1,6 @@
 import React, { useContext } from 'react'
 import { BrowserRouter as Router, Switch, Route, useRouteMatch } from 'react-router-dom';
+import { MainContext } from '../Context/main-context'
 import SubscriptionsManagementView from './subscriptions-management-view';
 import UsersManagementView from './users-management-view'
 import MoviesManagementView from './movies-management-view'
@@ -7,19 +8,21 @@ import MainNav from '../components/MainNav';
 import Login from '../components/Auth/Login';
 import PrivateRoute from '../components/Auth/PrivateRoute'
 function MainView() {
+  var { membersManagementUrl, moviesManagementUrl, usersManagementUrl } = useContext(MainContext)
+
   const match = useRouteMatch();
   const mainRoutes = [
     {
       title: 'Movies',
-      url: `${match.url}/movies`
+      url: moviesManagementUrl
     },
     {
       title: 'Subscriptions',
-      url: `${match.url}/subscriptions`
+      url: membersManagementUrl
     },
     {
       title: 'Users Management',
-      url: `${match.url}/usersManagement`
+      url: usersManagementUrl
     }
   ]
 
@@ -33,17 +36,15 @@ function MainView() {
       </Route>
 
       <Switch>
-        <Route path={`${match.url}/movies`}>
+        <Route path={moviesManagementUrl} >
           <PrivateRoute {...{ component: MoviesManagementView }} />
         </Route>
-        <Route path={`${match.url}/subscriptions`}>
+        <Route path={membersManagementUrl}>
           <PrivateRoute {...{ component: SubscriptionsManagementView }} />
         </Route>
-        <Route path={`${match.url}/usersManagement`}>
+        <Route path={usersManagementUrl}>
           <PrivateRoute {...{ component: UsersManagementView }}></PrivateRoute>
         </Route>
-
-        <Route path={`/`} exact component={Login} />
       </Switch>
     </Router>
   )
