@@ -12,11 +12,11 @@ const CreateAccount = props => {
     <div>
       <h2>Create an Account</h2>
       <form onSubmit={handleSubmit}>
-        <div className="form__field">
+        <div>
           <label htmlFor="username">User name:</label>
           <input id="username" type="text" value={username} onChange={e => setUsername(e.target.value)} />
         </div>
-        <div className="form__field">
+        <div>
           <label htmlFor="password">password:</label>
           <input id="password" type="password" value={password}
             onChange={e => setPassword(e.target.value)}
