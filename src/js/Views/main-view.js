@@ -1,6 +1,8 @@
 import React, { useContext } from 'react'
 import { BrowserRouter as Router, Switch, Route, useRouteMatch } from 'react-router-dom';
 import { MainContext } from '../Context/main-context'
+import { Container } from '@material-ui/core';
+
 import SubscriptionsManagementView from './subscriptions-management-view';
 import UsersManagementView from './users-management-view'
 import MoviesManagementView from './movies-management-view'
@@ -27,26 +29,28 @@ function MainView() {
   ]
 
   return (
-    <Router>
-      <Route path={`${match.url}`}>
-        <div>
-          <h1>Main Page</h1>
-          <MainNav routes={mainRoutes} />
-        </div>
-      </Route>
+    <Container>
+      <Router>
+        <Route path={`${match.url}`}>
+          <div>
+            <h1>Main Page</h1>
+            <MainNav routes={mainRoutes} />
+          </div>
+        </Route>
 
-      <Switch>
-        <Route path={moviesManagementUrl} >
-          <PrivateRoute {...{ component: MoviesManagementView }} />
-        </Route>
-        <Route path={membersManagementUrl}>
-          <PrivateRoute {...{ component: SubscriptionsManagementView }} />
-        </Route>
-        <Route path={usersManagementUrl}>
-          <PrivateRoute {...{ component: UsersManagementView }}></PrivateRoute>
-        </Route>
-      </Switch>
-    </Router>
+        <Switch>
+          <Route path={moviesManagementUrl} >
+            <PrivateRoute {...{ component: MoviesManagementView }} />
+          </Route>
+          <Route path={membersManagementUrl}>
+            <PrivateRoute {...{ component: SubscriptionsManagementView }} />
+          </Route>
+          <Route path={usersManagementUrl}>
+            <PrivateRoute {...{ component: UsersManagementView }}></PrivateRoute>
+          </Route>
+        </Switch>
+      </Router>
+    </Container>
   )
 
 }

@@ -12,7 +12,7 @@ export var MainContext = createContext();
 
 
 export function MainContextProvider(props) {
-  const initialState = { users: [], usersPermissions: [], movies: [], members: [], authUser: null }
+  const initialState = { users: [], usersPermissions: [], movies: [], members: [], authUser: { dummy: true } }
   const rootReducer = combineReducers({ users: usersReducer, usersPermissions: usersPermissionsReducer, movies: moviesReducer, members: membersReducer, authUser: authUserReducer })
 
   const result = useReducer(rootReducer, initialState)

@@ -2,9 +2,9 @@ import React, { useEffect, useState, useContext } from 'react'
 import { Link, useHistory } from 'react-router-dom';
 import { loginUser } from '../../Model/Auth-Model'
 import { MainContext } from '../../Context/main-context';
-import { makeStyles } from '@material-ui/core/styles';
-import { Container, CssBaseline, TextField, Typography, Button } from '@material-ui/core';
-
+import useStyles from './styles'
+import { Container, Grid, TextField, Typography, Button } from '@material-ui/core';
+import AuthHeader from "./AuthHeader"
 export default function Login(props) {
 
   const classes = useStyles();
@@ -31,46 +31,50 @@ export default function Login(props) {
 
   return (
     <Container component="main" maxWidth="xs">
-      <CssBaseline />
-      <div className={classes.paper}>
-        <Typography>Sign in</Typography>
-        <form classNAme={classes.form} onSubmit={handleSubmit}>
-          <TextField
-            variant="outlined"
-            margin="normal"
-            required
-            fullWidth
-            id="username"
-            label="User Name"
-            autoFocus
-            value={username}
-            onChange={e => setUsername(e.target.value)}
-          />
-          <TextField
-            variant="outlined"
-            margin="normal"
-            required
-            fullWidth
-            id="password"
-            label="Password"
-            type="password"
-            value={password}
-            onChange={e => setPassword(e.target.value)}
-            autooComplete="current-password"
-          />
-          <Button
-            type="submit"
-            fullWidth
-            variant="contained"
-            color="primary"
-            className={classes.submit}
-          >
-            Sign In
-          </Button>
-          <p>New User ? :<Link to="/createAccount">Create Account</Link></p>
-        </form>
-      </div>
-    </Container>
+      <Grid container className={classes.contentContainer}>
+        <Grid item container>
+          <AuthHeader />
+          <div className={classes.paper}>
+            <form className={classes.form} onSubmit={handleSubmit}>
+              <TextField
+                variant="outlined"
+                margin="normal"
+                required
+                fullWidth
+                id="username"
+                label="User Name"
+                autoFocus
+                value={username}
+                onChange={e => setUsername(e.target.value)}
+              />
+              <TextField
+                variant="outlined"
+                margin="normal"
+                required
+                fullWidth
+                id="password"
+                label="Password"
+                type="password"
+                value={password}
+                onChange={e => setPassword(e.target.value)}
+                autoComplete="current-password"
+              />
+              <Button
+
+                type="submit"
+                variant="contained"
+                color="primary"
+                className={classes.submit}
+              >
+                Sign In
+              </Button>
+              <Typography component="p" variant="body1">New User ? :<Link to="/createAccount">Create Account</Link></Typography>
+            </form>
+          </div>
+        </Grid>
+
+      </Grid>
+    </Container >
   )
   async function handleSubmit(e) {
 
@@ -91,26 +95,5 @@ export default function Login(props) {
 }
 
 
-function useStyles() {
-  var s = makeStyles((theme) => ({
-    paper: {
-      marginTop: theme.spacing(8),
-      display: 'flex',
-      flexDirection: 'column',
-      alignItems: 'center',
-    },
-    avatar: {
-      margin: theme.spacing(1),
-      backgroundColor: theme.palette.secondary.main,
-    },
-    form: {
-      width: '100%', // Fix IE 11 issue.
-      marginTop: theme.spacing(1),
-    },
-    submit: {
-      margin: theme.spacing(3, 0, 2),
-    },
-  }))
-  return s()
-}
+
 

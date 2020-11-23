@@ -1,0 +1,228 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<!-- Created with Inkscape (http://www.inkscape.org/) -->
+
+<svg
+   xmlns:dc="http://purl.org/dc/elements/1.1/"
+   xmlns:cc="http://creativecommons.org/ns#"
+   xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#"
+   xmlns:svg="http://www.w3.org/2000/svg"
+   xmlns="http://www.w3.org/2000/svg"
+   xmlns:sodipodi="http://sodipodi.sourceforge.net/DTD/sodipodi-0.dtd"
+   xmlns:inkscape="http://www.inkscape.org/namespaces/inkscape"
+   width="210mm"
+   height="297mm"
+   viewBox="0 0 210 297"
+   version="1.1"
+   id="svg8"
+   inkscape:version="0.92.4 (5da689c313, 2019-01-14)"
+   sodipodi:docname="design.svg">
+  <defs
+     id="defs2" />
+  <sodipodi:namedview
+     id="base"
+     pagecolor="#ffffff"
+     bordercolor="#666666"
+     borderopacity="1.0"
+     inkscape:pageopacity="0.0"
+     inkscape:pageshadow="2"
+     inkscape:zoom="0.98994949"
+     inkscape:cx="383.87291"
+     inkscape:cy="828.66372"
+     inkscape:document-units="mm"
+     inkscape:current-layer="layer2"
+     showgrid="false"
+     inkscape:window-width="1280"
+     inkscape:window-height="961"
+     inkscape:window-x="1358"
+     inkscape:window-y="-8"
+     inkscape:window-maximized="1" />
+  <metadata
+     id="metadata5">
+    <rdf:RDF>
+      <cc:Work
+         rdf:about="">
+        <dc:format>image/svg+xml</dc:format>
+        <dc:type
+           rdf:resource="http://purl.org/dc/dcmitype/StillImage" />
+        <dc:title />
+      </cc:Work>
+    </rdf:RDF>
+  </metadata>
+  <g
+     inkscape:label="Login"
+     inkscape:groupmode="layer"
+     id="layer1"
+     style="display:inline">
+    <rect
+       style="opacity:0.89600004;fill:none;fill-opacity:1;fill-rule:evenodd;stroke:#000000;stroke-width:1.86499989;stroke-linecap:round;stroke-linejoin:round;stroke-miterlimit:4;stroke-dasharray:none;stroke-opacity:1;paint-order:stroke fill markers"
+       id="rect816"
+       width="156.48215"
+       height="124.73213"
+       x="33.261906"
+       y="9.7380953" />
+  </g>
+  <g
+     inkscape:groupmode="layer"
+     id="layer2"
+     inkscape:label="Login header"
+     style="display:inline">
+    <text
+       xml:space="preserve"
+       style="font-style:normal;font-weight:normal;font-size:13.38031197px;line-height:1.79999995;font-family:sans-serif;letter-spacing:0px;word-spacing:0px;display:inline;fill:#000000;fill-opacity:1;stroke:none;stroke-width:0.26458332"
+       x="80.873451"
+       y="31.710096"
+       id="text814"
+       transform="scale(0.99953042,1.0004698)"><tspan
+         sodipodi:role="line"
+         id="tspan812"
+         x="80.873451"
+         y="31.710096"
+         style="stroke-width:0.26458332">MovieNG</tspan></text>
+    <rect
+       style="display:inline;opacity:0.89600004;fill:none;fill-opacity:1;fill-rule:evenodd;stroke:#878787;stroke-width:0.80000001;stroke-linecap:round;stroke-linejoin:round;stroke-miterlimit:4;stroke-dasharray:none;stroke-opacity:1;paint-order:stroke fill markers"
+       id="rect823"
+       width="108.27823"
+       height="12.820409"
+       x="56.418919"
+       y="46.227791" />
+    <rect
+       y="67.862366"
+       x="56.418919"
+       height="12.820409"
+       width="108.27823"
+       id="rect825"
+       style="display:inline;opacity:0.89600004;fill:none;fill-opacity:1;fill-rule:evenodd;stroke:#878787;stroke-width:0.80000001;stroke-linecap:round;stroke-linejoin:round;stroke-miterlimit:4;stroke-dasharray:none;stroke-opacity:1;paint-order:stroke fill markers" />
+    <text
+       xml:space="preserve"
+       style="font-style:normal;font-weight:normal;font-size:4.20601892px;line-height:1.79999995;font-family:sans-serif;letter-spacing:0px;word-spacing:0px;fill:#000000;fill-opacity:1;stroke:#878787;stroke-width:0.26458332;stroke-opacity:1"
+       x="62.8246"
+       y="54.12027"
+       id="text835"
+       transform="scale(0.99971449,1.0002856)"><tspan
+         sodipodi:role="line"
+         id="tspan833"
+         x="62.8246"
+         y="54.12027"
+         style="stroke:#878787;stroke-width:0.26458332;stroke-opacity:1">User Name</tspan></text>
+    <text
+       xml:space="preserve"
+       style="font-style:normal;font-weight:normal;font-size:4.20601892px;line-height:1.79999995;font-family:sans-serif;letter-spacing:0px;word-spacing:0px;fill:#000000;fill-opacity:1;stroke:#878787;stroke-width:0.26458332;stroke-opacity:1"
+       x="62.868027"
+       y="75.817131"
+       id="text839"
+       transform="scale(0.99971449,1.0002856)"><tspan
+         sodipodi:role="line"
+         id="tspan837"
+         x="62.868027"
+         y="75.817131"
+         style="stroke:#878787;stroke-width:0.26458332;stroke-opacity:1">Password</tspan></text>
+    <rect
+       style="opacity:0.89600004;fill:#1e3ee1;fill-opacity:1;fill-rule:evenodd;stroke:none;stroke-width:0.80000001;stroke-linecap:round;stroke-linejoin:round;stroke-miterlimit:4;stroke-dasharray:none;stroke-opacity:1;paint-order:stroke fill markers"
+       id="rect841"
+       width="66.901787"
+       height="13.985119"
+       x="75.444054"
+       y="90.247017"
+       ry="6.9925594"
+       rx="6.9925594" />
+    <text
+       xml:space="preserve"
+       style="font-style:normal;font-weight:normal;font-size:9.8777771px;line-height:1.79999995;font-family:sans-serif;letter-spacing:0px;word-spacing:0px;fill:#e0e6fc;fill-opacity:1;stroke:none;stroke-width:0.26458332;"
+       x="94.078873"
+       y="112.85129"
+       id="text845"><tspan
+         sodipodi:role="line"
+         id="tspan843"
+         x="94.078873"
+         y="124.57948"
+         style="stroke-width:0.26458332;fill:#e0e6fc;fill-opacity:1;" /></text>
+    <text
+       xml:space="preserve"
+       style="font-style:normal;font-weight:normal;font-size:9.8777771px;line-height:1.79999995;font-family:sans-serif;letter-spacing:0px;word-spacing:0px;fill:#000000;fill-opacity:1;stroke:none;stroke-width:0.26458332"
+       x="88.733482"
+       y="109.64406"
+       id="text849"><tspan
+         sodipodi:role="line"
+         id="tspan847"
+         x="88.733482"
+         y="121.37225"
+         style="stroke-width:0.26458332" /></text>
+    <text
+       xml:space="preserve"
+       style="font-style:normal;font-weight:normal;font-size:9.8777771px;line-height:1.79999995;font-family:sans-serif;letter-spacing:0px;word-spacing:0px;fill:#000000;fill-opacity:1;stroke:none;stroke-width:0.26458332"
+       x="84.991707"
+       y="108.57498"
+       id="text853"><tspan
+         sodipodi:role="line"
+         id="tspan851"
+         x="84.991707"
+         y="120.30317"
+         style="stroke-width:0.26458332"></tspan></text>
+    <flowRoot
+       xml:space="preserve"
+       id="flowRoot863"
+       style="font-style:normal;font-weight:normal;font-size:37.33333206px;line-height:1.79999995;font-family:sans-serif;letter-spacing:0px;word-spacing:0px;fill:#000000;fill-opacity:1;stroke:none"
+       transform="scale(0.26458333)"><flowRegion
+         id="flowRegion865"><rect
+           id="rect867"
+           width="192.93913"
+           height="42.426407"
+           x="304.05591"
+           y="395.20984" /></flowRegion><flowPara
+         id="flowPara869">SSD</flowPara></flowRoot>    <text
+       xml:space="preserve"
+       style="font-style:normal;font-weight:normal;font-size:9.8777771px;line-height:1.79999995;font-family:sans-serif;letter-spacing:0px;word-spacing:0px;fill:#000000;fill-opacity:1;stroke:none;stroke-width:0.26458332"
+       x="90.871643"
+       y="110.1786"
+       id="text873"><tspan
+         sodipodi:role="line"
+         id="tspan871"
+         x="90.871643"
+         y="121.90678"
+         style="stroke-width:0.26458332"></tspan></text>
+    <flowRoot
+       xml:space="preserve"
+       id="flowRoot875"
+       style="font-style:normal;font-weight:normal;font-size:37.33333206px;line-height:1.79999995;font-family:sans-serif;letter-spacing:0px;word-spacing:0px;fill:#ffffff;fill-opacity:1;stroke:none;stroke-width:1.40239429"
+       transform="matrix(0.18866544,0,0,0.18866544,41.351789,2.0304888)"><flowRegion
+         id="flowRegion877"
+         style="fill:#ffffff;fill-opacity:1;stroke-width:1.40239429"><rect
+           id="rect879"
+           width="172.73607"
+           height="72.730957"
+           x="281.83255"
+           y="472.99161"
+           style="fill:#ffffff;fill-opacity:1;stroke-width:1.40239429" /></flowRegion><flowPara
+         id="flowPara881"
+         style="fill:#ffffff;fill-opacity:1;stroke-width:1.40239429">SIGN IN</flowPara></flowRoot>    <text
+       xml:space="preserve"
+       style="font-style:normal;font-weight:normal;font-size:2.59851336px;line-height:1.79999995;font-family:sans-serif;letter-spacing:0px;word-spacing:0px;fill:#000000;fill-opacity:1;stroke:none;stroke-width:0.26458332"
+       x="58.919201"
+       y="115.68162"
+       id="text885"><tspan
+         sodipodi:role="line"
+         id="tspan883"
+         x="58.919201"
+         y="115.68162"
+         style="stroke-width:0.26458332">New User? </tspan></text>
+    <flowRoot
+       xml:space="preserve"
+       id="flowRoot887"
+       style="font-style:normal;font-weight:normal;font-size:37.33351081px;line-height:1.79999995;font-family:Roboto;letter-spacing:0px;word-spacing:0px;fill:#000000;fill-opacity:1;stroke:#1e3ee1;stroke-width:3.80131865;stroke-opacity:0.89803922;-inkscape-font-specification:'Roboto, Normal';font-stretch:normal;font-variant:normal;text-anchor:start;text-align:start;writing-mode:lr;font-variant-ligatures:normal;font-variant-caps:normal;font-variant-numeric:normal;font-feature-settings:normal;"
+       transform="matrix(0.06960304,0,0,0.06960304,52.839858,70.463128)"><flowRegion
+         id="flowRegion889"
+         style="stroke-width:3.80131865;stroke:#1e3ee1;stroke-opacity:0.89803922;-inkscape-font-specification:'Roboto, Normal';font-family:Roboto;font-weight:normal;font-style:normal;font-stretch:normal;font-variant:normal;font-size:37.33351081px;text-anchor:start;text-align:start;writing-mode:lr;font-variant-ligatures:normal;font-variant-caps:normal;font-variant-numeric:normal;font-feature-settings:normal;"><rect
+           id="rect891"
+           width="315.71429"
+           height="62.857143"
+           x="332.85715"
+           y="602.51971"
+           style="stroke-width:3.80131865;stroke:#1e3ee1;stroke-opacity:0.89803922;-inkscape-font-specification:'Roboto, Normal';font-family:Roboto;font-weight:normal;font-style:normal;font-stretch:normal;font-variant:normal;font-size:37.33351081px;text-anchor:start;text-align:start;writing-mode:lr;font-variant-ligatures:normal;font-variant-caps:normal;font-variant-numeric:normal;font-feature-settings:normal;" /></flowRegion><flowPara
+         id="flowPara893"
+         style="stroke-width:3.80131865;stroke:#1e3ee1;stroke-opacity:0.89803922;-inkscape-font-specification:'Roboto, Normal';font-family:Roboto;font-weight:normal;font-style:normal;font-stretch:normal;font-variant:normal;font-size:37.33351081px;text-anchor:start;text-align:start;writing-mode:lr;font-variant-ligatures:normal;font-variant-caps:normal;font-variant-numeric:normal;font-feature-settings:normal;">Create Account</flowPara></flowRoot>    <path
+       style="fill:none;stroke:#1e3ee1;stroke-width:0.26458332px;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:0.89803922"
+       d="M 76.104998,115.85808 H 96.21703"
+       id="path895"
+       inkscape:connector-curvature="0" />
+  </g>
+</svg>

@@ -7,19 +7,13 @@ import Main from './Views/main-view'
 import PrivateRoute from './components/Auth/PrivateRoute'
 function App(props) {
   return (
-    <div>
-      <h1>Movies & Subscriptions Web Site</h1>
-
-      <Switch>
-        <Route path="/login" exact><Login /></Route>
-        <Route path="/createAccount" exact><CreateAccount /></Route>
-        <Route path="/">
-          <PrivateRoute {...{ component: Main }}></PrivateRoute>
-
-        </Route>
-      </Switch>
-    </div>
-
+    <Switch>
+      <Route path="/login" exact><Login /></Route>
+      <Route path="/createAccount" exact><CreateAccount /></Route>
+      <Route path="/">
+        <PrivateRoute {...{ component: Main }}></PrivateRoute>
+      </Route>
+    </Switch>
   )
 }
 
