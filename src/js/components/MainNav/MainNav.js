@@ -1,9 +1,27 @@
 import React, { useContext } from 'react'
 import { Link } from 'react-router-dom'
 import { makeStyles } from '@material-ui/core/styles';
-import { AppBar, Tabs, Tab, Typography, Link as NavLink } from '@material-ui/core'
+import { AppBar, Toolbar, Tabs, Tab, Typography, useScrollTrigger } from '@material-ui/core'
 import { MainContext } from '../../Context/main-context'
 import { checkAccessToRoute } from '../../Utils/utils'
+
+function ElevationScroll(props) {
+  const { children, window } = props;
+  // Note that you normally won't need to set the window ref as useScrollTrigger
+  // will default to window.
+  // This is only being set here because the demo is in an iframe.
+  const trigger = useScrollTrigger({
+    disableHysteresis: true,
+    threshold: 0,
+    target: window ? window() : undefined,
+  });
+
+  return React.cloneElement(children, {
+    elevation: trigger ? 4 : 0,
+  });
+}
+
+
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -15,7 +33,8 @@ const useStyles = makeStyles((theme) => ({
   }
 }));
 
-function MainNav({ routes }) {
+function MainNav(props) {
+  const { routes } = props
   var { store } = useContext(MainContext)
   var [state, dispatch] = store;
   var { authUser } = state
@@ -26,23 +45,24 @@ function MainNav({ routes }) {
   };
 
   return (
-    <div className={classes.root}>
-      <AppBar position="static">
-        <Tabs
-          variant="fullWidth"
-          value={value}
-          onChange={handleChange}
-          aria-label="nav tabs example"
-        >
-          {routes.map((elem, index) => getRoute(elem, index))}
-          <Tab label="Logout" onClick={onLogout} label="Logout" />
-
-        </Tabs>
-      </AppBar>
-
-
-    </div>
-
+      <ElevationScroll {...props} className={classes.root}>
+        <AppBar position="fixed" >
+          <Toolbar disableGutters>
+            <Typography component="h5" variant="h5" align="center">
+              MovieNG
+            </Typography>
+            <Tabs
+              variant="fullWidth"
+              value={value}
+              onChange={handleChange}
+              aria-label="nav tabs example"
+            >
+              {routes.map((elem, index) => getRoute(elem, index))}
+              <Tab label="Logout" onClick={onLogout} label="Logout" />
+            </Tabs>
+          </Toolbar>
+        </AppBar>
+      </ElevationScroll>
   )
   function onLogout(event) {
     event.preventDefault()

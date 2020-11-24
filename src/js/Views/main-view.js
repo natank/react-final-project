@@ -29,13 +29,10 @@ function MainView() {
   ]
 
   return (
-    <Container>
+    
       <Router>
         <Route path={`${match.url}`}>
-          <div>
-            <h1>Main Page</h1>
             <MainNav routes={mainRoutes} />
-          </div>
         </Route>
 
         <Switch>
@@ -50,7 +47,7 @@ function MainView() {
           </Route>
         </Switch>
       </Router>
-    </Container>
+    
   )
 
 }
