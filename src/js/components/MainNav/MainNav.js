@@ -1,6 +1,7 @@
 import React, { useContext } from 'react'
 import { Link } from 'react-router-dom'
 import { makeStyles } from '@material-ui/core/styles';
+
 import { AppBar, Toolbar, Tabs, Tab, Typography, useScrollTrigger } from '@material-ui/core'
 import { MainContext } from '../../Context/main-context'
 import { checkAccessToRoute } from '../../Utils/utils'
@@ -30,6 +31,9 @@ const useStyles = makeStyles((theme) => ({
   },
   navLink: {
     color: "white"
+  },
+  toolbarMargin: {
+    ...theme.mixins.toolbar
   }
 }));
 
@@ -45,12 +49,13 @@ function MainNav(props) {
   };
 
   return (
+    <React.Fragment>
       <ElevationScroll {...props} className={classes.root}>
-        <AppBar position="fixed" >
-          <Toolbar disableGutters>
-            <Typography component="h5" variant="h5" align="center">
+        <AppBar position="fixed" color="primary">
+          <Toolbar disableGutters style={{ paddingLeft: "2rem" }}>
+            <Typography variant="h4" align="center">
               MovieNG
-            </Typography>
+          </Typography>
             <Tabs
               variant="fullWidth"
               value={value}
@@ -63,6 +68,8 @@ function MainNav(props) {
           </Toolbar>
         </AppBar>
       </ElevationScroll>
+      <div className={classes.toolbarMargin} />
+    </React.Fragment>
   )
   function onLogout(event) {
     event.preventDefault()
@@ -78,7 +85,7 @@ function MainNav(props) {
     return (
 
       isAuthorized ?
-        <Tab label={route.title} component={Link} to={route.url} />
+        <Tab key={key} label={route.title} component={Link} to={route.url} />
         : null
 
     )
