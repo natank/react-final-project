@@ -1,8 +1,8 @@
-import React, { useContext } from 'react'
+import React, { useContext, useEffect } from 'react'
 import { Link } from 'react-router-dom'
 import { makeStyles } from '@material-ui/core/styles';
 
-import { AppBar, Toolbar, Tabs, Tab, Typography, useScrollTrigger } from '@material-ui/core'
+import { AppBar, Toolbar, Tabs, Tab, Typography, useScrollTrigger, Button } from '@material-ui/core'
 import { MainContext } from '../../Context/main-context'
 import { checkAccessToRoute } from '../../Utils/utils'
 
@@ -33,37 +33,81 @@ const useStyles = makeStyles((theme) => ({
     color: "white"
   },
   toolbarMargin: {
-    ...theme.mixins.toolbar
+    ...theme.mixins.toolbar,
+    height: "7rem"
+  },
+  tabContainer: {
+    marginLeft: 'auto'
+  },
+  tab: {
+    marginLeft: "25px"
+  },
+  logoContainer: {
+    textTransform: "none",
+    color: theme.palette.secondary.contrastText,
+    padding: "0 1rem",
+    marginLeft: 0,
+    backgroundColor: theme.palette.grey[900],
+    height: "8em",
+    "&:hover":{
+      backgroundColor: theme.palette.grey[800]
+    }
   }
+
 }));
 
 function MainNav(props) {
   const { routes } = props
-  var { store } = useContext(MainContext)
+  var { membersManagementUrl, moviesManagementUrl, usersManagementUrl, store } = useContext(MainContext)
   var [state, dispatch] = store;
   var { authUser } = state
   var classes = useStyles();
   const [value, setValue] = React.useState(0);
+  
   const handleChange = (event, newValue) => {
     setValue(newValue);
   };
+
+  useEffect(()=>{
+    if(window.location.pathname === '/' && value !== 0) {
+      setValue(0)
+    }
+    else if(window.location.pathname === moviesManagementUrl && value !== 1) {
+      setValue(1)
+    } else if(window.location.pathname === membersManagementUrl && value !==2){
+      setValue(2)
+    } else if(window.location.pathname === usersManagementUrl && value !=3){
+      setValue(3)
+    }
+  })
+
 
   return (
     <React.Fragment>
       <ElevationScroll {...props} className={classes.root}>
         <AppBar position="fixed" color="primary">
-          <Toolbar disableGutters style={{ paddingLeft: "2rem" }}>
-            <Typography variant="h4" align="center">
-              MovieNG
-          </Typography>
+          <Toolbar disableGutters>
+            <Button component={Link} to='/' className = {classes.logoContainer} onClick={()=>setValue(0)}>
+              <Typography variant="h4" align="center">
+                MovieNG
+              </Typography>
+            </Button>
+            
             <Tabs
               variant="fullWidth"
               value={value}
               onChange={handleChange}
               aria-label="nav tabs example"
+              className={classes.tabContainer}
+              indicatorColor="primary"
             >
               {routes.map((elem, index) => getRoute(elem, index))}
-              <Tab label="Logout" onClick={onLogout} label="Logout" />
+              <Tab 
+                className={classes.tab} 
+                label="Logout" 
+                onClick={onLogout} 
+                label="Logout" 
+              />
             </Tabs>
           </Toolbar>
         </AppBar>
@@ -85,7 +129,13 @@ function MainNav(props) {
     return (
 
       isAuthorized ?
-        <Tab key={key} label={route.title} component={Link} to={route.url} />
+        <Tab 
+          key={key} 
+          label={route.title} 
+          component={Link} 
+          to={route.url} 
+          className={classes.tab}
+        />
         : null
 
     )

@@ -1,5 +1,6 @@
 const currentTask = process.env.npm_lifecycle_event
 const HtmlWebPackPlugin = require("html-webpack-plugin");
+
 const path = require('path');
 
 console.log(`currentTask = ${currentTask}`);

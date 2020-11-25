@@ -18,7 +18,7 @@ export function MainContextProvider(props) {
   const result = useReducer(rootReducer, initialState)
   const [state, dispatch] = result;
   const store = useMemo(() => [state, dispatch], [state])
-  var location = useLocation()
+  
   var { authUser } = state;
 
   var urls = {

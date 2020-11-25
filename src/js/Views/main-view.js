@@ -15,6 +15,10 @@ function MainView() {
   const match = useRouteMatch();
   const mainRoutes = [
     {
+      title: 'Home',
+      url: '/'
+    },
+    {
       title: 'Movies',
       url: moviesManagementUrl
     },
