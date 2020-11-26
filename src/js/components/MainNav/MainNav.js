@@ -5,12 +5,13 @@ import { makeStyles } from '@material-ui/core/styles';
 import { AppBar, Toolbar, Tabs, Tab, Typography, useScrollTrigger, Button } from '@material-ui/core'
 import { MainContext } from '../../Context/main-context'
 import { checkAccessToRoute } from '../../Utils/utils'
+import useMediaQuery from '@material-ui/core/useMediaQuery'
+import {useTheme} from '@material-ui/core/styles'
+import MobileNav from './MobileNav'
 
 function ElevationScroll(props) {
   const { children, window } = props;
-  // Note that you normally won't need to set the window ref as useScrollTrigger
-  // will default to window.
-  // This is only being set here because the demo is in an iframe.
+  
   const trigger = useScrollTrigger({
     disableHysteresis: true,
     threshold: 0,
@@ -34,7 +35,14 @@ const useStyles = makeStyles((theme) => ({
   },
   toolbarMargin: {
     ...theme.mixins.toolbar,
-    height: "7rem"
+    marginBottom: ".2em",
+    [theme.breakpoints.up('md')]: {
+      marginBottom: "3em"
+    },
+    [theme.breakpoints.up('lg')]:{
+      marginBottom: "4em"
+    }
+
   },
   tabContainer: {
     marginLeft: 'auto'
@@ -48,10 +56,17 @@ const useStyles = makeStyles((theme) => ({
     padding: "0 1rem",
     marginLeft: 0,
     backgroundColor: theme.palette.grey[900],
-    height: "8em",
+    height: "5em",
     "&:hover":{
       backgroundColor: theme.palette.grey[800]
-    }
+    },
+    [theme.breakpoints.up("md")]: {
+      height: "7em"
+    },
+    [theme.breakpoints.up("lg")]: {
+      height: "8em"
+    },
+
   }
 
 }));
@@ -62,8 +77,11 @@ function MainNav(props) {
   var [state, dispatch] = store;
   var { authUser } = state
   var classes = useStyles();
-  const [value, setValue] = React.useState(0);
+  const theme = useTheme();
+  const matchesMD = useMediaQuery(theme.breakpoints.up("md"))
+  const matchesLG = useMediaQuery(theme.breakpoints.up("lg"))
   
+  const [value, setValue] = React.useState(0);
   const handleChange = (event, newValue) => {
     setValue(newValue);
   };
@@ -81,6 +99,26 @@ function MainNav(props) {
     }
   })
 
+  const tabs = (matchesLG ? 
+    <Tabs
+      variant="fullWidth"
+      value={value}
+      onChange={handleChange}
+      aria-label="nav tabs example"
+      className={classes.tabContainer}
+      indicatorColor="primary"
+    >
+      {routes.map((elem, index) => getRoute(elem, index))}
+      <Tab 
+        className={classes.tab} 
+        label="Logout" 
+        onClick={onLogout} 
+        label="Logout" 
+      />
+    </Tabs> :<MobileNav routes={routes} value={value} setValue={setValue}/>
+  )
+
+
 
   return (
     <React.Fragment>
@@ -88,27 +126,11 @@ function MainNav(props) {
         <AppBar position="fixed" color="primary">
           <Toolbar disableGutters>
             <Button component={Link} to='/' className = {classes.logoContainer} onClick={()=>setValue(0)}>
-              <Typography variant="h4" align="center">
+              <Typography variant={matchesLG ? "h4" : matchesMD ? "h5": "h6"} align="center">
                 MovieNG
               </Typography>
-            </Button>
-            
-            <Tabs
-              variant="fullWidth"
-              value={value}
-              onChange={handleChange}
-              aria-label="nav tabs example"
-              className={classes.tabContainer}
-              indicatorColor="primary"
-            >
-              {routes.map((elem, index) => getRoute(elem, index))}
-              <Tab 
-                className={classes.tab} 
-                label="Logout" 
-                onClick={onLogout} 
-                label="Logout" 
-              />
-            </Tabs>
+            </Button>          
+              {tabs}
           </Toolbar>
         </AppBar>
       </ElevationScroll>

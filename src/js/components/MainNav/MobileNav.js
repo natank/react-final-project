@@ -1,0 +1,123 @@
+import React, {useState, useContext} from 'react'
+import {Link} from 'react-router-dom'
+import clsx from 'clsx';
+import { MainContext } from '../../Context/main-context'
+import { checkAccessToRoute } from '../../Utils/utils'
+import {makeStyles} from '@material-ui/core/styles'
+import {Drawer, List, Button, ListItem, ListItemIcon, ListItemText, IconButton} from '@material-ui/core'
+import MenuIcon from '@material-ui/icons/Menu';
+
+const useStyles = makeStyles((theme)=>({
+    list: {
+        width:250,
+    },
+    fullList: {
+        width: 'auto'
+    },
+    menuButton: {
+        marginRight: theme.spacing(2),
+        marginLeft: "auto",
+        "&:hover":{
+            backgroundColor: "transparent"
+        }
+    },
+    drawerIcon: {
+        height: "50px",
+        width: "50px"
+    },
+    Hide: {
+        display: 'none',
+      },
+    drawer: {
+        backgroundColor: theme.palette.primary.dark
+    },
+    drawerItem: {
+        ...theme.typography.tab,
+        color: "white",
+        opacity: 0.7
+    },
+    drawerItemSelected:{
+        opacity: 1
+    }
+}))
+
+var open, setOpen, classes, authUser;
+
+export default function MobileNav(props){
+    var { membersManagementUrl, moviesManagementUrl, usersManagementUrl, store } = useContext(MainContext)
+    const { routes, value, setValue } = props
+    var [state, dispatch] = store;
+    authUser = state.authUser;
+    classes = useStyles();
+    [open, setOpen] = useState(false);
+    return(
+        <React.Fragment>
+
+            <IconButton
+                color="inherit"
+                aria-label="open drawer"
+                onClick={toggleDrawer(true)}
+                edge="start"
+                className={clsx(classes.menuButton, open && classes.hide)}
+            >
+                <MenuIcon className={classes.drawerIcon}/>
+            </IconButton>
+            <Drawer 
+                anchor="left" 
+                open={open} 
+                onClose={toggleDrawer(false)}
+                classes = {{paper: classes.drawer}}
+            >
+                {list(routes, value, setValue)}
+                <ListItem 
+                    divider 
+                    button 
+                    component={Link} 
+                    to={"/logout"} 
+                    onClick = {()=>setOpen(false)}
+                >
+                    <ListItemText 
+                        className = {value== index ? [classes.drawerItem, classes.drawerItemSelected]:classes.drawerItem}
+                        disableTypography>Logout
+                    </ListItemText> 
+                </ListItem>
+            </Drawer>
+        </React.Fragment>
+    )
+
+}
+
+function list(routes, value, setValue){
+    return (<div className={classes.fullList}>
+        <List disablePadding>
+            {routes.map((route, index)=>
+                {   
+                    var isAuthorized = checkAccessToRoute(route.url, authUser)
+                    return isAuthorized ? 
+                        <ListItem 
+                            divider 
+                            button 
+                            component={Link} 
+                            to={route.url} 
+                            key={route.title}
+                            onClick = {()=>{setOpen(false); setValue(index)}}
+                            selected = {value == index}
+                        >
+
+                        <ListItemText 
+                            className = {classes.drawerItem}
+                            disableTypography>{route.title}</ListItemText> 
+                    </ListItem> : null
+                }
+            )}
+        </List>
+    </div>)
+}
+
+function toggleDrawer(open) { return (event) => {
+    if (event.type === 'keydown' && (event.key === 'Tab' || event.key === 'Shift')) {
+        return;
+    }
+
+    setOpen(open);
+}};
