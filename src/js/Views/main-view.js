@@ -7,7 +7,7 @@ import SubscriptionsManagementView from './subscriptions-management-view';
 import UsersManagementView from './users-management-view'
 import MoviesManagementView from './movies-management-view'
 import MainNav from '../components/MainNav';
-import Login from '../components/Auth/Login';
+
 import PrivateRoute from '../components/Auth/PrivateRoute'
 function MainView() {
   var { membersManagementUrl, moviesManagementUrl, usersManagementUrl } = useContext(MainContext)
@@ -33,7 +33,7 @@ function MainView() {
   ]
 
   return (
-    
+    <Container>
       <Router>
         <Route path={`${match.url}`}>
             <MainNav routes={mainRoutes} />
@@ -51,6 +51,7 @@ function MainView() {
           </Route>
         </Switch>
       </Router>
+    </Container>
     
   )
 

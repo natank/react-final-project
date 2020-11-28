@@ -1,8 +1,9 @@
 import React, { useContext, useEffect } from 'react'
 import { Link } from 'react-router-dom'
-import { makeStyles } from '@material-ui/core/styles';
+import { makeStyles, fade } from '@material-ui/core/styles';
 
-import { AppBar, Toolbar, Tabs, Tab, Typography, useScrollTrigger, Button } from '@material-ui/core'
+import { Container, AppBar, Toolbar, Tabs, Tab, Typography, 
+  useScrollTrigger, Button } from '@material-ui/core'
 import { MainContext } from '../../Context/main-context'
 import { checkAccessToRoute } from '../../Utils/utils'
 import useMediaQuery from '@material-ui/core/useMediaQuery'
@@ -48,7 +49,10 @@ const useStyles = makeStyles((theme) => ({
     marginLeft: 'auto'
   },
   tab: {
-    marginLeft: "25px"
+    marginLeft: "25px",
+    "&:hover":{
+      backgroundColor: fade(theme.palette.common.white, 0.08)
+    },
   },
   logoContainer: {
     textTransform: "none",
@@ -66,7 +70,9 @@ const useStyles = makeStyles((theme) => ({
     [theme.breakpoints.up("lg")]: {
       height: "8em"
     },
-
+  },
+  appbar: {
+    zIndex: theme.zIndex.modal+1
   }
 
 }));
@@ -115,7 +121,12 @@ function MainNav(props) {
         onClick={onLogout} 
         label="Logout" 
       />
-    </Tabs> :<MobileNav routes={routes} value={value} setValue={setValue}/>
+    </Tabs> :<MobileNav 
+              routes={routes} 
+              value={value} 
+              setValue={setValue}
+              ToolbarMargin = {ToolbarMargin}  
+            />
   )
 
 
@@ -123,7 +134,7 @@ function MainNav(props) {
   return (
     <React.Fragment>
       <ElevationScroll {...props} className={classes.root}>
-        <AppBar position="fixed" color="primary">
+        <AppBar color="primary" className={classes.appbarContainer}>
           <Toolbar disableGutters>
             <Button component={Link} to='/' className = {classes.logoContainer} onClick={()=>setValue(0)}>
               <Typography variant={matchesLG ? "h4" : matchesMD ? "h5": "h6"} align="center">
@@ -134,8 +145,9 @@ function MainNav(props) {
           </Toolbar>
         </AppBar>
       </ElevationScroll>
-      <div className={classes.toolbarMargin} />
+      <ToolbarMargin />
     </React.Fragment>
+
   )
   function onLogout(event) {
     event.preventDefault()
@@ -145,7 +157,9 @@ function MainNav(props) {
   }
 
 
-
+  function ToolbarMargin(){
+    return <div className={classes.toolbarMargin} />
+  }
   function getRoute(route, key) {
     var isAuthorized = checkAccessToRoute(route.url, authUser)
     return (

@@ -7,5 +7,13 @@ export default createMuiTheme(theme=>({
         textTransform: "none",
         fontWeight: 700,
         fontSize: "1rem",
+    },
+    overrides: {
+      drawerItem:{
+        selected: {
+            backgroundColor: "orange"
+        }
+
     }
+  }
 }))

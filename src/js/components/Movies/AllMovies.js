@@ -1,8 +1,21 @@
 import React, { useContext, useState } from 'react'
+import {Container} from '@material-ui/core'
+import {makeStyles} from '@material-ui/core/styles'
 import MovieDetails from './MovieDetails'
 import { MainContext } from '../../Context/main-context'
 import MoviesNav from './MoviesNav';
 import FindMovie from './FindMovie'
+
+
+const useStyles = makeStyles({
+  navContainer : {
+    display: "flex",
+    justifyContent: "center",
+    alignItems: "center"
+  }
+})
+
+
 export default function AllMovies({ match }) {
 
   var { store } = useContext(MainContext);
@@ -17,12 +30,13 @@ export default function AllMovies({ match }) {
       return movie.name.toLowerCase().includes(filterString)
     })
   }
-
+  var classes = useStyles();
   return (
-    <div>
+    <React.Fragment>
+    <Container className={classes.navContainer}>
       <MoviesNav match={match} />
       <FindMovie {...{ changeFilter }} />
-
+    </Container>
       <ul>
         {
           movies ? movies.map(function renderMovie(movie) {
@@ -30,7 +44,8 @@ export default function AllMovies({ match }) {
           }) : null
         }
       </ul>
-    </div>
+    </React.Fragment>
+    
   )
 
   function changeFilter(newFilter) {
