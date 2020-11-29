@@ -1,7 +1,7 @@
 import React from 'react'
 import { Route, Switch } from 'react-router-dom'
 import { MoviesManagementContextProvider } from '../Context/movies-management-context';
-import {Typography } from '@material-ui/core'
+import {Typography, Grid } from '@material-ui/core'
 import AllMovies from '../components/Movies/AllMovies';
 import AddMovie from '../components/Movies/AddMovie';
 import EditMovie from '../components/Movies/EditMovie'
@@ -11,7 +11,7 @@ import { makeStyles } from '@material-ui/core/styles';
 
 const useStyles = makeStyles({
   mainContainer : {
-    display
+    
   }
 })
 
@@ -20,22 +20,28 @@ export default function MoviesManagement({ match }) {
 
   return (
     <MoviesManagementContextProvider match={match}>
-      <Container className= {classes.mainContainer}>
-        <Typography variant="h2" align="center">Movies</Typography>
-        <Switch>
-          <Route path={`${match.url}/add`}>
-            <PrivateRoute {...{ component: AddMovie }} />
-          </Route>
+      <Grid container direction="column"
+      alignItems="center"
+      spacing= {4}>
+        <Grid item>
+          <Typography component="h2" variant="h2" align="center">Movies</Typography>
+        </Grid>
+        <Grid item>
+          <Switch>
+            <Route path={`${match.url}/add`}>
+              <PrivateRoute {...{ component: AddMovie }} />
+            </Route>
 
-          <Route exact path={`${match.url}`}>
-            <PrivateRoute {...{ component: AllMovies }} />
-          </Route>
-          <Route path={`${match.url}/edit/:id`}>
-            <PrivateRoute {...{ component: EditMovie }} />
-          </Route>
-          <Route path={`${match.url}/:id`} component={MovieUrlWrapper} />
-        </Switch>
-      </Container>
+            <Route exact path={`${match.url}`}>
+              <PrivateRoute {...{ component: AllMovies }} />
+            </Route>
+            <Route path={`${match.url}/edit/:id`}>
+              <PrivateRoute {...{ component: EditMovie }} />
+            </Route>
+            <Route path={`${match.url}/:id`} component={MovieUrlWrapper} />
+          </Switch>
+        </Grid>
+      </Grid>
     </MoviesManagementContextProvider>
   )
 }

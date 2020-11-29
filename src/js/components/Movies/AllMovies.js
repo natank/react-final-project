@@ -1,5 +1,5 @@
 import React, { useContext, useState } from 'react'
-import {Container} from '@material-ui/core'
+import {Container, Grid} from '@material-ui/core'
 import {makeStyles} from '@material-ui/core/styles'
 import MovieDetails from './MovieDetails'
 import { MainContext } from '../../Context/main-context'
@@ -32,19 +32,25 @@ export default function AllMovies({ match }) {
   }
   var classes = useStyles();
   return (
-    <React.Fragment>
-    <Container className={classes.navContainer}>
-      <MoviesNav match={match} />
-      <FindMovie {...{ changeFilter }} />
-    </Container>
-      <ul>
+    <Grid container 
+      direction="column"
+      spacing={4}
+    >
+
+      <Grid item container alignItems="center" justify="center">
+        <MoviesNav match={match} />
+        <FindMovie {...{ changeFilter }} />
+      </Grid>
+      <Grid item container 
+        component="ul"
+      >
         {
           movies ? movies.map(function renderMovie(movie) {
             return <MovieDetails key={movie.id} {...{ movie, match }} />
           }) : null
         }
-      </ul>
-    </React.Fragment>
+      </Grid>
+    </Grid>
     
   )
 
