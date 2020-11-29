@@ -12,6 +12,9 @@ const useStyles = makeStyles({
     display: "flex",
     justifyContent: "center",
     alignItems: "center"
+  },
+  movieCardContainer:{
+    width: "20%"
   }
 })
 
@@ -32,21 +35,32 @@ export default function AllMovies({ match }) {
   }
   var classes = useStyles();
   return (
-    <Grid container 
+    <Grid item container 
       direction="column"
-      spacing={4}
+      spacing={6}
+      className={classes.mainContainer}
+      id="allMoviesContainer"
     >
 
-      <Grid item container alignItems="center" justify="center">
+      <Grid item container 
+        alignItems="center" 
+        justify="center"
+        id="movieMenuContainer"
+      >
         <MoviesNav match={match} />
         <FindMovie {...{ changeFilter }} />
       </Grid>
       <Grid item container 
-        component="ul"
+        id = "movieGridContainer"
+        component="ul" spacing={2} justify="center"
       >
         {
           movies ? movies.map(function renderMovie(movie) {
-            return <MovieDetails key={movie.id} {...{ movie, match }} />
+            return (
+              <Grid item key={movie.id} className={classes.movieCardContainer}>
+                <MovieDetails {...{ movie, match }} />
+              </Grid>
+              )
           }) : null
         }
       </Grid>

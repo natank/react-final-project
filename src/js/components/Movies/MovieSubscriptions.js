@@ -1,8 +1,19 @@
 import React, { useContext } from 'react';
-import { MainContext } from '../../Context/main-context';
-import { MembersManagementContext } from '../../Context/members-management-context'
 import { Link } from 'react-router-dom';
+import { List, ListItem, ListItemText } from '@material-ui/core';
+import { makeStyles } from '@material-ui/core/styles';
+import { MainContext } from '../../Context/main-context';
+
+const useStyles = makeStyles({
+  movieSubscriptions: {
+    paddingInlineStart: 0
+
+  }
+})
+
+
 export default function MovieSubscriptions({ movie }) {
+  var classes = useStyles()
   var { store, membersManagementUrl } = useContext(MainContext);
   var [state, dispatch] = store;
 
@@ -12,18 +23,21 @@ export default function MovieSubscriptions({ movie }) {
 
 
   return (
-    <ul>
+    <List component="ul" aria-label="movie subscriptions" className={classes.movieSubscriptions}>
       {movieSubscriptions ? movieSubscriptions.map(renderSubscription) : null}
-    </ul>
+    </List>
   )
 
 
   function renderSubscription(subscription, index) {
     return (
-      <li key={index}>
-        <Link to={`${membersManagementUrl}/${subscription.member.id}`}>{subscription.member.name}</Link>
-        <span>{subscription.date}</span>
-      </li>
+      <ListItem component={Link} key={index}
+        disableGutters
+        to={`${membersManagementUrl}/${subscription.member.id}`}
+      >
+        <ListItemText>{`${subscription.member.name} ${subscription.date}`}</ListItemText>
+        
+      </ListItem>
     )
   }
 

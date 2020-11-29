@@ -33,7 +33,7 @@ function MainView() {
   ]
 
   return (
-    <Container>
+    <Container id="siteContainer" maxWidth={false}>
       <Router>
         <Route path={`${match.url}`}>
             <MainNav routes={mainRoutes} />

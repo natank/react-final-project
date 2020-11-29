@@ -1,13 +1,21 @@
 import React, { useContext } from 'react';
 import { Link, useHistory } from 'react-router-dom';
+import {Card, CardActionArea, CardActions, CardContent, CardMedia, Button, Typography, CardHeader} from '@material-ui/core'
+import { makeStyles } from '@material-ui/core/styles';
 import { MainContext } from '../../Context/main-context';
 import { deleteMovie } from '../../Model/movie-model'
 import MovieSubscriptions from './MovieSubscriptions'
 import { checkAccessToRoute } from '../../Utils/utils'
 
+const useStyles = makeStyles({
+  movieCard:{
+    width: "30%"
+  }
+})
+
 
 export default function MovieDetails({ movie, match }) {
-  
+  var classes = useStyles();
   if (!movie) return null;
   
   var { store } = useContext(MainContext);
@@ -20,29 +28,39 @@ export default function MovieDetails({ movie, match }) {
   var isUserAllowedToDelete = checkAccessToRoute(deleteMovieRoute, authUser)
   var isUserAllowedToEdit = checkAccessToRoute(editMovieRoute, authUser)
   return (
-    <div>
-      <h3>{`${movie.name}, ${(new Date(movie.premiered)).getFullYear()} `}</h3>
-      <p>{`Generes: ${movie.generes.map(genere => genere)}`}</p>
-      <div style={{ display: "flex" }}>
-        <picture><img src={`${movie.image}`} width={50} /></picture>
-        <div>
-          <p>Subscriptions watched</p>
-
+    <Card variant="outlined">
+        <CardMedia 
+          component="img"
+          image={`${movie.image}`}
+          
+        />
+        <CardContent>
+          <Typography gutterBottom variant="h5" component="h2">
+            {`${movie.name}, ${(new Date(movie.premiered)).getFullYear()} `}
+          </Typography>
+          <Typography>{`Generes: ${movie.generes.map(genere => genere)}`}</Typography>
+          <Typography>Subscriptions watched</Typography>
           <MovieSubscriptions movie={movie} />
+  
+          <CardActions>
+            {isUserAllowedToEdit
+              ? <Button component={Link} to={`${match.url}/edit/${movie.id}`}>
+                  Edit
+                </Button>
+              : null
+            }
+            {isUserAllowedToDelete
+              ? <Button onClick={onDeleteMovie}>Delete</Button>
+              : null
+            }
+          </CardActions>
 
-        </div>
-      </div>
-      {isUserAllowedToEdit
-        ? <Link to={`${match.url}/edit/${movie.id}`}>
-          <input type="button" value="Edit" />
-        </Link>
-        : null
-      }
-      {isUserAllowedToDelete
-        ? <input type="button" value="Delete" onClick={onDeleteMovie} />
-        : null
-      }
-    </div >)
+
+
+
+      </CardContent>
+      
+    </Card>)
 
   async function onDeleteMovie(event) {
     event.preventDefault();
