@@ -1,5 +1,8 @@
 import React from 'react'
 import { Route, Switch, useRouteMatch } from 'react-router-dom'
+import {Typography, Grid} from '@material-ui/core'
+import { makeStyles } from '@material-ui/core/styles';
+
 import { MembersManagementContextProvider } from '../Context/members-management-context';
 import EditMember from '../components/Subscriptions/EditMember'
 import MembersNav from '../components/Subscriptions/MembersNav'
@@ -8,8 +11,16 @@ import AddMember from '../components/Subscriptions/AddMember'
 import MemberUrlWrapper from '../components/Subscriptions/MemberUrlWrapper'
 import PrivateRoute from '../components/Auth/PrivateRoute'
 
-export default function MembersManagement({ match }) {
+const useStyles = makeStyles({
+  mainContainer : {
+    width: "100%",
+    margin: 0
+  }
+})
 
+
+export default function MembersManagement({ match }) {
+  var classes = useStyles()
   function editMemberAndTitle(props) {
     return (
       <div>
@@ -21,14 +32,21 @@ export default function MembersManagement({ match }) {
 
   return (
     <MembersManagementContextProvider match={match}>
-      <Switch>
+      <Grid container direction="column" 
+      className={classes.mainContainer}
+      alignItems="center"
+      spacing= {4}
+      id="moviesContainer"
+      >
+        <Switch>
         <Route exact path={`${match.url}/edit/:id`}>
           <PrivateRoute {...{ component: editMemberAndTitle }} />
 
         </Route>
         <Route path={match.url}>
-
-          <h1>Subscriptions</h1>
+          <Grid>
+            <Typography component="h2" variant="h2">Subscriptions</Typography>
+          </Grid>
           <Route exact path={`${match.url}`} component={AllMembers} />
           <Switch>
             <Route exact path={`${match.url}/add`}>
@@ -38,6 +56,7 @@ export default function MembersManagement({ match }) {
           </Switch>
         </Route>
       </Switch>
+      </Grid>
     </MembersManagementContextProvider>
   )
 }

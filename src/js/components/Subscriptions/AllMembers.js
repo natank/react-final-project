@@ -1,4 +1,6 @@
 import React, { useContext } from 'react'
+import { Grid} from '@material-ui/core'
+
 import MemberDetails from './MemberDetails'
 import { MainContext } from '../../Context/main-context'
 import MembersNav from './MembersNav';
@@ -12,16 +14,36 @@ export default function AllMembers({ match }) {
   var { members } = state;
 
   return (
-    <div>
-      <MembersNav match={match} />
-      <ul>
+    <Grid item container
+      direction="column"
+      spacing={6}
+      id="allMembersContainer"
+    >
+      <Grid item container
+        alignItems="center"
+        justify="center"
+        id="memberMenuContainer"
+      >
+        <MembersNav match={match} />
+      </Grid>
+      <Grid item container
+        id="memberGridContainer"
+        component="ul" spacing={2} justify="center"
+      >
         {
           members ? members.map(function renderMember(member) {
             var props = { member, match }
-            return <MemberDetails key={member.id} {...props} />
+            return (
+              <Grid item key={member.id}
+                xs={12} md={4} xl={3}
+              >
+                <MemberDetails {...props} />
+              </Grid>
+            )
           }) : null
         }
-      </ul>
-    </div>
+      </Grid>
+
+    </Grid>
   )
 }

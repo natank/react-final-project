@@ -1,7 +1,6 @@
-import { fromPairs } from 'lodash';
 import React, { useContext } from 'react'
 import { Link } from 'react-router-dom';
-import {Menu, MenuItem, Tabs, Tab} from '@material-ui/core'
+import {Tabs, Tab} from '@material-ui/core'
 import { MoviesManagementContext } from '../../Context/movies-management-context'
 import { MainContext } from '../../Context/main-context'
 import { checkAccessToRoute } from '../../Utils/utils'

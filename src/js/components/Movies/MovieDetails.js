@@ -1,6 +1,6 @@
 import React, { useContext } from 'react';
-import { Link, useHistory } from 'react-router-dom';
-import {Card, CardActionArea, CardActions, CardContent, CardMedia, Button, Typography, CardHeader} from '@material-ui/core'
+import { Link } from 'react-router-dom';
+import {Card, CardActions, CardContent, CardMedia, Button, Typography} from '@material-ui/core'
 import { makeStyles } from '@material-ui/core/styles';
 import { MainContext } from '../../Context/main-context';
 import { deleteMovie } from '../../Model/movie-model'

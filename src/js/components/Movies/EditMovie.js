@@ -1,31 +1,34 @@
 import React, { useContext, useState, useEffect } from 'react'
 import { useHistory } from 'react-router-dom'
+import {Typography, Box, Grid} from '@material-ui/core'
+import {makeStyles} from '@material-ui/core/styles'
+
 import { MainContext } from '../../Context/main-context'
 import MovieForm from './MovieForm';
 import { updateMovie } from '../../Model/movie-model'
 import { compareItemId } from '../../Utils/utils'
 import { MoviesManagementContext } from '../../Context/movies-management-context'
 
+var useStyles = makeStyles(theme => ({
+    title: {
+        marginBottom: "1em"
+    }
+}))
+
 export default function EditMovie({ match }) {
     var { store } = useContext(MainContext);
-
     var [state, dispatch] = store;
-
     var movieId = match.params.id;
-
     var { movies } = state;
-
     var [componentState, setComponentState] = useState({
         redirect: false,
         updatedMovieDetails: {}
     })
-
-
     var editedMovie = movies.find(compareItemId(movieId))
-
     var { moviesManagementUrl } = useContext(MoviesManagementContext)
     var history = useHistory();
-
+    var classes = useStyles();
+    
     useEffect(() => {
         if (componentState.redirect)
             dispatch({
@@ -40,14 +43,18 @@ export default function EditMovie({ match }) {
 
 
     return (
-        <div>
+        <Grid item>
             {editedMovie ?
-                <div>
-                    <h2>Edit Movie: {`${editedMovie.firstName} ${editedMovie.lastName}`}</h2>
+                <Box>
+                    <Typography 
+                        variant="h4"
+                        className={classes.title}>
+                        Edit Movie: {`${editedMovie.firstName} ${editedMovie.lastName}`}
+                    </Typography>
                     <MovieForm movieDetails={editedMovie} actionText="Update" onSubmitCb={onUpdateMovie} />
-                </div> : <div>{null}</div>
+                </Box> : <div>{null}</div>
             }
-        </div>
+        </Grid>
     )
 
     async function onUpdateMovie(movieDetails) {

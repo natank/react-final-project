@@ -1,13 +1,14 @@
 import React, { useState, useContext } from 'react';
-import { Link, useHistory } from 'react-router-dom';
+import { Link } from 'react-router-dom';
+import {Card, CardActions, CardContent, CardMedia, Button, Typography} from '@material-ui/core'
 
 import MemberSubscriptions from './MemberSubscriptions'
 import SubscriptionForm from './SubscriptionForm'
 import { MainContext } from '../../Context/main-context'
 import { checkAccessToRoute } from '../../Utils/utils'
 
-import { addMemberSubscription, deleteMember, updateMember } from '../../Model/member-model'
-import { isArguments } from 'lodash';
+import { deleteMember, updateMember } from '../../Model/member-model'
+
 
 export default function MemberDetails({ member, match }) {
 
@@ -27,27 +28,39 @@ export default function MemberDetails({ member, match }) {
 
 
   return (
-    <div>
-      <h3>{member.name}</h3>
-      <p>{`Email: ${member.email}`}</p>
-      {isUserAllowedToEdit 
-      ? <Link to={`${match.url}/edit/${member.id}`}>
-          <input type="button" value="Edit" />
-        </Link>
-      : null
-      }
-      {isUserAllowedToDelete
-        ?<input type="button" value="Delete" onClick={onDeleteMember} />
+    <Card variant="outlined">
+      <CardContent>
+        <Typography gutterBottom variant="h5" component="h2">{member.name}</Typography>
+        <Button
+            color="primary"
+            target="_top"
+            rel="noopener noreferrer"
+            href={`mailto:${member.email}`}
+        >
+            <Typography variant="button" style={{ fontSize: '1em', textTransform:'lowercase' }}>
+              {member.email}
+            </Typography>
+        </Button>
+
+        {isUserAllowedToEdit 
+        ? <Link to={`${match.url}/edit/${member.id}`}>
+            <input type="button" value="Edit" />
+          </Link>
         : null
-      }
+        }
+        {isUserAllowedToDelete
+          ?<input type="button" value="Delete" onClick={onDeleteMember} />
+          : null
+        }
 
-      
+        
 
-      <h4>Movies Watched</h4>
-      <input type="button" value="Subscribe to new movie" onClick={onSubscribeClick} />
-      {subscriptionFormActive ? <SubscriptionForm {...{ memberId, onFormCancel, onSubscription }} /> : null}
-      <MemberSubscriptions member={member} />
-    </div>
+        <h4>Movies Watched</h4>
+        <input type="button" value="Subscribe to new movie" onClick={onSubscribeClick} />
+        {subscriptionFormActive ? <SubscriptionForm {...{ memberId, onFormCancel, onSubscription }} /> : null}
+        <MemberSubscriptions member={member} />
+      </CardContent>
+    </Card>
   )
   
 

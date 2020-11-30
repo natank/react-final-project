@@ -1,8 +1,9 @@
 import React, { useContext, } from 'react'
 import { Link } from 'react-router-dom'
+import {TextField, Grid, Button} from '@material-ui/core'
+
 import { MoviesManagementContext } from '../../Context/movies-management-context'
 import { useFormInput } from '../../Utils/customHooks'
-
 export default function MovieForm({ movieDetails, actionText, onSubmitCb }) {
 
   var { moviesManagementUrl } = useContext(MoviesManagementContext)
@@ -16,16 +17,26 @@ export default function MovieForm({ movieDetails, actionText, onSubmitCb }) {
 
   return (
     <form onSubmit={onSubmit}>
-      <label>Name:<input type="text" {...name} /></label><br />
-      <label>Generes:<input type="text" {...generes} /></label><br />
-      <label>Image URL:<input type="text" {...image} /></label><br />
-      <label>Premiered:<input type="date" {...premiered} /></label><br />
+      
+      <Grid container spacing={3}>
+        <Grid item xs={12} md={6}><TextField  fullWidth required label="Name" {...name}/></Grid>
+        <Grid item xs={12} md={6}><TextField  fullWidth required label="Generes" {...generes} /></Grid>
+        <Grid item xs={12} md={6}><TextField  fullWidth required label="Image URL" {...image} /></Grid>
+        <Grid item xs={12} md={6}><TextField  fullWidth required label="Premiered" {...premiered} /></Grid>
+        <Grid item container>
+          <Grid item container spacing={3}>
+            <Grid item><Button variant="contained" color="primary" type="submit">{actionText}</Button></Grid>
+            <Grid item><Button 
+              component={Link} to={`${moviesManagementUrl}`}
+              variant="contained" color="secondary"
+            >
+              Cancel
+            </Button></Grid>
+          </Grid>
+        </Grid>
+      </Grid>
 
 
-      <button type="submit">{actionText}</button>
-      <Link to={`${moviesManagementUrl}`}>
-        <button type="button">Cancel</button>
-      </Link>
 
     </form>
   )

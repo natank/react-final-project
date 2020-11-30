@@ -1,6 +1,7 @@
-import { fromPairs } from 'lodash';
 import React, { useContext } from 'react'
 import { Link } from 'react-router-dom';
+import {Tabs, Tab} from '@material-ui/core'
+
 import { MainContext } from '../../Context/main-context'
 import { checkAccessToRoute } from '../../Utils/utils'
 
@@ -19,15 +20,19 @@ export default function MembersNav(props) {
   }]
 
   return (
-    <div>
+    <Tabs value={0}>
       {routes.map((route, index) => {
         var isAuthorized = checkAccessToRoute(`${membersManagementUrl}/add`, authUser);
         return (
           isAuthorized ?
-            <Link to={`${route.url}`} key={index}>
-              <input type="button" value={`${route.title}`} />
-            </Link> : null)
+            <Tab 
+              component={Link} 
+              to={`${route.url}`} 
+              key={index}
+              label = {`${route.title}`}
+            /> : null
+        )
       })}
-    </div>
+    </Tabs>
   )
 }
