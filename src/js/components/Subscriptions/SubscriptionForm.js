@@ -1,75 +1,144 @@
-import React, { useEffect, useContext, useState } from 'react'
+import React, { useEffect, useContext, useState } from 'react';
+import {
+	Typography,
+	TextField,
+	FormControl,
+	InputLabel,
+	Select,
+	MenuItem,
+	Grid,
+} from '@material-ui/core';
+import { makeStyles } from '@material-ui/core/styles';
 import { today } from '../../Utils/utils';
-import { MainContext } from '../../Context/main-context'
+import { MainContext } from '../../Context/main-context';
 
-export default function SubscriptionForm({ onFormCancel, onSubscription, memberId }) {
+var useStyles = makeStyles(theme => ({
+	formControl: {
+		margin: theme.spacing(1),
+		minWidth: 120,
+	},
+	selectEmpty: {
+		marginTop: theme.spacing(2),
+		minWidth: 120,
+	},
+}));
 
-  var { store } = useContext(MainContext);
-  var [state, dispatch] = store;
-  var { members, movies } = state;
+export default function SubscriptionForm({
+	onFormCancel,
+	onSubscription,
+	memberDetails,
+}) {
+	var { store } = useContext(MainContext);
+	var [state, dispatch] = store;
+	var { members, movies } = state;
+	var classes = useStyles();
 
-  var memberDetails = members.find(function compareMemberIds(member) { return member.id == memberId })
-  memberDetails.movies = memberDetails.movies || []
+	memberDetails.movies = memberDetails.movies || [];
 
-  var moviesNotWatched = movies.filter(isMovieNotWatched)
+	var moviesNotWatched = movies.filter(isMovieNotWatched);
 
-  function isMovieNotWatched(currMovie) {
-    return !memberDetails.movies.some(
-      function compareMovieIds(currMemberMovie) {
-        var result = currMovie.id == currMemberMovie.movieId
-        return result;
-      }
-    )
-  }
+	function isMovieNotWatched(currMovie) {
+		return !memberDetails.movies.some(function compareMovieIds(
+			currMemberMovie
+		) {
+			var result = currMovie.id == currMemberMovie.movieId;
+			return result;
+		});
+	}
 
-  var [selectedMovieId, setSelectedMovieId] = useState(moviesNotWatched[0] ? moviesNotWatched[0].id : "")
-  var [selectedMovieDate, setSelectedMovieDate] = useState(today())
+	var [selectedMovieId, setSelectedMovieId] = useState(0);
+	var [selectedMovieDate, setSelectedMovieDate] = useState(today());
 
-  useEffect(() => {
-    // check that selected movie id is in movies not watched
-    var isSelectedMovieWatched = !isMovieNotWatched({ id: selectedMovieId })
-    if (isSelectedMovieWatched) {
-      setSelectedMovieId(moviesNotWatched[0] ? moviesNotWatched[0].id : undefined)
-    }
-  })
+	useEffect(() => {
+		// check that selected movie id is in movies not watched
+		// var isSelectedMovieWatched = !isMovieNotWatched({ id: selectedMovieId });
+		// if (isSelectedMovieWatched) {
+		// 	setSelectedMovieId(
+		// 		moviesNotWatched[0] ? moviesNotWatched[0].id : undefined
+		// 	);
+		// }
+	});
 
-  return (
-    <form onSubmit={onSubmit}>
-      <h4>Add a new movie</h4>
-      <select name="movies" value={selectedMovieId} onChange={
-        function (event) {
-          setSelectedMovieId(event.target.value)
-        }
-      }>
-        <MovieOptions />
-      </select>
-      <input type="date" name="watch" value={selectedMovieDate} onChange={function (event) {
-        setSelectedMovieDate(event.target.value)
-      }} /><br />
-      <input type="submit" value="Subscribe" disabled={moviesNotWatched.length == 0} />
-      <input type="button" value="cancel" onClick={onFormCancel} />
+	return (
+		<form onSubmit={onSubmit}>
+			<Typography variant='h6' gutterBottom>
+				Add a new movie
+			</Typography>
+			<Grid container spacing={2}>
+				<Grid item container xs={12} spacing={2} alignItems='flex-end'>
+					<Grid item>
+						<FormControl className={classes.FormControl}>
+							<InputLabel id='movies-select-label'>Select Movie</InputLabel>
+							<Select
+								labelId='movies-select-label'
+								id='movies-select'
+								value={selectedMovieId}
+								className={classes.selectEmpty}
+								onChange={function (event) {
+									setSelectedMovieId(event.target.value);
+								}}>
+								<MenuItem value={0}>
+									<em>None</em>
+								</MenuItem>
 
-    </form>
-  )
+								{MovieOptions()}
+							</Select>
+						</FormControl>
+					</Grid>
 
-  function MovieOptions(props) {
+					<Grid item>
+						<TextField
+							id='date'
+							label=''
+							type='date'
+							name='watch'
+							value={selectedMovieDate}
+							onChange={function (event) {
+								setSelectedMovieDate(event.target.value);
+							}}
+							InputLabelProps={{
+								shrink: true,
+							}}
+						/>
+					</Grid>
+				</Grid>
 
-    return moviesNotWatched.map(movie => {
-      return (
-        <option key={movie.id} value={movie.id}>{movie.name}</option>
-      )
-    })
-  }
+				<Grid item container spacing={2}>
+					<Grid item>
+						<input
+							type='submit'
+							value='Subscribe'
+							disabled={moviesNotWatched.length == 0}
+						/>
+					</Grid>
+					<Grid item>
+						<input type='button' value='cancel' onClick={onFormCancel} />
+					</Grid>
+				</Grid>
+			</Grid>
+		</form>
+	);
 
-  function onSubmit(event) {
-    event.preventDefault();
-    if (selectedMovieId == undefined) return
+	function MovieOptions(props) {
+		var movies = moviesNotWatched.map(movie => {
+			return (
+				<MenuItem key={movie.id} value={movie.id}>
+					{movie.name}
+				</MenuItem>
+			);
+		});
+		return movies;
+	}
 
-    var subscriptionDetails = {
-      memberId,
-      movieId: selectedMovieId,
-      date: selectedMovieDate
-    }
-    onSubscription(subscriptionDetails)
-  }
+	function onSubmit(event) {
+		event.preventDefault();
+		if (selectedMovieId == undefined) return;
+
+		var subscriptionDetails = {
+			memberId,
+			movieId: selectedMovieId,
+			date: selectedMovieDate,
+		};
+		onSubscription(subscriptionDetails);
+	}
 }
