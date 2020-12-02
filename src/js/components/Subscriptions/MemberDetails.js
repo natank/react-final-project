@@ -106,7 +106,7 @@ export default function MemberDetails({ member, match }) {
 							<Typography component='h5' variant='h6'>
 								Movies Watched
 							</Typography>
-							<MemberSubscriptions member={member} />
+							<MemberSubscriptions member={memberDetails} />
 						</Grid>
 					)}
 				</Grid>

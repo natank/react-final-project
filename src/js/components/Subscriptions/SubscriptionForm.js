@@ -32,7 +32,8 @@ export default function SubscriptionForm({
 	var [state, dispatch] = store;
 	var { members, movies } = state;
 	var classes = useStyles();
-
+	
+	const memberId = memberDetails.id;
 	memberDetails.movies = memberDetails.movies || [];
 
 	var moviesNotWatched = movies.filter(isMovieNotWatched);
@@ -51,12 +52,10 @@ export default function SubscriptionForm({
 
 	useEffect(() => {
 		// check that selected movie id is in movies not watched
-		// var isSelectedMovieWatched = !isMovieNotWatched({ id: selectedMovieId });
-		// if (isSelectedMovieWatched) {
-		// 	setSelectedMovieId(
-		// 		moviesNotWatched[0] ? moviesNotWatched[0].id : undefined
-		// 	);
-		// }
+		var isSelectedMovieWatched = !isMovieNotWatched({ id: selectedMovieId });
+		if (isSelectedMovieWatched) {
+			setSelectedMovieId(0)
+		}
 	});
 
 	return (
@@ -69,6 +68,8 @@ export default function SubscriptionForm({
 					<Grid item>
 						<FormControl className={classes.FormControl}>
 							<InputLabel id='movies-select-label'>Select Movie</InputLabel>
+							{
+							isMovieNotWatched({ id: selectedMovieId }) ?
 							<Select
 								labelId='movies-select-label'
 								id='movies-select'
@@ -82,7 +83,8 @@ export default function SubscriptionForm({
 								</MenuItem>
 
 								{MovieOptions()}
-							</Select>
+							</Select>:null
+}
 						</FormControl>
 					</Grid>
 
@@ -122,13 +124,14 @@ export default function SubscriptionForm({
 	function MovieOptions(props) {
 		var movies = moviesNotWatched.map(movie => {
 			return (
-				<MenuItem key={movie.id} value={movie.id}>
+				<MenuItem key={movie.id} value={movie.id+''}>
 					{movie.name}
 				</MenuItem>
 			);
 		});
 		return movies;
 	}
+
 
 	function onSubmit(event) {
 		event.preventDefault();
