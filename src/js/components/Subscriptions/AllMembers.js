@@ -5,7 +5,7 @@ import MemberDetails from './MemberDetails'
 import { MainContext } from '../../Context/main-context'
 import MembersNav from './MembersNav';
 
-export default function AllMembers({ match }) {
+export default function AllMembers({ match, navIndex, setNavIndex }) {
 
   var { store } = useContext(MainContext)
 
@@ -24,7 +24,7 @@ export default function AllMembers({ match }) {
         justify="center"
         id="memberMenuContainer"
       >
-        <MembersNav match={match} />
+        <MembersNav match={match} navIndex={navIndex} setNavIndex={setNavIndex}/>
       </Grid>
       <Grid item container
         id="memberGridContainer"

@@ -1,11 +1,21 @@
 import React, { useContext, useState, useEffect } from 'react'
 import { useHistory } from 'react-router-dom'
+import {Typography, Box, Grid} from '@material-ui/core'
+import {makeStyles} from '@material-ui/core/styles'
+
 import { MainContext } from '../../Context/main-context';
 import UserForm from './UserForm';
 import { updateUser } from '../../Model/user-model'
 import { updateUserPermissions } from '../../Model/user-permissions-model'
 import { UsersManagementContext } from '../../Context/users-management-context'
 import { compareItemId } from '../../Utils/utils'
+
+var useStyles = makeStyles(theme => ({
+    title: {
+        marginBottom: "1em"
+    }
+}))
+
 export default function EditUser({ match }) {
     var { store } = useContext(MainContext);
 
@@ -39,17 +49,22 @@ export default function EditUser({ match }) {
     useEffect(() => {
         componentState.redirect && history.push(usersManagementUrl)
     })
+    var classes = useStyles();
 
     return (
-        <div>
+        <Grid item>
             {editedUser && editedUserPermissions ?
-                <div>
-                    <h2>Edit User: {`${editedUser.firstName} ${editedUser.lastName}`}</h2>
+                <Box>
+                    <Typography 
+                        variant="h4"
+                        className={classes.title}>
+                        Edit User: {`${editedUser.firstName} ${editedUser.lastName}`}
+                    </Typography>
                     <UserForm userDetails={editedUser} editedUserPermissions={editedUserPermissions} actionText="Update" onSubmit={onUpdateUser} />
-                </div> : <div>{null}</div>
+                </Box> : null
             }
 
-        </div>
+        </Grid>
     )
 
     async function onUpdateUser(userDetails, userPermissions) {

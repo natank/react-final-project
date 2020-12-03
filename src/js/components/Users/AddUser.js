@@ -1,4 +1,7 @@
 import React, { useContext } from 'react';
+import {Typography, Box, Grid} from '@material-ui/core'
+import {makeStyles} from '@material-ui/core/styles'
+
 import { useHistory } from 'react-router-dom'
 import { MainContext } from '../../Context/main-context'
 import { UsersManagementContext } from '../../Context/users-management-context'
@@ -7,6 +10,13 @@ import { createUser } from '../../Model/user-model'
 import { createUserPermissions } from '../../Model/user-permissions-model'
 
 import UserForm from './UserForm'
+
+var useStyles = makeStyles(theme => ({
+  title: {
+      marginBottom: "1em"
+  }
+}))
+
 export default function AddUser(userDetails, userPermissions) {
   var { store } = useContext(MainContext);
   var [state, dispatch] = store;
@@ -14,13 +24,20 @@ export default function AddUser(userDetails, userPermissions) {
 
   var { usersManagementUrl } = useContext(UsersManagementContext)
 
-
   var history = useHistory()
+  var classes = useStyles();
+
   return (
-    <div>
-      <h2>Add New User</h2>
-      <UserForm actionText="Create" onSubmit={onCreateUser} />
-    </div>
+    <Grid item>
+      <Box>
+        <Typography 
+            variant="h4"
+            className={classes.title}>
+            Add New User
+        </Typography>
+        <UserForm actionText="Create" onSubmit={onCreateUser} />
+      </Box>
+    </Grid>
   )
 
   async function onCreateUser(userDetails, userPermissions) {

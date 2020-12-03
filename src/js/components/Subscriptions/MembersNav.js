@@ -5,7 +5,7 @@ import {Tabs, Tab} from '@material-ui/core'
 import { MainContext } from '../../Context/main-context'
 import { checkAccessToRoute } from '../../Utils/utils'
 
-export default function MembersNav(props) {
+export default function MembersNav({navIndex, setNavIndex}) {
   var { store, membersManagementUrl } = useContext(MainContext)
   var [state, dispatch] = store;
   var {authUser} = state;
@@ -20,7 +20,7 @@ export default function MembersNav(props) {
   }]
 
   return (
-    <Tabs value={0}>
+    <Tabs value={navIndex}>
       {routes.map((route, index) => {
         var isAuthorized = checkAccessToRoute(`${membersManagementUrl}/add`, authUser);
         return (
@@ -30,6 +30,7 @@ export default function MembersNav(props) {
               to={`${route.url}`} 
               key={index}
               label = {`${route.title}`}
+              onClick={()=>setNavIndex(index)}
             /> : null
         )
       })}

@@ -3,19 +3,28 @@ import MembersNav from './MembersNav';
 import MemberForm from './MemberForm';
 import { MainContext } from '../../Context/main-context';
 import { createMember } from '../../Model/member-model'
+import {Typography, Grid} from '@material-ui/core'
 
-export default function AddMember(props) {
+export default function AddMember({navIndex, setNavIndex}) {
   var { store } = useContext(MainContext);
   var [state, dispatch] = store;
 
   return (
-    <div>
-      <MembersNav />
-      <h2>Add New Member</h2>
-      <MemberForm actionText="Create" onSubmitCb={onCreateMember} />
-
-
-    </div>
+    <Grid item container direction="column" xs={6} spacing={6}>
+      <Grid item xs={12} container alignItems="center" 
+        justify="center">
+        <MembersNav navIndex={navIndex} setNavIndex={setNavIndex}/>
+      </Grid>
+      <Grid item>
+        <Typography 
+            variant="h4"
+            align="center"
+        >
+            Add New Member
+        </Typography>
+        <MemberForm actionText="Create" onSubmitCb={onCreateMember} navIndex={navIndex} setNavIndex={setNavIndex} />
+      </Grid>
+    </Grid>
   )
 
 

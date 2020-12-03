@@ -16,7 +16,8 @@ var useStyles = makeStyles(theme => ({
 	},
 }));
 
-export default function EditMember(props) {
+export default function EditMember({navIndex, setNavIndex}) {
+	
 	var { store, membersManagementUrl } = useContext(MainContext);
 	var [state, dispatch] = store;
 	var match = useRouteMatch();
@@ -57,6 +58,8 @@ export default function EditMember(props) {
 							memberDetails={editedMember}
 							actionText='Update'
 							onSubmitCb={onUpdateMember}
+							navIndex={navIndex} 
+							setNavIndex={setNavIndex}
 						/>
 					) : null}
 				</div>

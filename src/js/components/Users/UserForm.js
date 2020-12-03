@@ -1,6 +1,15 @@
 import React, { useState, useContext } from 'react'
 import { Link } from 'react-router-dom'
+import {TextField, Grid, Typography, FormGroup, FormControlLabel, Button, Checkbox} from '@material-ui/core'
+import { makeStyles } from '@material-ui/core/styles';
 import { UsersManagementContext } from '../../Context/users-management-context'
+
+var useStyles = makeStyles({
+  userDataTitle:{
+    fontWeight: "700",
+    marginRight: "1rem"
+  }
+})
 
 export default function UserForm({ userDetails, editedUserPermissions, actionText, onSubmit }) {
   if (actionText == "Update") {
@@ -28,7 +37,10 @@ export default function UserForm({ userDetails, editedUserPermissions, actionTex
   var [updateMovies, setUpdateMovies] = movies ? useState(movies.edit) : useState(false)
   
 
+  
+  var classes = useStyles();
   function onPermissionChange(e, collection, action) {
+    
     if (e.target.checked == true) collection == "subscriptions" ? setViewSubscriptions(true) : setViewMovies(true);
     var permissionValue = e.target.checked;
     switch (action) {
@@ -66,7 +78,7 @@ export default function UserForm({ userDetails, editedUserPermissions, actionTex
 
       { type: "text", onChange: e => setSessionTimeOut(e.target.value), label: "Session Timeout:", name: "sessionTimeout", value: sessionTimeOut || "" },
       
-      { type: "fixed", label: "Created date:", name: "Created", value: createdDate || "" },
+      { type: "fixed", label: "Created date", name: "Created", value: createdDate || "" },
 
       { type: "checkbox", onChange: (e => onPermissionChange(e, "subscriptions", "view")), label: "View Subscriptions:", checked: viewSubscriptions, name: "viewSubscriptions" },
 
@@ -84,8 +96,6 @@ export default function UserForm({ userDetails, editedUserPermissions, actionTex
       { type: "checkbox", onChange: (e => onPermissionChange(e, "movies", "update")), label: "Update Movies:", checked: updateMovies, name: "updateMovies" }
     ]
   }
-
-
 
   var { usersManagementUrl } = useContext(UsersManagementContext)
   var data = getFieldsData(userDetails);
@@ -120,49 +130,83 @@ export default function UserForm({ userDetails, editedUserPermissions, actionTex
   }
   return (
     <form onSubmit={onFormSubmit}>
-      {renderFields(data.slice(0, 5))}
-      <label>Permissions</label>
-      {renderFields(data.slice(5))}
-      <button type="submit">{actionText}</button>
-      <Link to={`${usersManagementUrl}`}>
-        <button type="button">Cancel</button>
-      </Link>
-
+      <Grid container direction="column" spacing={3}>
+        <Grid item container spacing={3}>
+          {renderFields(data.slice(0, 5))}
+        </Grid>
+        <Grid item container>
+          <Grid item xs={3}>
+            <Typography className={classes.userDataTitle} gutterBottom>Permissions:</Typography>
+          </Grid>
+          <Grid item container spacing={3} justify="center" xs={9}>
+            <Grid item xs={6}>
+              <FormGroup>
+                {renderFields(data.slice(5, 9))}
+              </FormGroup>
+            </Grid>
+            <Grid item xs={6}>
+              <FormGroup>
+                {renderFields(data.slice(9))}
+              </FormGroup>
+            </Grid>
+          </Grid>
+        </Grid>
+        <Grid item container spacing={3} justify="center">
+          <Grid item>
+            <Button variant="contained" color="primary" type="submit">{actionText}</Button>
+          </Grid>
+          <Grid item>
+            <Button
+              component={Link} to={usersManagementUrl}
+            >
+              Cancel
+            </Button>
+          </Grid>
+          
+        </Grid>
+      </Grid>
     </form>
   )
-}
 
 
 
-function renderFields(fields) {
-  return fields.map(function renderField({ label, type, value, onChange, name, checked }) {
-    switch (type) {
-      case "text":
-        return (
-          <label style={{ display: "block" }} key={name}>
-            {label}
-            <input type={type} value={value} onChange={onChange} />
-          </label>
-        )
-      case "checkbox":
-        return (
-          <label style={{ display: "block" }} key={name}>
-            {label}
-            <input name={name}
-              type={type}
-              checked={checked}
-              onChange={onChange} />
-          </label>
-        )
-      case "fixed":
-        return(
-          <label style={{display: "block"}} key={name}>
-            {`${label} ${value}`}
-          </label>
-        )
 
-      default:
-        return null;
-    }
-  })
+  function renderFields(fields) {
+    return fields.map(function renderField({ label, type, value, onChange, name, checked }) {
+      switch (type) {
+        case "text":
+          return (
+            <Grid item xs={12} md={6} key={name}>
+              <TextField  fullWidth required label="Name" label={label} onChange={onChange} value={value}/>
+            </Grid>
+          )
+        case "checkbox":
+          return (
+            <FormControlLabel
+              control={
+                <Checkbox
+                  checked={checked}
+                  onChange={onChange}
+                  name={name}
+                  color="primary"
+                />
+              }
+              label={label}
+              key={name}
+            />
+          )
+        case "fixed":
+          return(
+            <Grid item container xs={12} md={6} key={name}>
+              <Typography className={classes.userDataTitle}>{label}:</Typography>
+                <Typography>{value}</Typography>
+            
+            </Grid>
+          )
+
+        default:
+          return null;
+      }
+    })
+  }
 }

@@ -1,16 +1,32 @@
 import React, { useContext } from 'react';
 import { Link } from 'react-router-dom';
+import {
+	Grid,
+	Card,
+	CardActions,
+	CardContent,
+	Button,
+	Typography,
+} from '@material-ui/core';
+import { makeStyles } from '@material-ui/core/styles';
+
 import { permissionsToString } from '../../Utils/utils'
 import { MainContext } from '../../Context/main-context'
 import { deleteUser } from '../../Model/user-model'
 import { deleteUserPermissions } from '../../Model/user-permissions-model'
-import { UsersManagementContext } from '../../Context/users-management-context'
-import { deleteUserLogin } from '../../Model/user-login-model';
+
 import { checkAccessToRoute } from '../../Utils/utils'
+
+var useStyles = makeStyles({
+  userDataTitle:{
+    fontWeight: "700",
+    marginRight: "1rem"
+  }
+})
 
 function UserDetails({ user, userPermissions, match }) {
 
-
+  var classes = useStyles();
   var { store } = useContext(MainContext)
   var [state, dispatch] = store;
   var { authUser } = state
@@ -20,42 +36,46 @@ function UserDetails({ user, userPermissions, match }) {
     var isUserAllowedToDelete = checkAccessToRoute(deleteUserRoute, authUser)
     var isUserAllowedToEdit = checkAccessToRoute(editUserRoute, authUser)
     return (
-      <div>
-        <div>
-          <label htmlFor="name">Name:</label>
-          <span id="name">{`${user.firstName} ${user.lastName}`}</span>
-        </div>
-        <div>
-          <label htmlFor="username">User Name:</label>
-          <span id="username">{`${user.userName}`}</span>
-        </div>
-        <div>
-          <label htmlFor="timeout">Session time out (Minutes):</label>
-          <span id="username">{`${user.sessionTimeOut}`}</span>
-        </div>
-        <div>
-          <label htmlFor="created">Created Date:</label>
-          <span id="username">{`${formatDate(user.createdDate)}`}</span>
-        </div>
-        <div>
-          <label htmlFor="permissions">Permissions: {permissionsToString(userPermissions)}</label>
-          <span id="username"></span>
-        </div>
-        <ul>
-          {isUserAllowedToEdit
-            ? <li>
-              <Link to={editUserRoute}>
-                <input type="button" value="Edit" />
-              </Link>
-            </li>
-            : null
-          }
-        </ul>
-        {isUserAllowedToDelete
-          ? <input type="button" value="Delete" onClick={onDeleteUser} />
-          : null
-        }
-      </div>)
+      <Card variant="outlined" style={{height: "320px"}}>
+        <CardContent>
+				{/**Card */}
+          <Grid container spacing={1}>
+            {/**Name */}
+					  <Grid item container xs={12}>
+              <Typography className={classes.userDataTitle}>Name:</Typography>
+              <Typography>{`${user.firstName} ${user.lastName}`}</Typography>
+            </Grid>
+            <Grid item container xs={12}>
+              <Typography className={classes.userDataTitle}>User Name:</Typography>
+              <Typography>{`${user.userName}`}</Typography></Grid>
+            <Grid item container xs={12}>
+              <Typography className={classes.userDataTitle}>Session time out (Minutes):</Typography>
+              <Typography>{`${user.sessionTimeOut}`}</Typography>
+            </Grid>
+            <Grid item container xs={12}>
+              <Typography className={classes.userDataTitle}>Created Date:</Typography>
+              <Typography>{`${formatDate(user.createdDate)}`}</Typography>
+            </Grid>
+            <Grid item container xs={12}>
+              <Typography className={classes.userDataTitle}>Permissions:</Typography>
+              <Typography style={{height: "50px"}}>{permissionsToString(userPermissions)}</Typography>
+            </Grid>
+            <CardActions style={{paddingTop: "2rem"}}>
+              {isUserAllowedToEdit
+                ? <Button variant="contained" color="primary" component={Link} to={editUserRoute}>
+                    Edit
+                  </Button>
+                : null
+              }
+              {isUserAllowedToDelete
+                ? <Button onClick={onDeleteUser}>Delete</Button>
+                : null
+              }
+            </CardActions>
+            
+          </Grid>  
+        </CardContent>
+      </Card>)
   }
   else return null
 

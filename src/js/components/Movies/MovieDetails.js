@@ -44,7 +44,7 @@ export default function MovieDetails({ movie, match }) {
   
           <CardActions>
             {isUserAllowedToEdit
-              ? <Button component={Link} to={`${match.url}/edit/${movie.id}`}>
+              ? <Button variant="contained" color="primary" component={Link} to={`${match.url}/edit/${movie.id}`}>
                   Edit
                 </Button>
               : null

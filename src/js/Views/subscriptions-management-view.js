@@ -1,4 +1,4 @@
-import React from 'react';
+import React, {useState} from 'react';
 import { Route, Switch, useRouteMatch } from 'react-router-dom';
 import { Typography, Grid } from '@material-ui/core';
 import { makeStyles } from '@material-ui/core/styles';
@@ -20,6 +20,7 @@ const useStyles = makeStyles({
 
 export default function MembersManagement({ match }) {
 	var classes = useStyles();
+	var [navIndex, setNavIndex] = useState(0);
 
 	return (
 		<MembersManagementContextProvider match={match}>
@@ -35,7 +36,7 @@ export default function MembersManagement({ match }) {
 						<Typography component='h2' variant='h2' gutterBottom>
 							Members
 						</Typography>
-						<PrivateRoute {...{ component: EditMember }} />
+						<PrivateRoute {...{ component: EditMember, navIndex: navIndex, setNavIndex: setNavIndex}} />
 					</Route>
 					<Route path={match.url}>
 						<Grid item>
@@ -43,12 +44,16 @@ export default function MembersManagement({ match }) {
 								Subscriptions
 							</Typography>
 						</Grid>
-						<Route exact path={`${match.url}`} component={AllMembers} />
+						<Route exact path={`${match.url}`}>
+							<AllMembers navIndex={navIndex} setNavIndex={setNavIndex} match={match}/>
+						</Route>
 						<Switch>
 							<Route exact path={`${match.url}/add`}>
-								<PrivateRoute {...{ component: AddMember }} />
+								<PrivateRoute {...{ component: AddMember }} navIndex={navIndex} setNavIndex={setNavIndex}/>
 							</Route>
-							<Route path={`${match.url}/:id`} component={MemberUrlWrapper} />
+							<Route path={`${match.url}/:id`}>
+								<MemberUrlWrapper navIndex={navIndex} setNavIndex={setNavIndex} match={match} />
+							</Route>
 						</Switch>
 					</Route>
 				</Switch>

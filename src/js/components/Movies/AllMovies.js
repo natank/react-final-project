@@ -19,7 +19,7 @@ const useStyles = makeStyles({
 })
 
 
-export default function AllMovies({ match }) {
+export default function AllMovies({ match, navIndex, setNavIndex }) {
 
   var { store } = useContext(MainContext);
 
@@ -46,9 +46,10 @@ export default function AllMovies({ match }) {
         alignItems="center" 
         justify="center"
         id="movieMenuContainer"
+        direction="column"
       >
-        <MoviesNav match={match} />
-        <FindMovie {...{ changeFilter }} />
+        <Grid item></Grid><MoviesNav match={match} navIndex={navIndex} setNavIndex={setNavIndex}/></Grid>
+        <Grid item container justify="center"><FindMovie {...{ changeFilter }} /><Grid></Grid>
       </Grid>
       <Grid item container 
         id = "movieGridContainer"

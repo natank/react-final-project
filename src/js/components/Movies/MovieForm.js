@@ -28,7 +28,6 @@ export default function MovieForm({ movieDetails, actionText, onSubmitCb }) {
             <Grid item><Button variant="contained" color="primary" type="submit">{actionText}</Button></Grid>
             <Grid item><Button 
               component={Link} to={`${moviesManagementUrl}`}
-              variant="contained" color="secondary"
             >
               Cancel
             </Button></Grid>

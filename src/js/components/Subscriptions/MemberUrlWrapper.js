@@ -2,7 +2,7 @@ import React, { useContext } from 'react'
 import { MainContext } from "../../Context/main-context"
 import MemberDetails from './MemberDetails'
 
-export default function MemberUrlWrapper({ match }) {
+export default function MemberUrlWrapper({ match, navIndex, setNavIndex }) {
     var { store } = useContext(MainContext);
 
     var [state, dispatch] = store;
@@ -10,10 +10,7 @@ export default function MemberUrlWrapper({ match }) {
 
     var member = members.find(member => member.id == match.params.id)
 
-
-
-
     return (
-        <MemberDetails {...{ member, match }} />
+        <MemberDetails {...{ member, match, navIndex, setNavIndex }} />
     )
 }

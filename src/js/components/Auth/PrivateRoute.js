@@ -9,10 +9,10 @@ export default function PrivateRoute({ match, component: Component, ...rest }) {
   var match = useRouteMatch()
 
   return (
-    < Route {...rest} render={props => {
+    <Route {...rest} render={props => {
       var result = checkAccessToRoute(`${match.url}`, authUser)
       return result
-        ? <Component {...props} />
+        ? <Component {...props} {...rest}/>
         : <Redirect to='/' />
 
     }} />

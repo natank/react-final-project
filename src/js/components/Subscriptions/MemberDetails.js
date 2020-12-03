@@ -5,7 +5,6 @@ import {
 	Card,
 	CardActions,
 	CardContent,
-	CardMedia,
 	Button,
 	Typography,
 } from '@material-ui/core';
@@ -45,7 +44,7 @@ export default function MemberDetails({ member, match }) {
 		<Card variant='outlined' className={classes.memberCard}>
 			<CardContent>
 				{/**Card */}
-				<Grid container spacing={1}>
+				<Grid container spacing={1} direction="column">
 					{/**Name and Email */}
 					<Grid item container xs={12}>
 						{/**Name */}

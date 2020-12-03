@@ -15,7 +15,7 @@ var useStyles = makeStyles(theme => ({
     }
 }))
 
-export default function EditMovie({ match }) {
+export default function EditMovie({ match, navIndex, setNavIndex }) {
     var { store } = useContext(MainContext);
     var [state, dispatch] = store;
     var movieId = match.params.id;
