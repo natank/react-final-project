@@ -51,10 +51,14 @@ export function checkAccessToRoute(route, user) {
 	var routePermissions = getRoutePermissions(route);
 	if (!routePermissions) return true;
 	var userPermissions = user.permissions;
-	if (!userPermission) return false;
+	if (!userPermissions) return false;
 	for (var collection in routePermissions) {
 		for (var action in routePermissions[collection]) {
-			var userPermission = userPermissions[collection][action];
+			try {
+				var userPermission = userPermissions[collection][action];
+			} catch (err) {
+				console.log(`error for collection: ${collection} action: ${action}`);
+			}
 			var routePermission = routePermissions[collection][action];
 			if (userPermission == false && routePermission == true) return false;
 		}
@@ -64,14 +68,6 @@ export function checkAccessToRoute(route, user) {
 
 function getRoutePermissions(route) {
 	var requiredPermissions = [
-		{
-			route: new RegExp(`^(/main/movies)$`),
-			permissions: {
-				movies: {
-					view: true,
-				},
-			},
-		},
 		{
 			route: new RegExp(`^(/subscriptions)$`),
 			permissions: {
@@ -84,14 +80,6 @@ function getRoutePermissions(route) {
 			route: new RegExp(`^(/movies)$`),
 			permissions: {
 				movies: {
-					view: true,
-				},
-			},
-		},
-		{
-			route: new RegExp(`^(/usersManagement)$`),
-			permissions: {
-				users: {
 					view: true,
 				},
 			},

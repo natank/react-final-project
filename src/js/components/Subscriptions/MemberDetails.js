@@ -7,9 +7,10 @@ import {
 	CardContent,
 	Button,
 	Typography,
+	useMediaQuery,
 } from '@material-ui/core';
 
-import { makeStyles } from '@material-ui/core/styles';
+import { makeStyles, useTheme } from '@material-ui/core/styles';
 
 import MemberSubscriptions from './MemberSubscriptions';
 import SubscriptionForm from './SubscriptionForm';
@@ -21,6 +22,7 @@ import { deleteMember, updateMember } from '../../Model/member-model';
 var useStyles = makeStyles(theme => ({
 	memberCard: {
 		height: 350,
+		maxWidth: 500,
 	},
 }));
 
@@ -40,77 +42,91 @@ export default function MemberDetails({ member, match }) {
 	var isUserAllowedToDelete = checkAccessToRoute(deleteRoute, authUser);
 	var isUserAllowedToEdit = checkAccessToRoute(editRoute, authUser);
 	var classes = useStyles();
-	return (
-		<Card variant='outlined' className={classes.memberCard}>
-			<CardContent>
-				{/**Card */}
-				<Grid container spacing={1} direction="column">
-					{/**Name and Email */}
-					<Grid item container xs={12}>
-						{/**Name */}
-						<Grid item xs={12}>
-							<Typography variant='h5' component='h2'>
-								{memberDetails.name}
-							</Typography>
-						</Grid>
 
-						{/**member email */}
-						<Grid item xs={12}>
-							<Button
-								color='primary'
-								target='_top'
-								rel='noopener noreferrer'
-								href={`mailto:${memberDetails.email}`}>
-								<Typography
-									variant='button'
-									style={{ fontSize: '1em', textTransform: 'lowercase' }}>
-									{memberDetails.email}
+	var theme = useTheme();
+	const matchesXS = useMediaQuery(theme.breakpoints.down('xs'));
+
+	return (
+		<Grid item>
+			<Card variant='outlined' className={classes.memberCard}>
+				<CardContent>
+					{/**Card */}
+					<Grid container spacing={1} direction='column'>
+						{/**Name and Email */}
+						<Grid item container xs={12}>
+							{/**Name */}
+							<Grid item xs={12}>
+								<Typography variant='h5' component='h2'>
+									{memberDetails.name}
 								</Typography>
-							</Button>
+							</Grid>
+
+							{/**member email */}
+							<Grid item xs={12}>
+								<Button
+									color='primary'
+									target='_top'
+									rel='noopener noreferrer'
+									href={`mailto:${memberDetails.email}`}>
+									<Typography
+										variant='button'
+										style={{ fontSize: '1em', textTransform: 'lowercase' }}>
+										{memberDetails.email}
+									</Typography>
+								</Button>
+							</Grid>
 						</Grid>
-					</Grid>
-					{/**Card actions, Edit, delete, subscribe */}
-					<Grid item>
-						<CardActions style={{ padding: 0 }}>
-							{/**Edit button */}
-							{isUserAllowedToEdit ? (
+						{/**Card actions, Edit, delete, subscribe */}
+						<Grid item>
+							<CardActions style={{ padding: 0 }}>
+								{/**Edit button */}
+								{isUserAllowedToEdit ? (
+									<Button
+										variant='outlined'
+										component={Link}
+										to={`${match.url}/edit/${memberDetails.id}`}
+										size={matchesXS ? 'small' : 'medium'}>
+										Edit
+									</Button>
+								) : null}
+								{/**Delete button */}
+								{isUserAllowedToDelete ? (
+									<Button
+										variant='outlined'
+										onClick={onDeleteMember}
+										size={matchesXS ? 'small' : 'medium'}>
+										{' '}
+										Delete
+									</Button>
+								) : null}
+								{/**Sbuscribe button */}
 								<Button
 									variant='outlined'
-									component={Link}
-									to={`${match.url}/edit/${memberDetails.id}`}>
-									Edit
+									onClick={onSubscribeClick}
+									size={matchesXS ? 'small' : 'medium'}>
+									Subscribe
 								</Button>
-							) : null}
-							{/**Delete button */}
-							{isUserAllowedToDelete ? (
-								<Button variant='outlined' onClick={onDeleteMember}>
-									Delete
-								</Button>
-							) : null}
-							{/**Sbuscribe button */}
-							<Button variant='outlined' onClick={onSubscribeClick}>
-								Subscribe
-							</Button>
-						</CardActions>
-					</Grid>
+							</CardActions>
+						</Grid>
 
-					{subscriptionFormActive ? (
-						<Grid item xs={12}>
-							<SubscriptionForm
-								{...{ memberDetails, onFormCancel, onSubscription }}
-							/>
-						</Grid>
-					) : (
-						<Grid item>
-							<Typography component='h5' variant='h6'>
-								Movies Watched
-							</Typography>
-							<MemberSubscriptions member={memberDetails} />
-						</Grid>
-					)}
-				</Grid>
-			</CardContent>
-		</Card>
+						{subscriptionFormActive ? (
+							<Grid item xs={12}>
+								<SubscriptionForm
+									{...{ memberDetails, onFormCancel, onSubscription }}
+								/>
+							</Grid>
+						) : (
+							<Grid item>
+								<Typography component='h5' variant='h6'>
+									Movies Watched
+								</Typography>
+								<MemberSubscriptions member={memberDetails} />
+							</Grid>
+						)}
+					</Grid>
+				</CardContent>
+			</Card>
+		</Grid>
 	);
 
 	function onSubscribeClick(event) {

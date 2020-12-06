@@ -17,7 +17,7 @@ import { checkAccessToRoute } from '../../Utils/utils';
 
 const useStyles = makeStyles({
 	movieCard: {
-		width: '30%',
+		minWidth: 300,
 	},
 	movieTitle: {
 		height: '60px',

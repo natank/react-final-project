@@ -29,7 +29,7 @@ export default function Login(props) {
 	}, [user]);
 
 	useEffect(() => {
-		user.redirect && history.push('/main');
+		user.redirect && history.push('/');
 	});
 
 	return (

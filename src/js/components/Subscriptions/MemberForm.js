@@ -15,7 +15,7 @@ export default function MemberForm({ memberDetails, actionText, onSubmitCb }) {
 	return (
 		<form onSubmit={onSubmit}>
 			<Grid container justify='center'>
-				<Grid item xs={6} container spacing={3}>
+				<Grid item xs={12} container spacing={3}>
 					<Grid item xs={12}>
 						<TextField fullWidth required label='Name' {...name} />
 					</Grid>

@@ -123,7 +123,7 @@ function MainNav(props) {
 	const tabs = matchesLG ? (
 		<Tabs
 			variant='fullWidth'
-			value={value}
+			value={authUser ? value : 0}
 			onChange={handleChange}
 			aria-label='nav tabs example'
 			className={classes.tabContainer}
@@ -141,6 +141,7 @@ function MainNav(props) {
 			value={value}
 			setValue={setValue}
 			ToolbarMargin={ToolbarMargin}
+			onLogout={onLogout}
 		/>
 	);
 

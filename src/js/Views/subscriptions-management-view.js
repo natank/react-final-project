@@ -1,4 +1,4 @@
-import React, {useState} from 'react';
+import React, { useState } from 'react';
 import { Route, Switch, useRouteMatch } from 'react-router-dom';
 import { Typography, Grid } from '@material-ui/core';
 import { makeStyles } from '@material-ui/core/styles';
@@ -11,12 +11,17 @@ import AddMember from '../components/Subscriptions/AddMember';
 import MemberUrlWrapper from '../components/Subscriptions/MemberUrlWrapper';
 import PrivateRoute from '../components/Auth/PrivateRoute';
 
-const useStyles = makeStyles({
+const useStyles = makeStyles(theme => ({
 	mainContainer: {
 		width: '100%',
 		margin: 0,
 	},
-});
+	title: {
+		[theme.breakpoints.down('xs')]: {
+			fontSize: '2rem',
+		},
+	},
+}));
 
 export default function MembersManagement({ match }) {
 	var classes = useStyles();
@@ -30,29 +35,47 @@ export default function MembersManagement({ match }) {
 				className={classes.mainContainer}
 				alignItems='center'
 				spacing={4}
-				id='moviesContainer'>
+				id='mainContainer'>
 				<Switch>
 					<Route exact path={`${match.url}/edit/:id`}>
 						<Typography component='h2' variant='h2' gutterBottom>
 							Members
 						</Typography>
-						<PrivateRoute {...{ component: EditMember, navIndex: navIndex, setNavIndex: setNavIndex}} />
+						<PrivateRoute
+							{...{
+								component: EditMember,
+								navIndex: navIndex,
+								setNavIndex: setNavIndex,
+							}}
+						/>
 					</Route>
 					<Route path={match.url}>
 						<Grid item>
-							<Typography component='h2' variant='h2'>
+							<Typography component='h3' variant='h3' className={classes.title}>
 								Subscriptions
 							</Typography>
 						</Grid>
 						<Route exact path={`${match.url}`}>
-							<AllMembers navIndex={navIndex} setNavIndex={setNavIndex} match={match}/>
+							<AllMembers
+								navIndex={navIndex}
+								setNavIndex={setNavIndex}
+								match={match}
+							/>
 						</Route>
 						<Switch>
 							<Route exact path={`${match.url}/add`}>
-								<PrivateRoute {...{ component: AddMember }} navIndex={navIndex} setNavIndex={setNavIndex}/>
+								<PrivateRoute
+									{...{ component: AddMember }}
+									navIndex={navIndex}
+									setNavIndex={setNavIndex}
+								/>
 							</Route>
 							<Route path={`${match.url}/:id`}>
-								<MemberUrlWrapper navIndex={navIndex} setNavIndex={setNavIndex} match={match} />
+								<MemberUrlWrapper
+									navIndex={navIndex}
+									setNavIndex={setNavIndex}
+									match={match}
+								/>
 							</Route>
 						</Switch>
 					</Route>

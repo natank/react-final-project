@@ -5,6 +5,7 @@ import {
 	Route,
 	useRouteMatch,
 } from 'react-router-dom';
+import { makeStyles } from '@material-ui/core/styles';
 import { MainContext } from '../Context/main-context';
 import { Container } from '@material-ui/core';
 
@@ -15,6 +16,14 @@ import MainNav from '../components/MainNav';
 import Home from '../components/Home';
 
 import PrivateRoute from '../components/Auth/PrivateRoute';
+var useStyles = makeStyles(theme => ({
+	root: {
+		padding: 0,
+		[theme.breakpoints.up('sm')]: {
+			padding: '1rem',
+		},
+	},
+}));
 function MainView() {
 	var {
 		membersManagementUrl,
@@ -41,9 +50,10 @@ function MainView() {
 			url: usersManagementUrl,
 		},
 	];
+	var classes = useStyles();
 
 	return (
-		<Container id='siteContainer' maxWidth={false}>
+		<Container id='siteContainer' className={classes.root} maxWidth={false}>
 			<MainNav routes={mainRoutes} />
 			<Switch>
 				<Route path={moviesManagementUrl}>

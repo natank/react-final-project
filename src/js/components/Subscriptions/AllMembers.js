@@ -1,5 +1,5 @@
 import React, { useContext } from 'react';
-import { Button, Grid } from '@material-ui/core';
+import { Button, Grid, useMediaQuery } from '@material-ui/core';
 import { useTheme } from '@material-ui/core/styles';
 
 import MemberDetails from './MemberDetails';
@@ -11,8 +11,9 @@ export default function AllMembers({ match, navIndex, setNavIndex }) {
 	var { store } = useContext(MainContext);
 	var [state, dispatch] = store;
 	var user = state.authUser;
-	var theme = useTheme();
 
+	var theme = useTheme();
+	const matchesXS = useMediaQuery(theme.breakpoints.down('xs'));
 	var { members } = state;
 
 	return (
@@ -25,41 +26,42 @@ export default function AllMembers({ match, navIndex, setNavIndex }) {
 			<Grid
 				item
 				container
+				spacing={3}
 				alignItems='center'
 				justify='center'
-				id='memberMenuContainer'>
-				<MembersNav
-					match={match}
-					navIndex={navIndex}
-					setNavIndex={setNavIndex}
-				/>
-				{user.admin ? (
-					<Button
-						variant='contained'
-						onClick={onReset}
-						style={{
-							color: theme.palette.warning.contrastText,
-							backgroundColor: theme.palette.warning.light,
-						}}>
-						Reset
-					</Button>
-				) : null}
+				id='memberMenuContainer'
+				direction={matchesXS ? 'column' : 'row'}>
+				<Grid item>
+					<MembersNav
+						match={match}
+						navIndex={navIndex}
+						setNavIndex={setNavIndex}
+					/>
+				</Grid>
+				<Grid item>
+					{user.admin ? (
+						<Button
+							variant='contained'
+							onClick={onReset}
+							style={{
+								color: theme.palette.warning.contrastText,
+								backgroundColor: theme.palette.warning.light,
+							}}>
+							Reset
+						</Button>
+					) : null}
+				</Grid>
 			</Grid>
 			<Grid
 				item
 				container
 				id='memberGridContainer'
-				component='ul'
 				spacing={2}
 				justify='center'>
 				{members
 					? members.map(function renderMember(member) {
 							var props = { member, match };
-							return (
-								<Grid item key={member.id} xs={12} md={4} xl={3}>
-									<MemberDetails {...props} />
-								</Grid>
-							);
+							return <MemberDetails {...props} />;
 					  })
 					: null}
 			</Grid>

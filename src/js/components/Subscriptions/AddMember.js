@@ -1,39 +1,75 @@
 import React, { useContext } from 'react';
+import { Typography, Grid, useMediaQuery } from '@material-ui/core';
+import { makeStyles, useTheme } from '@material-ui/core/styles';
+
 import MembersNav from './MembersNav';
 import MemberForm from './MemberForm';
 import { MainContext } from '../../Context/main-context';
-import { createMember } from '../../Model/member-model'
-import {Typography, Grid} from '@material-ui/core'
+import { createMember } from '../../Model/member-model';
 
-export default function AddMember({navIndex, setNavIndex}) {
-  var { store } = useContext(MainContext);
-  var [state, dispatch] = store;
+var useStyles = makeStyles(theme => ({
+	formTitle: {
+		[theme.breakpoints.down('sm')]: {
+			fontSize: '1.5rem',
+		},
+	},
+	navContainer: {
+		[theme.breakpoints.down('sm')]: {
+			paddingLeft: 0,
+			paddingRight: 0,
+		},
+	},
+}));
 
-  return (
-    <Grid item container direction="column" xs={6} spacing={6}>
-      <Grid item xs={12} container alignItems="center" 
-        justify="center">
-        <MembersNav navIndex={navIndex} setNavIndex={setNavIndex}/>
-      </Grid>
-      <Grid item>
-        <Typography 
-            variant="h4"
-            align="center"
-        >
-            Add New Member
-        </Typography>
-        <MemberForm actionText="Create" onSubmitCb={onCreateMember} navIndex={navIndex} setNavIndex={setNavIndex} />
-      </Grid>
-    </Grid>
-  )
+export default function AddMember({ navIndex, setNavIndex }) {
+	var { store } = useContext(MainContext);
+	var [state, dispatch] = store;
+	var classes = useStyles();
+	const theme = useTheme();
+	var matchesSM = useMediaQuery(theme.breakpoints.down('sm'));
+	return (
+		<Grid
+			item
+			container
+			direction='column'
+			xs={12}
+			md={6}
+			spacing={6}
+			id='addMembersContainer'>
+			<Grid
+				item
+				xs={12}
+				container
+				alignItems='center'
+				justify='center'
+				className={classes.navContainer}
+				style={{
+					paddingLeft: matchesSM ? 0 : 24,
+					paddingRight: matchesSM ? 0 : 24,
+				}}
+				id='navContainer'>
+				<MembersNav navIndex={navIndex} setNavIndex={setNavIndex} />
+			</Grid>
+			<Grid item>
+				<Typography variant='h4' align='center' className={classes.formTitle}>
+					Add New Member
+				</Typography>
+				<MemberForm
+					actionText='Create'
+					onSubmitCb={onCreateMember}
+					navIndex={navIndex}
+					setNavIndex={setNavIndex}
+				/>
+			</Grid>
+		</Grid>
+	);
 
-
-  async function onCreateMember(memberDetails) {
-    var details = { ...memberDetails, movies: [] }
-    var member = await createMember(details);
-    dispatch({
-      type: "ADD_MEMBER",
-      payload: { member: { ...member } }
-    })
-  }
+	async function onCreateMember(memberDetails) {
+		var details = { ...memberDetails, movies: [] };
+		var member = await createMember(details);
+		dispatch({
+			type: 'ADD_MEMBER',
+			payload: { member: { ...member } },
+		});
+	}
 }
