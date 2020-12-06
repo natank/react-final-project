@@ -1,49 +1,72 @@
-import React, { useContext } from 'react'
-import { Grid} from '@material-ui/core'
+import React, { useContext } from 'react';
+import { Button, Grid } from '@material-ui/core';
+import { useTheme } from '@material-ui/core/styles';
 
-import MemberDetails from './MemberDetails'
-import { MainContext } from '../../Context/main-context'
+import MemberDetails from './MemberDetails';
+import { MainContext } from '../../Context/main-context';
 import MembersNav from './MembersNav';
+import { resetMembers } from '../../Model/member-model';
 
 export default function AllMembers({ match, navIndex, setNavIndex }) {
+	var { store } = useContext(MainContext);
+	var [state, dispatch] = store;
+	var user = state.authUser;
+	var theme = useTheme();
 
-  var { store } = useContext(MainContext)
+	var { members } = state;
 
-  var [state, dispatch] = store;
+	return (
+		<Grid
+			item
+			container
+			direction='column'
+			spacing={6}
+			id='allMembersContainer'>
+			<Grid
+				item
+				container
+				alignItems='center'
+				justify='center'
+				id='memberMenuContainer'>
+				<MembersNav
+					match={match}
+					navIndex={navIndex}
+					setNavIndex={setNavIndex}
+				/>
+				{user.admin ? (
+					<Button
+						variant='contained'
+						onClick={onReset}
+						style={{
+							color: theme.palette.warning.contrastText,
+							backgroundColor: theme.palette.warning.light,
+						}}>
+						Reset
+					</Button>
+				) : null}
+			</Grid>
+			<Grid
+				item
+				container
+				id='memberGridContainer'
+				component='ul'
+				spacing={2}
+				justify='center'>
+				{members
+					? members.map(function renderMember(member) {
+							var props = { member, match };
+							return (
+								<Grid item key={member.id} xs={12} md={4} xl={3}>
+									<MemberDetails {...props} />
+								</Grid>
+							);
+					  })
+					: null}
+			</Grid>
+		</Grid>
+	);
 
-  var { members } = state;
-
-  return (
-    <Grid item container
-      direction="column"
-      spacing={6}
-      id="allMembersContainer"
-    >
-      <Grid item container
-        alignItems="center"
-        justify="center"
-        id="memberMenuContainer"
-      >
-        <MembersNav match={match} navIndex={navIndex} setNavIndex={setNavIndex}/>
-      </Grid>
-      <Grid item container
-        id="memberGridContainer"
-        component="ul" spacing={2} justify="center"
-      >
-        {
-          members ? members.map(function renderMember(member) {
-            var props = { member, match }
-            return (
-              <Grid item key={member.id}
-                xs={12} md={4} xl={3}
-              >
-                <MemberDetails {...props} />
-              </Grid>
-            )
-          }) : null
-        }
-      </Grid>
-
-    </Grid>
-  )
+	function onReset() {
+		resetMembers();
+	}
 }
