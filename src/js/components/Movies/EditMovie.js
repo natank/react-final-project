@@ -49,7 +49,7 @@ export default function EditMovie({ match, navIndex, setNavIndex }) {
                     <Typography 
                         variant="h4"
                         className={classes.title}>
-                        Edit Movie: {`${editedMovie.firstName} ${editedMovie.lastName}`}
+                        Edit Movie: {`${editedMovie.name}`}
                     </Typography>
                     <MovieForm movieDetails={editedMovie} actionText="Update" onSubmitCb={onUpdateMovie} />
                 </Box> : <div>{null}</div>

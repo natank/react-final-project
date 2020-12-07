@@ -22,7 +22,7 @@ import { deleteMember, updateMember } from '../../Model/member-model';
 var useStyles = makeStyles(theme => ({
 	memberCard: {
 		height: 350,
-		maxWidth: 500,
+		width: "100%",
 	},
 }));
 
@@ -47,7 +47,7 @@ export default function MemberDetails({ member, match }) {
 	const matchesXS = useMediaQuery(theme.breakpoints.down('xs'));
 
 	return (
-		<Grid item>
+
 			<Card variant='outlined' className={classes.memberCard}>
 				<CardContent>
 					{/**Card */}
@@ -126,7 +126,7 @@ export default function MemberDetails({ member, match }) {
 					</Grid>
 				</CardContent>
 			</Card>
-		</Grid>
+
 	);
 
 	function onSubscribeClick(event) {

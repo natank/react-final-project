@@ -41,31 +41,7 @@ export default function MovieSubscriptions({ movie }) {
     )
   }
 
-  function extractMembersEntriesFromMovieSubscriptions(subscriptions) {
-    return subscriptions.map(function (subscription) {
-      var member = extractMemberFromSubscription(subscription);
-      var date = extractMovieDateFromSubscription(subscription)
-      return { member, date }
-    })
-  }
-
-
-
-  function extractMovieDateFromSubscription(subscription) {
-    var movieDate = "";
-    var movieDetails = subscription.movies.find(currMovie => currMovie.id == movie.id)
-    movieDate = movieDetails.watched
-    return movieDate;
-  }
-
-  function extractMemberFromSubscription(subscription) {
-    return members ? members.find(function (member) {
-      return member.id == subscription.memberId
-    }) : null
-  }
-
-
-  function getMovieSubscriptions() {
+    function getMovieSubscriptions() {
     // loop through all the members. Filter in members who are subscribed to movie
     return members ? members.reduce(function createSubscription(acc, member) {
       var subscription = member.movies && member.movies.find(currMovie => currMovie.movieId == movie.id)

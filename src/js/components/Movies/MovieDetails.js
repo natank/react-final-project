@@ -30,12 +30,13 @@ export default function MovieDetails({ movie, match }) {
 
 	var { store } = useContext(MainContext);
 	var [state, dispatch] = store;
-	var { authUser } = state;
+	var { authUser, members } = state;
 
 	var editMovieRoute = `${match.url}/edit/${movie.id}`;
 	var deleteMovieRoute = `${match.url}/delete/${movie.id}`;
 	var isUserAllowedToDelete = checkAccessToRoute(deleteMovieRoute, authUser);
 	var isUserAllowedToEdit = checkAccessToRoute(editMovieRoute, authUser);
+	var movieSubscriptions = getMovieSubscriptions();
 	return (
 		<Card variant='outlined'>
 			<Grid container>
@@ -55,8 +56,13 @@ export default function MovieDetails({ movie, match }) {
 						<Typography gutterBottom>{`Generes: ${movie.generes.map(
 							genere => genere
 						)}`}</Typography>
-						<Typography variant='h6'>Subscriptions watched</Typography>
-						<MovieSubscriptions movie={movie} />
+						{movieSubscriptions.length > 0 ?
+							<React.Fragment>
+								<Typography variant='h6'>Subscriptions</Typography>
+								<MovieSubscriptions movie={movie} />
+							</React.Fragment>
+							: <Typography variant='h6'>No Subscriptions</Typography>
+						}
 
 						<CardActions>
 							{isUserAllowedToEdit ? (
@@ -91,4 +97,22 @@ export default function MovieDetails({ movie, match }) {
 			payload: { movieId },
 		});
 	}
+
+	function getMovieSubscriptions() {
+		// loop through all the members. Filter in members who are subscribed to movie
+		return members ? members.reduce(function createSubscription(acc, member) {
+		  var subscription = member.movies && member.movies.find(currMovie => currMovie.movieId == movie.id)
+		  if (subscription) {
+			subscription = {
+			  member: {
+				id: member.id,
+				name: member.name
+			  },
+			  date: subscription.date
+			}
+			return [...acc, subscription]
+		  }
+		  return acc
+		}, []) : null
+	  }
 }

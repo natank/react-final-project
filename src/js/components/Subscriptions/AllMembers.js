@@ -57,11 +57,16 @@ export default function AllMembers({ match, navIndex, setNavIndex }) {
 				container
 				id='memberGridContainer'
 				spacing={2}
-				justify='center'>
+				justify='center'
+				>
 				{members
 					? members.map(function renderMember(member) {
 							var props = { member, match };
-							return <MemberDetails {...props} />;
+							return (
+							<Grid item xs={12} sm={6} md={4} lg={3}>
+								<MemberDetails {...props} />
+							</Grid>
+							);
 					  })
 					: null}
 			</Grid>
