@@ -4,6 +4,7 @@ import {
 	Switch,
 	Route,
 	useRouteMatch,
+	useLocation,
 } from 'react-router-dom';
 import { makeStyles } from '@material-ui/core/styles';
 import { MainContext } from '../Context/main-context';
@@ -51,7 +52,8 @@ function MainView() {
 		},
 	];
 	var classes = useStyles();
-
+	var location = useLocation();
+	console.log(`Location: ${location}`);
 	return (
 		<Container id='siteContainer' className={classes.root} maxWidth={false}>
 			<MainNav routes={mainRoutes} />

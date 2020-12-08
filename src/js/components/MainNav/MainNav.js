@@ -125,10 +125,11 @@ function MainNav(props) {
 			variant='fullWidth'
 			value={authUser ? value : 0}
 			onChange={handleChange}
-			aria-label='nav tabs example'
+			aria-label='nav tabs'
 			className={classes.tabContainer}
 			indicatorColor='primary'>
 			{routes.map((elem, index) => getRoute(elem, index))}
+
 			<Tab
 				className={classes.tab}
 				label={authUser ? 'Logout' : 'Login'}

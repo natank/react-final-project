@@ -1,12 +1,6 @@
 import { Route } from 'react-router-dom';
 
 export function permissionsToString(permissions) {
-	let permissionsText = {
-		view: 'View',
-		edit: 'Edit',
-		delete: 'Delete',
-		create: 'Create',
-	};
 	let permissionsArr = [];
 	let { subscriptions, movies } = permissions;
 
@@ -44,12 +38,10 @@ export function today() {
 
 export function checkAccessToRoute(route, user) {
 	if (!user) return false;
-	/**Only admin can access users management */
-	//if (/\/usersManagement/.test(route)) return user.admin;
-	if (user.admin) return true;
+	if (user.admin || route == '/') return true;
 	/**Check access rights to the Memebers and Movies routes */
 	var routePermissions = getRoutePermissions(route);
-	if (!routePermissions) return true;
+	if (!routePermissions) return false;
 	var userPermissions = user.permissions;
 	if (!userPermissions) return false;
 	for (var collection in routePermissions) {
