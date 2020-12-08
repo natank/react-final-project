@@ -31,7 +31,8 @@ export default function AllMovies({ match, navIndex, setNavIndex }) {
 	var user = state.authUser;
 	if (filterString.length > 2) {
 		movies = movies.filter(function (movie) {
-			return movie.name.toLowerCase().includes(filterString);
+			let val = movie.name.toLowerCase().includes(filterString.toLowerCase());
+			return val;
 		});
 	}
 	var classes = useStyles();
