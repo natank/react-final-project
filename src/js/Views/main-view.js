@@ -14,16 +14,12 @@ import SubscriptionsManagementView from './subscriptions-management-view';
 import UsersManagementView from './users-management-view';
 import MoviesManagementView from './movies-management-view';
 import MainNav from '../components/MainNav';
+import Footer from '../components/Footer';
 import Home from '../components/Home';
 
 import PrivateRoute from '../components/Auth/PrivateRoute';
 var useStyles = makeStyles(theme => ({
-	root: {
-		padding: 0,
-		[theme.breakpoints.up('sm')]: {
-			padding: '1rem',
-		},
-	},
+	root: {},
 }));
 function MainView() {
 	var {
@@ -55,7 +51,11 @@ function MainView() {
 	var location = useLocation();
 	console.log(`Location: ${location}`);
 	return (
-		<Container id='siteContainer' className={classes.root} maxWidth={false}>
+		<Container
+			id='siteContainer'
+			disableGutters
+			className={classes.root}
+			maxWidth={false}>
 			<MainNav routes={mainRoutes} />
 			<Switch>
 				<Route path={moviesManagementUrl}>
@@ -69,6 +69,7 @@ function MainView() {
 				</Route>
 				<Route exact path={'/'} component={Home} />
 			</Switch>
+			<Footer />
 		</Container>
 	);
 }

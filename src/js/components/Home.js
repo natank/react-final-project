@@ -30,7 +30,9 @@ export default function Home() {
 							variant='contained'
 							component={Link}
 							to='/movies'
-							disabled
+							disabled={
+								authUser == null || !checkAccessToRoute('/movies', authUser)
+							}
 							color='primary'>
 							Manage Movies
 						</Button>
@@ -41,7 +43,10 @@ export default function Home() {
 							color='primary'
 							component={Link}
 							to='/movies'
-							disabled>
+							disabled={
+								authUser == null ||
+								!checkAccessToRoute('/subscriptions', authUser)
+							}>
 							Manage Subscriptions
 						</Button>
 					</Grid>
