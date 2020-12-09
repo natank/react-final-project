@@ -64,6 +64,7 @@ export default function AllMovies({ match, navIndex, setNavIndex }) {
 					<Button
 						variant='contained'
 						onClick={onReset}
+						disabled
 						style={{
 							color: theme.palette.warning.contrastText,
 							backgroundColor: theme.palette.warning.light,

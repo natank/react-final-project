@@ -8,7 +8,7 @@ import {
 } from 'react-router-dom';
 import { makeStyles } from '@material-ui/core/styles';
 import { MainContext } from '../Context/main-context';
-import { Container } from '@material-ui/core';
+import { Container, Grid } from '@material-ui/core';
 
 import SubscriptionsManagementView from './subscriptions-management-view';
 import UsersManagementView from './users-management-view';
@@ -19,7 +19,12 @@ import Home from '../components/Home';
 
 import PrivateRoute from '../components/Auth/PrivateRoute';
 var useStyles = makeStyles(theme => ({
-	root: {},
+	root: {
+		minHeight: "100vh",
+		position: "relative"
+
+	},
+	
 }));
 function MainView() {
 	var {
@@ -56,20 +61,27 @@ function MainView() {
 			disableGutters
 			className={classes.root}
 			maxWidth={false}>
+			
 			<MainNav routes={mainRoutes} />
-			<Switch>
-				<Route path={moviesManagementUrl}>
-					<PrivateRoute {...{ component: MoviesManagementView }} />
-				</Route>
-				<Route path={membersManagementUrl}>
-					<PrivateRoute {...{ component: SubscriptionsManagementView }} />
-				</Route>
-				<Route path={usersManagementUrl}>
-					<PrivateRoute {...{ component: UsersManagementView }}></PrivateRoute>
-				</Route>
-				<Route exact path={'/'} component={Home} />
-			</Switch>
-			<Footer />
+			
+			
+				<Switch>
+					<Route path={moviesManagementUrl}>
+						<PrivateRoute {...{ component: MoviesManagementView }} />
+					</Route>
+					<Route path={membersManagementUrl}>
+						<PrivateRoute {...{ component: SubscriptionsManagementView }} />
+					</Route>
+					<Route path={usersManagementUrl}>
+						<PrivateRoute {...{ component: UsersManagementView }}></PrivateRoute>
+					</Route>
+					<Route exact path={'/'} component={Home} />
+				</Switch>
+			
+			
+				<Footer />
+			
+			
 		</Container>
 	);
 }
